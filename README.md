@@ -1,34 +1,47 @@
-ÅóÓÑÃÇ£¬Áã¶ÈÐÂ°æ¼Ü×Ó½ñÈÕÕýÊ½¿ªÊ¼´î½¨¡£ÎÒÃÇ·Ç³£¼¤¶¯µØÐû²¼£¬ÐÂÒ»´ú¼Ü×ÓÆðÃûÎª ¡°HelloShop¡±£¬ Õâ¸ö¼Ü×Ó½«ÑÝÊ¾ÐÂÒ»´ú .NET ¼¼ÊõÕ»¿ª·¢¼Ü¹¹£¬×÷ÎªÒ»¸öµçÉÌÓ¦ÓÃ£¬Ö®ËùÒÔÆðÃûÎª HelloShop£¬ÊÇÒÔÎªÎÒÃÇÏ£ÍûÕâ¸ö¼Ü×Ó±»¸ü¶àµÄÈËÄÜ¹»Àí½â¹ºÎïÕâÖÖ¼òµ¥µÄÒµÎñÁ÷³Ì¡£
+æœ‹å‹ä»¬ï¼Œé›¶åº¦æ–°ä¸€ä»£åŸºæž¶ä»Šæ—¥æ­£å¼å¼€å§‹æ­å»ºã€‚æˆ‘ä»¬éžå¸¸æ¿€åŠ¨åœ°å®£å¸ƒï¼Œæ–°ä¸€ä»£åŸºæž¶èµ·åä¸º HelloShop é¡¹ç›®ï¼Œ è¿™ä¸ªåŸºæž¶å°†æ¼”ç¤ºæ–°ä¸€ä»£ .NET æŠ€æœ¯æ ˆå¼€å‘æž¶æž„ï¼Œä¹‹æ‰€ä»¥èµ·åä¸º HelloShop æ˜¯ä»¥ä¸ºç®€å•çš„å•†åº—åº”ç”¨èƒ½å¤Ÿæ¼”ç¤ºå‡ºä¸€ä¸ªç³»ç»Ÿçš„æ‰€æœ‰æŠ€æœ¯ï¼Œå½“ç„¶ï¼Œè¿™ä¸ªå•†åŸŽç³»ç»Ÿä¹Ÿå¯ä»¥æ˜¯å…¶å®ƒç³»ç»Ÿï¼Œåªè¦ä½ èƒ½å¤Ÿç†è§£è¿™ä¸ªåŸºæž¶çš„è®¾è®¡æ€æƒ³ï¼Œä½ å°±èƒ½å¤Ÿå¿«é€Ÿæ­å»ºä¸€ä¸ªç³»ç»Ÿã€‚
 
-ÐÂÒ»´ú¼Ü×Ó½«Ê¹ÓÃÎ¢Èí×îÐÂ¼¼ÊõÕ»ÏòÄãÕ¹Ê¾¸÷ÖÖ¼¼ÊõµÄ×î¼ÑÊµ¼ù£¬Ö÷Òª¼¼Êõ°üÀ¨£ºAspire + .NET8 + EF Core + ASP.NET 8 Blazor + gPRC+ PostgreSQL + MonngDB + Redis + SignalR + Blazor + »ùÓÚ Identity ¸ÄÔìµÄÈÏÖ¤ºÍÊÚÈ¨ÏµÍ³ + Orleans + È«ÎÄ¼ìË÷ + ·þÎñ·¢ÏÖ + ½¡¿µ×´¿ö¼à²â + ·Ö²¼Ê½ÈÕÖ¾ + ·Ö²¼Ê½¸ú×Ù + ·Ö²¼Ê½ÊÂ¼þ + Ö¸±ê¶ÈÁ¿ + µ¥Ôª²âÊÔ + ¼¯³É²âÊÔ + Ñ¹Á¦²âÊÔ + MAUI ¿çÆ½Ì¨£¨×ÀÃæ£¬°²×¿£¬IOS£© µÈ¡£
+### æ‰€å«æŠ€æœ¯
 
-ÎÒÃÇÒ»Ö±±ü³Ö»¯·±ÖÁ¼ò¡¢¼á³Ö×î¼ÑÊµ¼ù×îÉÙÒÀÀµµÄÔ­Ôò£¬È·±£¿ò¼ÜµÄÊµÊ±¸üÐÂ¡£µ±È»£¬ÎÒÃÇÒ²²ÎÔÄÁËÆäËüÓÅÐãµÄ¿ò¼Ü£¬Õâ°üÀ¨ ABP £¬eShop ¡¢Î¢Èí¿ªÔ´¿â¡¢Éè¼ÆÄ£Ê½¡¢ÔÆÉè¼Æ×¼ÔòºÍÄ£Ê½¡¢ÆäËü¿ªÔ´¿âµÈ£¬ÎªÁË¸üºÃµÄ·Ö¸îÃ¿ÖÖ¼¼ÊõµÄÓ¦ÓÃ³¡¾°£¬ÎÒÃÇ¾¡Á¿½«²»Í¬µÄ¼¼ÊõÖÃÓë²»Í¬µÄÎ¢·þÎñÖÐ£¬Ò»·½Ãæ¿ÉÒÔ¸üºÃµÄ²ÎÔÄÄ³ÖÖ¼¼ÊõµÄ×î¼ÑÓÃ·¨£¬Æä´ÎÊÇºÜºÜ·½ÃæµÄ×éºÏ²»Í¬µÄ¼¼Êõ¡£ÎÒÃÇÒ»Ö±ÈÏÎªÆóÒµÃ»ÓÐÍ¨ÓÃ¼Ü×ÓÕâ¸öËµ·¨£¬Ö»ÓÐºÏÊÊµÄÉè¼Æ£¬ËäÈ» HelloShop Ò²ËãÒ»¸ö¼Ü×Ó£¬µ«Õâ¸ö¼Ü×Ó¸üÏñÊÇÒ»¸ö¼¼ÊõÓ¦ÓÃÊ¾Àý¿â£¬Èç¹ûÐèÒªÓÃµ½Ä³ÖÖ¼¼Êõ£¬Äã×ÜÄÜÕÒµ½Ä³¸ö×î¼ÑÊµ¼ù£¬Èç¹ûÄÜ´ï³ÉÕâ¸öÄ¿±ê£¬ÎÒÃÇ¾ÍÐÄÂúÒâ×ãÁË¡£
+Visual Studio 2022 .NET 8ã€C# 12.0ã€Aspireã€ASP.NET Coreï¼ŒEF Coreã€WebApiã€gPRCã€Blazorã€MAUIã€PostgreSQLã€MonngDBã€Redisã€SignalRã€Identityã€Orleansã€æ—¥å¿—è®°å½•ã€å¯†é’¥ç®¡ç†ã€åŽå°å®šæ—¶ä»»åŠ¡ã€æœåŠ¡å‘çŽ°ã€å‘å¸ƒè®¢é˜…ã€åˆ†å¸ƒå¼è·Ÿè¸ªã€å¥åº·æ£€æŸ¥ã€æ€§èƒ½æŒ‡æ ‡æŽ¢æµ‹ã€é…ç½®ç®¡ç†ã€å®¹å™¨åŒ–æŠ€æœ¯ã€å•å…ƒæµ‹è¯•å’Œé›†æˆæµ‹è¯•ã€åŸºäºŽ Roslyn çš„æºä»£ç è‡ªåŠ¨ç”Ÿæˆå™¨å’Œå¢žé‡ç”Ÿæˆå™¨ã€‚
 
-ÐÂÒ»´ú¼Ü×ÓÈ¡ÏûÁË DDD Ä£Ê½¡£ÎÒÃÇÈÏÎª DDD Éè¼ÆÔÚ´ó¶àÊýÆóÒµÎÞ·¨ÂäµØ£¬¼ÓÖ®ËüµÄ¸´ÔÓ¶ÈÈÃºÜ¶à³ÌÐòÔ±ÂÒÓÃ£¬ËùÒÔÎÒÃÇÈ¡ÏûÁË DDD£¬ÓÃÁã¶ÈÍÆ¼ö×î¼òµ¥µÄÑó´ÐÄ£ÐÍ¡£µ±È» DDD ±ß½ç»®·ÖºÍÒµÎñ²ð·ÖµÄ·½·¨ÂÛÈÔÈ»ÊÊÓÃÓÚ HelloShop µÄÎ¢·þÎñ±ß½ç¡£¶ÔÓÚ´ó¶àÊýÈËÀ´Ëµ£¬ÓÐÒ»¸ö»ù±¾µÄÈ¨ÏÞÏµÍ³£¬È»ºóÓÃÄ³ÖÖ UI ¼¼Êõ£¨MAUI¡¢Blazor£¬MVC£©¿ªÊ¼¿ìËÙ×éºÏ¼¸ÖÖÐèÒªµÄ¼¼Êõ¿ªÊ¼¿ìËÙß£´úÂë£¬ÊÇ´ó¶àÊý³ÌÐòÔ±µÄËßÇó¡£Èç¹ûÊ±¼äÔÊÐí£¬ÎÒÃÇ Blazor ºÍ MAUI ¶¼½«»ùÓÚ¹È¸è Material UI ¿âÌá¹©Ò»¸ö UI ²ãÃæµÄÄ£°å¡£
+### ä»“åº“ç»“æž„
 
-ÓÅÑÅÊÇÁã¶ÈÒ»Ö±×·ÇóµÄ¡£Òò´ËÎÒÃÇµÄ´úÂë¼á³ÖÓÅÑÅµÄÓïÑÔºÍ×îÐÂµÄ¿ò¼Ü¡£Ï£ÍûÄãÒ²ÄÜ¹»²ÎÓëÕâÖÖÓÅÑÅ¡£
+åœ¨ä»“åº“çš„ç»“æž„ä¸Šï¼Œæˆ‘ä»¬è·Ÿéšäº†å¾®è½¯æƒ¯ç”¨çš„é£Žæ ¼ï¼Œç›®å½•ç»“æž„å¦‚ä¸‹ï¼š
 
-Ä¿Ç°£¬²Ö¿âµØÖ·¹«²¼ÓÚ´Ë£º
-¹úÍâ²Ö¿âµØÖ·£ºhttps://github.com/bit365/hello-shop £¨ÊµÊ±Í¬²½£©
-¹úÄÚ²Ö¿âµØÖ·£ºhttps://gitee.com/bit365/hello-shop £¨Ã¿ÖÜ¸üÐÂ£©
 
-ÁíÍâ£¬ÔÚ²Ö¿âµÄ½á¹¹ÉÏ£¬ÎÒÃÇ¸úËæÁËÎ¢Èí¹ßÓÃµÄ·ç¸ñ£¬Ä¿Â¼½á¹¹ÈçÏÂ£º
+- assets ä¸€äº›å›¾ç‰‡ï¼Œå›¾æ ‡ï¼Œè®¾è®¡ç¨¿ç­‰ã€‚
 
-assets Ò»Ð©¾²Ì¬×Ê²ú
-build ×Ô¶¯»¯¹¹½¨¹ý³Ì
-docs Ò»Ð©Éè¼ÆÎÄµµ£¬ËµÃ÷Êé£¬¼Ü¹¹Í¼£¬ÐèÇóËµÃ÷µÈ¡£
-samples Ò»Ð©Ê¾Àý´úÂë
-src ½â¾ö·½°¸Ô´´úÂë
-tests Ò»Ð©²âÊÔ£¬µ¥Ôª²âÊÔ£¬¼¯³É²âÊÔ¡£
-tools ÔÚ´î½¨¹ýÖÐÓÃµ½µÄÒ»Ð©¹¤¾ß¡£
-scripts Ò»Ð©×Ô¶¯»¯¹¹½¨½Å±¾
+- build ä¸€äº›æž„å»ºè„šæœ¬ï¼ŒåŒ…æ‹¬ Dockerfileï¼Œdocker-compose.ymlï¼ŒCI/CD è‡ªåŠ¨åŒ–è„šæœ¬ç­‰ã€‚
 
-ÎÒÃÇÊ¹ÓÃÁËÎ¢Èí×îÐÂµÄ¼¼Êõ£¬Ò²»á²»¶Ï¸úËæ×îÐÂ¼¼Êõ£¬ËùÓÐÐèÒªÓÃµ½ Visual Studio 2022 ×îÏ¸Ô¤ÀÀ°æºÍ .NET ×îÐÂÔ¤ÀÀ°æ£¬¶ø²»ÊÇÕýÊ½°æ¡£
+- docs ä¸€äº›æ–‡æ¡£ï¼ŒåŒ…æ‹¬è®¾è®¡æ–‡æ¡£ï¼Œæž¶æž„æ–‡æ¡£ï¼Œå¼€å‘æ–‡æ¡£ï¼Œéƒ¨ç½²æ–‡æ¡£ç­‰ã€‚
 
-¹ØÓÚÕâÌ×¼Ü×ÓµÄ°æÈ¨£¬ÎÒÃÇ½«²ÉÓÃ MIT ¿ªÔ´Ð­Òé£¬ÕâÒâÎ¶×ÅÄã¿ÉÒÔÔÚÈÎºÎµØ·½Ê¹ÓÃÕâÌ×¼Ü×Ó£¬°üÀ¨ÉÌÒµÓÃÍ¾£¬µ«ÎÒÃÇÏ£ÍûÄãÄÜ±£Áô°æÈ¨ÐÅÏ¢£¬Èç¹ûÄã¾õµÃÕâÌ×¼Ü×Ó¶ÔÄãÓÐ°ïÖú£¬Äã¿ÉÒÔ¸øÎÒÃÇÒ»¸ö Star£¬ÕâÊÇ¶ÔÎÒÃÇ×î´óµÄ¹ÄÀø¡£
+- samples ä¸€äº›ç¤ºä¾‹ä»£ç ï¼ŒåŒ…æ‹¬åŸºäºŽ Blazor çš„ Web åº”ç”¨ï¼ŒåŸºäºŽ MAUI çš„æ··åˆåº”ç”¨ï¼ŒåŸºäºŽ gRPC çš„å¾®æœåŠ¡ç­‰ã€‚
 
-±¾Ì×¼Ü×Ó»áÓÐÒ»Ð©ÅäÌ×ÊÓÆµÔÚ www.xcode.me ÉÏ·¢²¼¡£Èç¹ûÄãÏëÒª»ñÈ¡×îÐÂµÄÊÓÆµ¿ÉÒÔ¹Ø×¢ÎÒÃÇµÄ¶©ÔÄºÅ zerostack¡£ÎÒÃÇ»áÔÚ¹«ÖÚºÅÉÏ·¢²¼×îÐÂµÄ¶¯Ì¬¡£
+- src ä¸€äº›æºä»£ç ï¼ŒåŒ…æ‹¬å¾®æœåŠ¡ï¼Œå…±äº«é¡¹ç›®ï¼Œä¸»æœºï¼ŒWeb åº”ç”¨ï¼Œæ··åˆåº”ç”¨ç­‰ã€‚
 
-³ý´ËÖ®ÍâÎÒÃÇÎªÁËÑÝÊ¾ÕûÌ×¼Ü×ÓµÄ´î½¨ºÍ²¿Êð£¬¸Õ¸Õ»¹×¢²áÁË helloshopnet.com ºÍ helloshopnet.cn Õâ¸öÁ½¸öÓòÃûÓÃÓÚºóÆÚµÄ¼Ü×Ó²¿ÊðËùÓÃ£¬Ò²ËãÊÇ¸ø HelloShop °²Ò»¸ö¼Ò£¬Ä¿Ç°»¹Ã»ÓÐ±¸°¸£¬Õý×¼±¸±¸°¸ÖÐ¡£
+- tests ä¸€äº›æµ‹è¯•ä»£ç ï¼ŒåŒ…æ‹¬å•å…ƒæµ‹è¯•ï¼Œé›†æˆæµ‹è¯•ï¼Œç«¯åˆ°ç«¯æµ‹è¯•ç­‰ã€‚
 
-×îºóÎÒÃÇÏ£ÍûÕâÌ×¼Ü×ÓÄÜ°ïÖúµ½ÄãÈç¹ûÄãÓÐÈÎºÎÎÊÌâ¿ÉÒÔÔÚ Github ÉÏÌá³öÎÒÃÇ»á¾¡¿ì»Ø¸´¡£
+- tools ä¸€äº›å·¥å…·ï¼ŒåŒ…æ‹¬ä»£ç ç”Ÿæˆå™¨ï¼Œæ•°æ®åº“è„šæœ¬ç”Ÿæˆå™¨ï¼Œæ•°æ®åº“è¿ç§»å·¥å…·ï¼Œæ•°æ®åº“å¯¹æ¯”å·¥å…·ç­‰ã€‚
+
+- scripts ä¸€äº›è„šæœ¬ï¼ŒåŒ…æ‹¬è‡ªåŠ¨åŒ–è„šæœ¬ï¼ŒCI/CD è„šæœ¬ç­‰ã€‚
+
+### ä»£ç ä»“åº“
+
+å›½å¤–ä»“åº“å®žæ—¶åŒæ­¥ï¼šhttps://github.com/bit365/hello-shop
+
+å›½å†…ä»“åº“æ¯å‘¨åœ°å€ï¼šhttps://gitee.com/bit365/hello-shop
+
+### åŽç»­è®¡åˆ’
+
+æˆ‘ä»¬åˆšåˆšè¿˜æ³¨å†Œäº† helloshopnet.com å’Œ helloshopnet.cn ä¸¤ä¸ªåŸŸåç”¨äºŽåŽæœŸçš„åŸºæž¶éƒ¨ç½²ï¼Œä¹Ÿç®—æ˜¯ç»™ HelloShop å®‰ä¸€ä¸ªå®¶ï¼Œç›®å‰æ­£å‡†å¤‡å¤‡æ¡ˆï¼ŒåŽæœŸæŠ•ç”¨ã€‚
+
+### å¼€æºåè®®
+
+å…³äºŽè¿™å¥—åŸºæž¶çš„ç‰ˆæƒï¼Œæˆ‘ä»¬å°†é‡‡ç”¨ MIT å¼€æºåè®®ï¼Œè¿™æ„å‘³ç€ä½ å¯ä»¥åœ¨ä»»ä½•åœ°æ–¹ä½¿ç”¨è¿™å¥—åŸºæž¶ï¼ŒåŒ…æ‹¬å•†ä¸šç”¨é€”ï¼Œä½†æˆ‘ä»¬å¸Œæœ›ä½ èƒ½ä¿ç•™ç‰ˆæƒä¿¡æ¯ï¼Œå¦‚æžœä½ è§‰å¾—è¿™å¥—åŸºæž¶å¯¹ä½ æœ‰å¸®åŠ©ï¼Œä½ å¯ä»¥ç»™æˆ‘ä»¬ä¸€ä¸ª Starï¼Œè¿™æ˜¯å¯¹æˆ‘ä»¬æœ€å¤§çš„é¼“åŠ±ã€‚
+
+### æŠ€æœ¯æŽ¢è®¨
+
+æœ¬å¥—åŸºæž¶ä¼šæœ‰ä¸€äº›é…å¥—è§†é¢‘åœ¨ www.xcode.me ä¸Šå‘å¸ƒã€‚å¦‚æžœä½ æƒ³è¦èŽ·å–æœ€æ–°çš„è§†é¢‘å¯ä»¥å…³æ³¨æˆ‘ä»¬çš„å¾®ä¿¡è®¢é˜…å· zerostackï¼Œæˆ‘ä»¬ä¼šåœ¨å…¬ä¼—å·ä¸Šå‘å¸ƒæœ€æ–°çš„åŠ¨æ€ã€‚
+
+
+æœ€åŽæˆ‘ä»¬å¸Œæœ›è¿™å¥—åŸºæž¶èƒ½å¸®åŠ©åˆ°ä½ å¦‚æžœä½ æœ‰ä»»ä½•é—®é¢˜å¯ä»¥åœ¨ Github ä¸Šæå‡ºæˆ‘ä»¬ä¼šå°½å¿«å›žå¤ï¼ŒåšæŒä¼˜é›…çš„ç¼–ç æ˜¯æˆ‘ä»¬ä¸€ç›´æ‰€è¿½æ±‚çš„çš„ï¼Œå› æ­¤æˆ‘ä»¬çš„ä»£ç åšæŒä¼˜é›…çš„è¯­è¨€å’Œæœ€æ–°çš„æ¡†æž¶ã€‚å¸Œæœ›ä½ ä¹Ÿèƒ½å¤Ÿå‚ä¸Žè¿™ç§ä¼˜é›…ã€‚
