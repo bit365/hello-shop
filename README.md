@@ -37,9 +37,9 @@ Visual Studio 2022 .NET 8、C# 12.0、Aspire、ASP.NET Core，EF Core、WebApi�
 
 ### 代码仓库
 
-国外仓库实时同步：https://github.com/bit365/hello-shop
+国外仓库：https://github.com/bit365/hello-shop
 
-国内仓库每周地址：https://gitee.com/bit365/hello-shop
+国内仓库：https://gitee.com/bit365/hello-shop
 
 ### 后续计划
 
