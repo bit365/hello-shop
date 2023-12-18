@@ -8,6 +8,8 @@
 
 此外，我们还提供了界面，包括基于 Blazor 的 Web 应用和基于 MAUI 的混合应用，可以在不同的平台上运行，包括桌面应用，安卓应用和 IOS 应用。
 
+![技术架构](https://www.xcode.me/images/helloshop/architecture.svg)
+
 ### 所含技术
 
 Visual Studio 2022 .NET 8、C# 12.0、Aspire、ASP.NET Core，EF Core、WebApi、gPRC、Blazor、MAUI、PostgreSQL、MonngDB、Redis、SignalR、Identity、Orleans、日志记录、密钥管理、后台定时任务、服务发现、发布订阅、分布式跟踪、健康检查、性能指标探测、配置管理、容器化技术、单元测试和集成测试、基于 Roslyn 的源代码自动生成器和增量生成器。
