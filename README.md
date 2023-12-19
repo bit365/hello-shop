@@ -8,7 +8,7 @@
 
 此外，我们还提供了界面，包括基于 Blazor 的 Web 应用和基于 MAUI 的混合应用，可以在不同的平台上运行，包括桌面应用，安卓应用和 IOS 应用。
 
-![技术架构](https://www.xcode.me/images/helloshop/architecture.svg)
+![技术架构](assets/architecture.min.svg)
 
 ### 所含技术
 
