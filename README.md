@@ -34,9 +34,9 @@ Visual Studio 2022、 .NET 8、C# 12.0、Aspire、ASP.NET Core，EF Core、WebAp
 
 ### 代码仓库
 
-国外仓库：https://github.com/bit365/hello-shop
+国外仓库：[https://github.com/bit365/hello-shop](https://github.com/bit365/hello-shop){target="_blank"}
 
-国内仓库：https://gitee.com/bit365/hello-shop
+国内仓库：[https://gitee.com/bit365/hello-shop](https://github.com/bit365/hello-shop){target="_blank"}
 
 ### 后续计划
 
@@ -44,7 +44,4 @@ Visual Studio 2022、 .NET 8、C# 12.0、Aspire、ASP.NET Core，EF Core、WebAp
 
 ### 技术探讨
 
-本套基架会有一些配套视频在 www.xcode.me 上发布。如果你想要获取最新的视频可以关注我们的微信订阅号 zerostack，我们会在公众号上发布最新的动态，如果你觉得这套基架对你有帮助，你可以给我们一个 Star，这是对我们最大的鼓励。
-
-
-最后我们希望这套基架能帮助到你，如果你有任何问题可以在 Github 上提出我们会尽快回复，坚持优雅的编码是我们一直所追求的，希望你也能够参与这种优雅。
+本套基架会有一些配套视频在 [ www.xcode.me](https://www.xcode.me) 上发布。如果你想要获取最新的视频可以关注我们的微信订阅号 zerostack，我们会在公众号上发布最新的动态，如果你觉得这套基架对你有帮助，你可以给我们一个 Star，这是对我们最大的鼓励。
