@@ -1,0 +1,17 @@
+{
+  "solution": {
+    "path": "HelloShop.sln",
+    "projects": [
+      "src\\HelloShop.ApiService\\HelloShop.ApiService.csproj",
+      "src\\HelloShop.AppHost\\HelloShop.AppHost.csproj",
+      "src\\HelloShop.BasketService\\HelloShop.BasketService.csproj",
+      "src\\HelloShop.IdentityService\\HelloShop.IdentityService.csproj",
+      "src\\HelloShop.OrderingService\\HelloShop.OrderingService.csproj",
+      "src\\HelloShop.ProductService\\HelloShop.ProductService.csproj",
+      "src\\HelloShop.ServiceDefaults\\HelloShop.ServiceDefaults.csproj",
+      "src\\HelloShop.WebApp\\HelloShop.WebApp.csproj",
+      "tests\\HelloShop.ProductService.FunctionalTests\\HelloShop.ProductService.FunctionalTests.csproj",
+      "tests\\HelloShop.ProductService.UnitTests\\HelloShop.ProductService.UnitTests.csproj"
+    ]
+  }
+}
