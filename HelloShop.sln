@@ -18,15 +18,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloShop.ProductService", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloShop.BasketService", "src\HelloShop.BasketService\HelloShop.BasketService.csproj", "{02EBA5AD-84B4-4AF4-B519-72061C08800D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloShop.HybridApp", "src\HelloShop.HybridApp\HelloShop.HybridApp.csproj", "{CC0E5839-B7E9-400E-9AF3-95863BBF518B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloShop.HybridApp", "src\HelloShop.HybridApp\HelloShop.HybridApp.csproj", "{CC0E5839-B7E9-400E-9AF3-95863BBF518B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1AD03316-A743-4E9D-B3BC-FB9499D15141}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{29BE158E-825E-48AB-A02D-4E537A5DC502}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloShop.ProductService.UnitTests", "tests\HelloShop.ProductService.UnitTests\HelloShop.ProductService.UnitTests.csproj", "{2022279A-E39F-4489-82AE-39AC53C594C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloShop.ProductService.UnitTests", "tests\HelloShop.ProductService.UnitTests\HelloShop.ProductService.UnitTests.csproj", "{2022279A-E39F-4489-82AE-39AC53C594C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloShop.ProductService.FunctionalTests", "tests\HelloShop.ProductService.FunctionalTests\HelloShop.ProductService.FunctionalTests.csproj", "{45932B7F-6ED0-40F3-AA2C-F14A844FEE18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloShop.ProductService.FunctionalTests", "tests\HelloShop.ProductService.FunctionalTests\HelloShop.ProductService.FunctionalTests.csproj", "{45932B7F-6ED0-40F3-AA2C-F14A844FEE18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
