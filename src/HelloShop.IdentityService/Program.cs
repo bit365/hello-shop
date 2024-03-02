@@ -1,5 +1,7 @@
 using HelloShop.IdentityService.Constants;
+using HelloShop.IdentityService.DataSeeding;
 using HelloShop.IdentityService.EntityFrameworks;
+using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +20,8 @@ builder.Services.AddDbContext<IdentityServiceDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString(DbConstants.ConnectionStringName));
 });
 
+builder.Services.AddDataSeedingProviders();
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
@@ -34,5 +38,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseDataSeedingProviders();
 
 app.Run();
