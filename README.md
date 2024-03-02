@@ -12,7 +12,7 @@
 
 ### 所含技术
 
-Visual Studio、 .NET、C# 12.0、Aspire、ASP.NET Core，EF Core、WebApi、gPRC、Blazor、MAUI、PostgreSQL、MonngDB、Redis、SignalR、Identity、Orleans、日志记录、密钥管理、后台定时任务、服务发现、发布订阅、分布式跟踪、健康检查、性能指标探测、配置管理、容器化技术、单元测试和集成测试、基于 Roslyn 的源代码自动生成器和增量生成器。
+Visual Studio、 .NET、C#、Aspire、ASP.NET Core，EF Core、WebApi、gPRC、Blazor、MAUI、PostgreSQL、MonngDB、Redis、SignalR、Identity、Orleans、日志记录、密钥管理、后台定时任务、服务发现、发布订阅、分布式跟踪、健康检查、性能指标探测、配置管理、容器化技术、单元测试和集成测试、基于 Roslyn 的源代码自动生成器和增量生成器。
 
 ### 仓库结构
 
