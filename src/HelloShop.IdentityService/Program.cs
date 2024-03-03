@@ -21,6 +21,7 @@ builder.Services.AddDbContext<IdentityServiceDbContext>(options =>
 });
 
 builder.Services.AddDataSeedingProviders();
+builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
@@ -40,5 +41,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseDataSeedingProviders();
+app.UseOpenApi();
 
 app.Run();
