@@ -1,24 +1,64 @@
 ﻿using HelloShop.IdentityService.Entities;
 using HelloShop.IdentityService.EntityFrameworks;
 using HelloShop.ServiceDefaults.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 
 namespace HelloShop.IdentityService.DataSeeding
 {
-    public class UserDataSeedingProvider(IdentityServiceDbContext dbContext) : IDataSeedingProvider
+    public class UserDataSeedingProvider(UserManager<User> userManager, RoleManager<Role> roleManager) : IDataSeedingProvider
     {
         public async Task SeedingAsync(IServiceProvider serviceProvider)
         {
-            var guestUser = dbContext.Set<User>().SingleOrDefault(x => x.UserName == "guest");
+            var adminRole = await roleManager.FindByNameAsync("AdminRole");
 
-            if (guestUser is null)
+            if (adminRole == null)
             {
-                await dbContext.Set<User>().AddAsync(new User
+                await roleManager.CreateAsync(new Role
+                {
+                    Name = "AdminRole"
+                });
+            }
+
+            var guestRole = await roleManager.FindByNameAsync("GuestRole");
+
+            if (guestRole == null)
+            {
+                await roleManager.CreateAsync(new Role
+                {
+                    Name = "GuestRole"
+                });
+            }
+
+            var adminUser = await userManager.FindByNameAsync("admin");
+
+            if (adminUser == null)
+            {
+                await userManager.CreateAsync(new User
+                {
+                    UserName = "admin",
+                    Email = "admin@test.com"
+                },"admin");
+            }
+
+            if (adminUser!=null)
+            {
+                await userManager.AddToRolesAsync(adminUser, ["AdminRole", "GuestRole"]);
+            }
+
+            var guestUser = await userManager.FindByNameAsync("guest");
+
+            if (guestUser == null)
+            {
+                await userManager.CreateAsync(new User
                 {
                     UserName = "guest",
-                    PasswordHash = "AQAAAAEAACcQAAAAEJ"
-                });
+                    Email = "guest@test.com"
+                },"guest");
+            }
 
-                await dbContext.SaveChangesAsync();
+            if (guestUser!=null)
+            {
+                await userManager.AddToRoleAsync(guestUser, "GuestRole");
             }
         }
     }

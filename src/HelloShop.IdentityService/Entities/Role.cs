@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace HelloShop.IdentityService.Entities
 {
-    public class User: IdentityUser<int>
+    public class Role: IdentityRole<int>
     {
-        public DateTimeOffset CreationTime { get; init; } = TimeProvider.System.GetUtcNow();
+        public DateTimeOffset CreationTime { get; set; }=TimeProvider.System.GetUtcNow();
     }
 }

@@ -1,5 +1,6 @@
 using HelloShop.IdentityService.Constants;
 using HelloShop.IdentityService.DataSeeding;
+using HelloShop.IdentityService.Entities;
 using HelloShop.IdentityService.EntityFrameworks;
 using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -11,28 +12,30 @@ builder.AddServiceDefaults();
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<IdentityServiceDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString(DbConstants.ConnectionStringName));
 });
 
+builder.Services.AddIdentityApiEndpoints<User>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 5;
+    options.SignIn.RequireConfirmedAccount = false;
+}).AddRoles<Role>().AddEntityFrameworkStores<IdentityServiceDbContext>();
+
 builder.Services.AddDataSeedingProviders();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-app.MapDefaultEndpoints();
+app.MapGroup("identity").MapIdentityApi<User>();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.MapDefaultEndpoints();
 
 app.UseHttpsRedirection();
 

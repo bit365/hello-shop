@@ -27,8 +27,6 @@ namespace HelloShop.IdentityService.Controllers
         [HttpPost]
         public void Post([FromBody] User value)
         {
-            value.CreationTime = DateTimeOffset.Now;
-
             dbContext.Add(value);
             dbContext.SaveChanges();
         }

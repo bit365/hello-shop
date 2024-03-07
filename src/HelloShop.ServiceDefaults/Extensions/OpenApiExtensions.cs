@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -21,6 +22,28 @@ namespace HelloShop.ServiceDefaults.Extensions
         {
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(configureOptions);
+
+            services.Configure<SwaggerGenOptions>(options =>
+            {
+                options.AddSecurityDefinition("bearerAuth", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Description = "JWT Authorization header using the Bearer scheme."
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "bearerAuth" }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+            });
 
             return services;
         }
