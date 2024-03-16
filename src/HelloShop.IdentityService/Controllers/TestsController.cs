@@ -12,19 +12,20 @@ namespace HelloShop.IdentityService.Controllers
     public class TestsController : ControllerBase
     {
         [HttpGet(nameof(Foo))]
-        [Authorize(Roles = "AdminRole")]
+        [Authorize(IdentityPermissions.Users.Update)]
         public IActionResult Foo()
         {
             return Ok("Hello, World!");
         }
 
         [HttpGet(nameof(Bar))]
-        [Authorize(Roles = "GuestRole")]
+        [Authorize(IdentityPermissions.Users.Create)]
         public IActionResult Bar()
         {
             return Ok("Hello, World!");
         }
 
+        [Authorize(IdentityPermissions.Users.Delete)]
         [HttpGet(nameof(Baz))]
         public IActionResult Baz()
         {

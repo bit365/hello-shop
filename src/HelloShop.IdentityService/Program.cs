@@ -53,6 +53,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddDataSeedingProviders();
 builder.Services.AddOpenApi();
+builder.Services.AddPermissionDefinitions();
 
 var app = builder.Build();
 
@@ -66,5 +67,6 @@ app.MapControllers();
 
 app.UseDataSeedingProviders();
 app.UseOpenApi();
+app.MapGroup("api/Permissions").MapPermissionDefinitions("Permissions");
 
 app.Run();
