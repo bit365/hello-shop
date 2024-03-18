@@ -22,7 +22,7 @@ Visual Studio、 .NET、C#、Aspire、ASP.NET Core，EF Core、WebApi、gPRC、B
 
 `build` 构建脚本，包括编译脚本，打包脚本，发布脚本等。
 
-`docs` 相关文档，包括设计文档，架构文档，开发文档，部署文档等。`
+`docs` 相关文档，包括设计文档，架构文档，开发文档，部署文档等。
 
 `samples` 演示示例，包括代码示例，配置示例，数据示例，文档示例等。
 
