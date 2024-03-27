@@ -1,8 +1,10 @@
 using HelloShop.IdentityService;
+using HelloShop.IdentityService.Authorization;
 using HelloShop.IdentityService.Constants;
 using HelloShop.IdentityService.DataSeeding;
 using HelloShop.IdentityService.Entities;
 using HelloShop.IdentityService.EntityFrameworks;
+using HelloShop.ServiceDefaults.Authorization;
 using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +56,10 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddDataSeedingProviders();
 builder.Services.AddOpenApi();
 builder.Services.AddPermissionDefinitions();
+builder.Services.AddHttpClient().AddHttpContextAccessor().AddRemotePermissionChecker(options =>
+{
+    options.ApiEndpoint = "https://localhost:5001/api/Permissions/PermissionList";
+});
 
 var app = builder.Build();
 

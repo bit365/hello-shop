@@ -1,4 +1,5 @@
-﻿using HelloShop.ServiceDefaults.Permissions;
+﻿using HelloShop.ServiceDefaults.Authorization;
+using HelloShop.ServiceDefaults.Permissions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -21,7 +22,7 @@ public static class PermissionExtensions
 
         return services;
     }
-    
+
     public static IEndpointRouteBuilder MapPermissionDefinitions(this IEndpointRouteBuilder endpoints, params string[] tags)
     {
         var routeGroup = endpoints.MapGroup(string.Empty);
@@ -61,5 +62,14 @@ public static class PermissionExtensions
         }).WithTags(tags);
 
         return routeGroup;
+    }
+
+    public static IServiceCollection AddRemotePermissionChecker(this IServiceCollection services, Action<RemotePermissionCheckerOptions> configureOptions)
+    {
+        services.Configure(configureOptions);
+
+        services.AddTransient<IPermissionChecker, RemotePermissionChecker>();
+
+        return services;
     }
 }

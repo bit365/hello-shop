@@ -56,6 +56,28 @@ namespace HelloShop.IdentityService.EntityFrameworks.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PermissionGranted",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RoleId = table.Column<int>(type: "integer", nullable: false),
+                    PermissionName = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    ResourceType = table.Column<string>(type: "character varying(16)", maxLength: 16, nullable: true),
+                    ResourceId = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PermissionGranted", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PermissionGranted_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RoleClaims",
                 columns: table => new
                 {
@@ -162,6 +184,12 @@ namespace HelloShop.IdentityService.EntityFrameworks.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_PermissionGranted_RoleId_PermissionName_ResourceType_Resour~",
+                table: "PermissionGranted",
+                columns: new[] { "RoleId", "PermissionName", "ResourceType", "ResourceId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
                 table: "RoleClaims",
                 column: "RoleId");
@@ -202,6 +230,9 @@ namespace HelloShop.IdentityService.EntityFrameworks.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "PermissionGranted");
+
             migrationBuilder.DropTable(
                 name: "RoleClaims");
 

@@ -22,6 +22,38 @@ namespace HelloShop.IdentityService.EntityFrameworks.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("HelloShop.IdentityService.Entities.PermissionGranted", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("PermissionName")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<string>("ResourceId")
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<string>("ResourceType")
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId", "PermissionName", "ResourceType", "ResourceId")
+                        .IsUnique();
+
+                    b.ToTable("PermissionGranted", (string)null);
+                });
+
             modelBuilder.Entity("HelloShop.IdentityService.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -257,6 +289,15 @@ namespace HelloShop.IdentityService.EntityFrameworks.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("HelloShop.IdentityService.Entities.PermissionGranted", b =>
+                {
+                    b.HasOne("HelloShop.IdentityService.Entities.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
