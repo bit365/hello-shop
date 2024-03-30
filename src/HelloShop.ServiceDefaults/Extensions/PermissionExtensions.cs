@@ -1,5 +1,6 @@
 ﻿using HelloShop.ServiceDefaults.Authorization;
 using HelloShop.ServiceDefaults.Permissions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -69,6 +70,15 @@ public static class PermissionExtensions
         services.Configure(configureOptions);
 
         services.AddTransient<IPermissionChecker, RemotePermissionChecker>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddCustomAuthorization(this IServiceCollection services)
+    {
+        services.AddSingleton<IAuthorizationPolicyProvider, CustomAuthorizationPolicyProvider>();
+        services.AddTransient<IAuthorizationHandler, PermissionRequirementHandler>();
+        services.AddTransient<IAuthorizationHandler, ResourcePermissionRequirementHandler>();
 
         return services;
     }

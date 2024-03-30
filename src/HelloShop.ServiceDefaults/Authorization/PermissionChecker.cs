@@ -33,7 +33,7 @@ public abstract class PermissionChecker(IHttpContextAccessor httpContextAccessor
 
             await distributedCache.SetObjectAsync(cacheKey, new PermissionGrantCacheItem(isGranted), new DistributedCacheEntryOptions
             {
-                SlidingExpiration = TimeSpan.FromMinutes(10)
+                AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(1)
             });
 
             if (isGranted)

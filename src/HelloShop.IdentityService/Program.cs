@@ -56,10 +56,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddDataSeedingProviders();
 builder.Services.AddOpenApi();
 builder.Services.AddPermissionDefinitions();
-builder.Services.AddHttpClient().AddHttpContextAccessor().AddRemotePermissionChecker(options =>
-{
-    options.ApiEndpoint = "https://localhost:5001/api/Permissions/PermissionList";
-});
+builder.Services.AddAuthorization().AddDistributedMemoryCache().AddHttpClient().AddHttpContextAccessor().AddTransient<IPermissionChecker, LocalPermissionChecker>().AddCustomAuthorization();
 
 var app = builder.Build();
 
