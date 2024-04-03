@@ -78,7 +78,6 @@ public static class PermissionExtensions
     {
         services.AddSingleton<IAuthorizationPolicyProvider, CustomAuthorizationPolicyProvider>();
         services.AddTransient<IAuthorizationHandler, PermissionRequirementHandler>();
-        services.AddTransient<IAuthorizationHandler, ResourcePermissionRequirementHandler>();
 
         return services;
     }

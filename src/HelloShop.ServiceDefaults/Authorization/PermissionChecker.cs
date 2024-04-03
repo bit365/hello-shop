@@ -9,15 +9,15 @@ public abstract class PermissionChecker(IHttpContextAccessor httpContextAccessor
 {
     protected HttpContext HttpContext { get; init; } = httpContextAccessor.HttpContext ?? throw new InvalidOperationException();
 
-    public async Task<bool> IsGrantedAsync(string name, string? resourceType = null, string? resourceId = null) => await IsGrantedAsync(HttpContext.User, name, resourceType, resourceId);
+    public async Task<bool> IsGrantedAsync(string permissionName, string? resourceType = null, string? resourceId = null) => await IsGrantedAsync(HttpContext.User, permissionName, resourceType, resourceId);
 
-    public async Task<bool> IsGrantedAsync(ClaimsPrincipal claimsPrincipal, string name, string? resourceType = null, string? resourceId = null)
+    public async Task<bool> IsGrantedAsync(ClaimsPrincipal claimsPrincipal, string permissionName, string? resourceType = null, string? resourceId = null)
     {
         var roleIds = claimsPrincipal.FindAll(CustomClaimTypes.RoleIdentifier).Select(c => Convert.ToInt32(c.Value)).ToArray();
 
         foreach (var roleId in roleIds)
         {
-            var cacheKey = PermissionGrantCacheItem.CreateCacheKey(roleId, name, resourceType, resourceId);
+            var cacheKey = PermissionGrantCacheItem.CreateCacheKey(roleId, permissionName, resourceType, resourceId);
 
             if (distributedCache.TryGetValue(cacheKey, out PermissionGrantCacheItem? cacheItem) && cacheItem != null)
             {
@@ -29,11 +29,11 @@ public abstract class PermissionChecker(IHttpContextAccessor httpContextAccessor
                 continue;
             }
 
-            bool isGranted = await IsGrantedAsync(roleId, name, resourceType, resourceId);
+            bool isGranted = await IsGrantedAsync(roleId, permissionName, resourceType, resourceId);
 
             await distributedCache.SetObjectAsync(cacheKey, new PermissionGrantCacheItem(isGranted), new DistributedCacheEntryOptions
             {
-                AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(1)
+                AbsoluteExpiration = DateTimeOffset.Now
             });
 
             if (isGranted)
@@ -45,5 +45,5 @@ public abstract class PermissionChecker(IHttpContextAccessor httpContextAccessor
         return false;
     }
 
-    public abstract Task<bool> IsGrantedAsync(int roleId, string name, string? resourceType = null, string? resourceId = null);
+    public abstract Task<bool> IsGrantedAsync(int roleId, string permissionName, string? resourceType = null, string? resourceId = null);
 }

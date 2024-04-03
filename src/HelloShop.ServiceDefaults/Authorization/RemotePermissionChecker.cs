@@ -13,7 +13,7 @@ public class RemotePermissionChecker(IHttpContextAccessor httpContextAccessor, I
 {
     private readonly RemotePermissionCheckerOptions _remotePermissionCheckerOptions = options.Value;
 
-    public override async Task<bool> IsGrantedAsync(int roleId, string name, string? resourceType = null, string? resourceId = null)
+    public override async Task<bool> IsGrantedAsync(int roleId, string permissionName, string? resourceType = null, string? resourceId = null)
     {
         string? accessToken = await HttpContext.GetTokenAsync("access_token");
 
@@ -25,24 +25,17 @@ public class RemotePermissionChecker(IHttpContextAccessor httpContextAccessor, I
 
         Dictionary<string, string?> parameters = new()
         {
-            { nameof(roleId), roleId.ToString() },
-            { nameof(name), name },
+            { nameof(permissionName), permissionName },
             { nameof(resourceType) , resourceType },
             { nameof(resourceId), resourceId }
         };
 
         string queryString = QueryHelpers.AddQueryString(string.Empty, parameters);
 
-        var permissionGrants = httpClient.GetFromJsonAsAsyncEnumerable<PermissionGrantedResponse>(queryString);
+        HttpRequestMessage request = new(HttpMethod.Head, queryString);
 
-        await foreach (var permissionGrant in permissionGrants)
-        {
-            if (permissionGrant != null && permissionGrant.IsGranted)
-            {
-                return true;
-            }
-        }
+        HttpResponseMessage response = await httpClient.SendAsync(request);
 
-        return false;
+        return response.IsSuccessStatusCode;
     }
 }

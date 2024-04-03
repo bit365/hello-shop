@@ -21,9 +21,25 @@ namespace HelloShop.IdentityService.Controllers
 
         [HttpGet("{id}")]
         [Authorize(IdentityPermissions.Users.Default)]
-        public User? GetUser(int id)
+        public async Task<ActionResult<User>> GetUser(int id, [FromServices] IAuthorizationService authorizationService)
         {
-            return dbContext.Set<User>().Find(id);
+            ResourceInfo resource = new(nameof(User), id.ToString());
+
+            var authorizationResult = await authorizationService.AuthorizeAsync(User, resource, IdentityPermissions.Users.Default);
+
+            if (!authorizationResult.Succeeded)
+            {
+                return Forbid();
+            }
+            
+            User? user = dbContext.Set<User>().Find(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
         }
 
         [HttpPost]

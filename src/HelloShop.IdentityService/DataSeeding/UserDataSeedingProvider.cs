@@ -2,64 +2,57 @@
 using HelloShop.IdentityService.EntityFrameworks;
 using HelloShop.ServiceDefaults.Infrastructure;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace HelloShop.IdentityService.DataSeeding
 {
     public class UserDataSeedingProvider(UserManager<User> userManager, RoleManager<Role> roleManager) : IDataSeedingProvider
     {
-        public async Task SeedingAsync(IServiceProvider serviceProvider)
+        public async Task SeedingAsync(IServiceProvider ServiceProvider)
         {
-            var adminRole = await roleManager.FindByNameAsync("AdminRole");
+            var adminRole = await roleManager.Roles.SingleOrDefaultAsync(x => x.Name == "AdminRole");
 
             if (adminRole == null)
             {
-                await roleManager.CreateAsync(new Role
-                {
-                    Name = "AdminRole"
-                });
+                adminRole = new Role { Name = "AdminRole", };
+                await roleManager.CreateAsync(adminRole);
             }
 
-            var guestRole = await roleManager.FindByNameAsync("GuestRole");
+            var guestRole = await roleManager.Roles.SingleOrDefaultAsync(x => x.Name == "GuestRole");
 
             if (guestRole == null)
             {
-                await roleManager.CreateAsync(new Role
-                {
-                    Name = "GuestRole"
-                });
+                guestRole = new Role { Name = "GuestRole", };
+                await roleManager.CreateAsync(guestRole);
             }
 
             var adminUser = await userManager.FindByNameAsync("admin");
 
             if (adminUser == null)
             {
-                await userManager.CreateAsync(new User
+                adminUser = new User
                 {
                     UserName = "admin",
                     Email = "admin@test.com"
-                },"admin");
+                };
+                await userManager.CreateAsync(adminUser, adminUser.UserName);
             }
 
-            if (adminUser!=null)
-            {
-                await userManager.AddToRolesAsync(adminUser, ["AdminRole", "GuestRole"]);
-            }
+            await userManager.AddToRolesAsync(adminUser, ["AdminRole", "GuestRole"]);
 
             var guestUser = await userManager.FindByNameAsync("guest");
 
             if (guestUser == null)
             {
-                await userManager.CreateAsync(new User
+                guestUser = new User
                 {
                     UserName = "guest",
                     Email = "guest@test.com"
-                },"guest");
+                };
+                await userManager.CreateAsync(guestUser, guestUser.UserName);
             }
 
-            if (guestUser!=null)
-            {
-                await userManager.AddToRoleAsync(guestUser, "GuestRole");
-            }
+            await userManager.AddToRoleAsync(guestUser, "GuestRole");
         }
     }
 }
