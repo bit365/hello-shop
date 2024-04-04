@@ -1,4 +1,5 @@
-﻿using HelloShop.IdentityService.Entities;
+﻿using AutoMapper;
+using HelloShop.IdentityService.Entities;
 using HelloShop.IdentityService.EntityFrameworks;
 using HelloShop.IdentityService.Models.Users;
 using HelloShop.ServiceDefaults.Authorization;
@@ -14,24 +15,15 @@ namespace HelloShop.IdentityService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController(IdentityServiceDbContext dbContext) : ControllerBase
+    public class UsersController(IdentityServiceDbContext dbContext, IMapper mapper) : ControllerBase
     {
         [HttpGet]
         [Authorize(IdentityPermissions.Users.Default)]
         public async Task<ActionResult<PagedResponse<UserListItem>>> GetUsers([FromQuery] UserListRequest model)
         {
-            var userList= await dbContext.Set<User>().Skip((model.PageNumber - 1) * model.PageSize).Take(model.PageSize).ToListAsync();
+            var userList = await dbContext.Set<User>().Skip((model.PageNumber - 1) * model.PageSize).Take(model.PageSize).ToListAsync();
 
-            var result = userList.Select(e => new UserListItem
-            {
-                Id = e.Id,
-                UserName = e.UserName!,
-                PhoneNumber = e.PhoneNumber,
-                PhoneNumberConfirmed = e.PhoneNumberConfirmed,
-                Email = e.Email,
-                EmailConfirmed = e.EmailConfirmed,
-                CreationTime = e.CreationTime,
-            }).ToList();
+            var result = mapper.Map<IReadOnlyList<UserListItem>>(userList);
 
             var responseModel = new PagedResponse<UserListItem>(result, result.Count);
 
@@ -51,51 +43,26 @@ namespace HelloShop.IdentityService.Controllers
                 return Forbid();
             }
 
-            User? user = dbContext.Set<User>().Find(id);
+            User? user = await dbContext.Set<User>().FindAsync(id);
 
             if (user == null)
             {
                 return NotFound();
             }
 
-            UserDetailsResponse responseModel = new()
-            {
-                Id = user.Id,
-                UserName = user.UserName!,
-                PhoneNumber = user.PhoneNumber,
-                PhoneNumberConfirmed = user.PhoneNumberConfirmed,
-                Email = user.Email,
-                EmailConfirmed = user.EmailConfirmed,
-                CreationTime = user.CreationTime,
-            };
-
-            return Ok(responseModel);
+            return mapper.Map<UserDetailsResponse>(user);
         }
 
         [HttpPost]
         [Authorize(IdentityPermissions.Users.Create)]
         public async Task<ActionResult<UserDetailsResponse>> PostUser([FromBody] UserCreateRequest model)
         {
-            var user = new User
-            {
-                UserName = model.UserName,
-                PhoneNumber = model.PhoneNumber,
-                Email = model.Email
-            };
+            var user = mapper.Map<User>(model);
 
             await dbContext.AddAsync(user);
             await dbContext.SaveChangesAsync();
 
-            UserDetailsResponse responseModel = new()
-            {
-                Id = user.Id,
-                UserName = user.UserName,
-                PhoneNumber = user.PhoneNumber,
-                PhoneNumberConfirmed = user.PhoneNumberConfirmed,
-                Email = user.Email,
-                EmailConfirmed = user.EmailConfirmed,
-                CreationTime = user.CreationTime,
-            };
+            var responseModel = mapper.Map<UserDetailsResponse>(user);
 
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, responseModel);
         }
@@ -107,44 +74,57 @@ namespace HelloShop.IdentityService.Controllers
         {
             if (model.Id != id)
             {
-                throw new ArgumentException("Id mismatch", nameof(model));
+                return BadRequest();
             }
 
-            var user = dbContext.Set<User>().Find(id);
+            var user = mapper.Map<User>(model);
 
-            if (user != null)
+            DbSet<User> users = dbContext.Set<User>();
+
+            users.Entry(user).State = EntityState.Modified;
+
+            try
             {
-                user.UserName = model.UserName;
-                user.PhoneNumber = model.PhoneNumber;
-                user.Email = model.Email;
+                await dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!users.Any(e => e.Id == id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
-            await dbContext.SaveChangesAsync();
-
-            return Ok();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
         [Authorize(IdentityPermissions.Users.Delete)]
         public async Task<IActionResult> DeleteUser(int id, [FromServices] IAuthorizationService authorizationService)
         {
-            var user = dbContext.Set<User>().Find(id);
+            var user = await dbContext.Set<User>().FindAsync(id);
 
-            if (user != null)
+            if (user is null)
             {
-                var result = await authorizationService.AuthorizeAsync(User, user, IdentityPermissions.Users.Delete);
-
-                if (result.Succeeded)
-                {
-                    dbContext.Remove(user);
-
-                    dbContext.SaveChanges();
-
-                    return Ok();
-                }
+                return NotFound();
             }
 
-            return Unauthorized();
+            var authorizationResult = await authorizationService.AuthorizeAsync(User, user, IdentityPermissions.Users.Delete);
+
+            if (authorizationResult.Succeeded)
+            {
+                dbContext.Remove(user);
+
+               await dbContext.SaveChangesAsync();
+
+                return NoContent();
+            }
+
+            return Forbid();
         }
 
         [HttpDelete]
