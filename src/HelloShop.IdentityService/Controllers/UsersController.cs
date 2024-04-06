@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using HelloShop.IdentityService.Entities;
 using HelloShop.IdentityService.EntityFrameworks;
 using HelloShop.IdentityService.Models.Users;

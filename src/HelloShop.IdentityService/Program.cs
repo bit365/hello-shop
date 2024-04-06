@@ -57,7 +57,7 @@ builder.Services.AddDataSeedingProviders();
 builder.Services.AddOpenApi();
 builder.Services.AddPermissionDefinitions();
 builder.Services.AddAuthorization().AddDistributedMemoryCache().AddHttpClient().AddHttpContextAccessor().AddTransient<IPermissionChecker, LocalPermissionChecker>().AddCustomAuthorization();
-builder.Services.AddModelMapper();
+builder.Services.AddModelMapper().AddModelValidator();
 
 var app = builder.Build();
 
