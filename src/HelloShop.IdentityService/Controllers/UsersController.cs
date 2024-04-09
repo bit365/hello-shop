@@ -8,7 +8,7 @@ using HelloShop.ServiceDefaults.Models.Paging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections;
+using HelloShop.ServiceDefaults.Extensions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,13 +22,21 @@ namespace HelloShop.IdentityService.Controllers
         [Authorize(IdentityPermissions.Users.Default)]
         public async Task<ActionResult<PagedResponse<UserListItem>>> GetUsers([FromQuery] UserListRequest model)
         {
-            var userList = await dbContext.Set<User>().Skip((model.PageNumber - 1) * model.PageSize).Take(model.PageSize).ToListAsync();
+            IQueryable<User> users = dbContext.Set<User>();
 
-            var result = mapper.Map<IReadOnlyList<UserListItem>>(userList);
+            if (model.Keyword is not null)
+            {
+                users = users.Where(e => e.UserName != null && e.UserName.Contains(model.Keyword));
+            }
+            
+            users = users.WhereIf(model.PhoneNumber is not null, e => e.PhoneNumber == model.PhoneNumber);
 
-            var responseModel = new PagedResponse<UserListItem>(result, result.Count);
+            IQueryable<User> pagedUsers = users.SortAndPageBy(model);
 
-            return Ok(responseModel);
+            List<User> pagedUserList = await pagedUsers.ToListAsync();
+            int totalCount = await users.CountAsync();
+
+            return new PagedResponse<UserListItem>(mapper.Map<List<UserListItem>>(pagedUserList), totalCount);
         }
 
         [HttpGet("{id}")]
@@ -120,7 +128,7 @@ namespace HelloShop.IdentityService.Controllers
             {
                 dbContext.Remove(user);
 
-               await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
 
                 return NoContent();
             }

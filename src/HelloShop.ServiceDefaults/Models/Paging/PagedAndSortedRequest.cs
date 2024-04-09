@@ -2,5 +2,5 @@
 
 public class PagedAndSortedRequest : PagedRequest
 {
-    public IEnumerable<SortingOrder>? Sorts { get; init; }
+    public string? OrderBy { get; init; }
 }

@@ -53,6 +53,19 @@ namespace HelloShop.IdentityService.DataSeeding
             }
 
             await userManager.AddToRoleAsync(guestUser, "GuestRole");
+
+            if (userManager.Users.Count() < 30)
+            {
+                for (int i = 0; i < 30; i++)
+                {
+                    var user = new User
+                    {
+                        UserName = $"user{i}",
+                        Email = $"test{i}@test.com",
+                    };
+                    await userManager.CreateAsync(user, user.UserName);
+                }
+            }
         }
     }
 }
