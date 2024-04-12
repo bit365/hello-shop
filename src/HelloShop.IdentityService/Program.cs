@@ -58,6 +58,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddPermissionDefinitions();
 builder.Services.AddAuthorization().AddDistributedMemoryCache().AddHttpClient().AddHttpContextAccessor().AddTransient<IPermissionChecker, LocalPermissionChecker>().AddCustomAuthorization();
 builder.Services.AddModelMapper().AddModelValidator();
+builder.Services.AddCustomLocalization();
 
 var app = builder.Build();
 
@@ -72,5 +73,6 @@ app.MapControllers();
 app.UseDataSeedingProviders();
 app.UseOpenApi();
 app.MapGroup("api/Permissions").MapPermissionDefinitions("Permissions");
+app.UseCustomLocalization();
 
 app.Run();

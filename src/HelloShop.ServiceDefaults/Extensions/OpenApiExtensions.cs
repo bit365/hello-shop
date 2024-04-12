@@ -1,6 +1,7 @@
 ﻿// Copyright (c) HelloShop Corporation. All rights reserved.
 // See the license file in the project root for more information.
 
+using HelloShop.ServiceDefaults.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -25,6 +26,8 @@ namespace HelloShop.ServiceDefaults.Extensions
 
             services.Configure<SwaggerGenOptions>(options =>
             {
+                options.OperationFilter<AcceptLanguageHeaderOperationFilter>();
+
                 options.AddSecurityDefinition("bearerAuth", new OpenApiSecurityScheme
                 {
                     Type = SecuritySchemeType.Http,
