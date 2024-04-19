@@ -17,9 +17,9 @@ public static class PermissionExtensions
 
         var permissionDefinitionProviders = assembly.ExportedTypes.Where(t => t.IsAssignableTo(typeof(IPermissionDefinitionProvider)));
 
-        permissionDefinitionProviders.ToList().ForEach(t => services.AddSingleton(typeof(IPermissionDefinitionProvider), t));
+        permissionDefinitionProviders.ToList().ForEach(t => services.AddTransient(typeof(IPermissionDefinitionProvider), t));
 
-        services.AddSingleton<IPermissionDefinitionManager, PermissionDefinitionManager>();
+        services.AddTransient<IPermissionDefinitionManager, PermissionDefinitionManager>();
 
         return services;
     }
