@@ -4,6 +4,7 @@
 using HelloShop.ServiceDefaults.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -11,6 +12,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +25,12 @@ namespace HelloShop.ServiceDefaults.Extensions
         {
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(configureOptions);
+
+            services.Configure<SwaggerUIOptions>(options =>
+            {
+                options.DocumentTitle = Assembly.GetExecutingAssembly().GetName().Name;
+                options.InjectStylesheet("/ServiceDefaults/Resources/OpenApi/Custom.css");
+            });
 
             services.Configure<SwaggerGenOptions>(options =>
             {
@@ -55,6 +63,11 @@ namespace HelloShop.ServiceDefaults.Extensions
         {
             app.UseSwagger(apiConfigureOptions);
             app.UseSwaggerUI(uiConfigureOptions);
+
+            app.Map("/ServiceDefaults", appBuilder => appBuilder.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly())
+            }));
 
             return app;
         }
