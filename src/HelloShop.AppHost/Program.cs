@@ -1,14 +1,18 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var apiservice = builder.AddProject<Projects.HelloShop_ApiService>("apiservice");
+var identityService = builder.AddProject<Projects.HelloShop_IdentityService>("identityservice");
 
-builder.AddProject<Projects.HelloShop_IdentityService>("identityservice");
+var orderingService=builder.AddProject<Projects.HelloShop_OrderingService>("orderingservice").WithReference(identityService);
 
-builder.AddProject<Projects.HelloShop_OrderingService>("orderingservice");
+var productService = builder.AddProject<Projects.HelloShop_ProductService>("productservice").WithReference(identityService);
 
-builder.AddProject<Projects.HelloShop_ProductService>("productservice");
+var basketService = builder.AddProject<Projects.HelloShop_BasketService>("basketservice").WithReference(identityService);
 
-builder.AddProject<Projects.HelloShop_BasketService>("basketservice");
+var apiservice = builder.AddProject<Projects.HelloShop_ApiService>("apiservice")
+.WithReference(identityService)
+.WithReference(orderingService)
+.WithReference(productService)
+.WithReference(basketService);
 
 builder.AddProject<Projects.HelloShop_WebApp>("webapp").WithReference(apiservice);
 

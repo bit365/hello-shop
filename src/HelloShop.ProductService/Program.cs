@@ -22,10 +22,7 @@ builder.Services.AddCustomLocalization();
 builder.Services.AddOpenApi();
 builder.Services.AddModelMapper().AddModelValidator();
 builder.Services.AddLocalization().AddPermissionDefinitions();
-builder.Services.AddAuthorization().AddRemotePermissionChecker(options =>
-{
-    options.ApiEndpoint = "https://localhost:5001";
-}).AddCustomAuthorization();
+builder.Services.AddAuthorization().AddRemotePermissionChecker().AddCustomAuthorization();
 // End addd extensions services to the container.
 
 var app = builder.Build();

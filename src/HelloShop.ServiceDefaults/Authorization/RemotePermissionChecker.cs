@@ -9,10 +9,8 @@ using System.Net.Http.Json;
 
 namespace HelloShop.ServiceDefaults.Authorization;
 
-public class RemotePermissionChecker(IHttpContextAccessor httpContextAccessor, IDistributedCache distributedCache, IHttpClientFactory httpClientFactory, IOptions<RemotePermissionCheckerOptions> options) : PermissionChecker(httpContextAccessor, distributedCache)
+public class RemotePermissionChecker(IHttpContextAccessor httpContextAccessor, IDistributedCache distributedCache, IHttpClientFactory httpClientFactory) : PermissionChecker(httpContextAccessor, distributedCache)
 {
-    private readonly RemotePermissionCheckerOptions _remotePermissionCheckerOptions = options.Value;
-
     public override async Task<bool> IsGrantedAsync(int roleId, string permissionName, string? resourceType = null, string? resourceId = null)
     {
         string? accessToken = await HttpContext.GetTokenAsync("access_token");
@@ -21,7 +19,7 @@ public class RemotePermissionChecker(IHttpContextAccessor httpContextAccessor, I
 
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-        httpClient.BaseAddress = new Uri(_remotePermissionCheckerOptions.ApiEndpoint);
+        httpClient.BaseAddress = new Uri("http://identityservice");
 
         Dictionary<string, string?> parameters = new()
         {

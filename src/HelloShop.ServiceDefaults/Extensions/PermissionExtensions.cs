@@ -65,10 +65,8 @@ public static class PermissionExtensions
         return routeGroup;
     }
 
-    public static IServiceCollection AddRemotePermissionChecker(this IServiceCollection services, Action<RemotePermissionCheckerOptions> configureOptions)
+    public static IServiceCollection AddRemotePermissionChecker(this IServiceCollection services)
     {
-        services.Configure(configureOptions);
-
         services.AddTransient<IPermissionChecker, RemotePermissionChecker>();
 
         return services;
