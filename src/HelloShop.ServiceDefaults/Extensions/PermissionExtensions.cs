@@ -38,7 +38,7 @@ public static class PermissionExtensions
             {
                 PermissionGroupDefinitionResponse permissionGroupDefinition = new()
                 {
-                    Name = permissionGroup.Name,
+                    GroupName = permissionGroup.Name,
                     DisplayName = permissionGroup.DisplayName,
                     Permissions = []
                 };

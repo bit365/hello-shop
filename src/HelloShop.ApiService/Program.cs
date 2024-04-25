@@ -4,6 +4,7 @@ using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using HelloShop.ApiService.Extensions;
+using HelloShop.ApiService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,7 @@ builder.Services.AddReverseProxy()
 builder.Services.AddSingleton<IConfiguredServiceEndPointResolver, ConfiguredServiceEndPointResolver>();
 builder.Services.AddSingleton<IReverseProxyConfigProvider, CustomReverseProxyConfigProvider>();
 builder.Services.AddTransient<IConfigureOptions<SwaggerUIOptions>, OpenApiConfigureOptions>();
+builder.Services.AddTransient<IPermissionService, PermissionService>();
 
 builder.Services.AddOpenApi();
 
