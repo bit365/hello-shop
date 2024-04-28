@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "MultiTenancySample.ServiceDefaults": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:61544;http://localhost:61545"
+    }
+  }
+}
