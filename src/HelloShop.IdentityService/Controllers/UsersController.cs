@@ -1,14 +1,17 @@
-﻿using AutoMapper;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using AutoMapper;
 using FluentValidation;
 using HelloShop.IdentityService.Entities;
 using HelloShop.IdentityService.EntityFrameworks;
 using HelloShop.IdentityService.Models.Users;
 using HelloShop.ServiceDefaults.Authorization;
+using HelloShop.ServiceDefaults.Extensions;
 using HelloShop.ServiceDefaults.Models.Paging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using HelloShop.ServiceDefaults.Extensions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,7 +31,7 @@ namespace HelloShop.IdentityService.Controllers
             {
                 users = users.Where(e => e.UserName != null && e.UserName.Contains(model.Keyword));
             }
-            
+
             users = users.WhereIf(model.PhoneNumber is not null, e => e.PhoneNumber == model.PhoneNumber);
 
             IQueryable<User> pagedUsers = users.SortAndPageBy(model);

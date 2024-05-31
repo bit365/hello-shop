@@ -1,3 +1,6 @@
+// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
 using HelloShop.ServiceDefaults.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,8 +15,6 @@ builder.Services.AddOpenApi();
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

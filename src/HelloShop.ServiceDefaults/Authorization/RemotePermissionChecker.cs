@@ -1,11 +1,11 @@
-﻿
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
 
 namespace HelloShop.ServiceDefaults.Authorization;
 
@@ -23,6 +23,7 @@ public class RemotePermissionChecker(IHttpContextAccessor httpContextAccessor, I
 
         Dictionary<string, string?> parameters = new()
         {
+            { nameof(roleId), roleId.ToString() },
             { nameof(permissionName), permissionName },
             { nameof(resourceType) , resourceType },
             { nameof(resourceId), resourceId }

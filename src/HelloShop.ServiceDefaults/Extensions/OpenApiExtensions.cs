@@ -9,13 +9,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HelloShop.ServiceDefaults.Extensions
 {

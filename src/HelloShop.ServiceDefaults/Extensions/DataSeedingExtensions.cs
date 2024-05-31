@@ -1,12 +1,10 @@
-﻿using HelloShop.ServiceDefaults.Infrastructure;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using HelloShop.ServiceDefaults.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HelloShop.ServiceDefaults.Extensions
 {
@@ -27,7 +25,7 @@ namespace HelloShop.ServiceDefaults.Extensions
         {
             using var serviceScope = app.ApplicationServices.CreateScope();
 
-            var dataSeedingProviders = serviceScope.ServiceProvider.GetServices<IDataSeedingProvider>().OrderBy(x=>x.Order);
+            var dataSeedingProviders = serviceScope.ServiceProvider.GetServices<IDataSeedingProvider>().OrderBy(x => x.Order);
 
             foreach (var dataSeedingProvider in dataSeedingProviders)
             {

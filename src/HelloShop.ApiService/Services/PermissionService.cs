@@ -1,4 +1,7 @@
-﻿using HelloShop.ApiService.Infrastructure;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using HelloShop.ApiService.Infrastructure;
 using HelloShop.ServiceDefaults.Permissions;
 
 namespace HelloShop.ApiService.Services;
@@ -13,7 +16,7 @@ public class PermissionService(HttpClient httpClient, IConfiguredServiceEndPoint
 
         IReadOnlyCollection<ConfiguredServiceEndPoint> serviceEndPoints = await serviceEndPointResolver.GetConfiguredServiceEndpointsAsync(cancellationToken);
 
-        await Parallel.ForEachAsync(serviceEndPoints, new ParallelOptions{ CancellationToken= cancellationToken}, async (serviceEndPoint, cancelToken) =>
+        await Parallel.ForEachAsync(serviceEndPoints, new ParallelOptions { CancellationToken = cancellationToken }, async (serviceEndPoint, cancelToken) =>
         {
             UriBuilder uriBuilder = new(serviceEndPoint.ServiceName) { Path = "api/Permissions/PermissionDefinitions" };
 

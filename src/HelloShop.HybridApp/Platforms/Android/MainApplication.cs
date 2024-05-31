@@ -1,4 +1,7 @@
-﻿using Android.App;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using Android.App;
 using Android.Runtime;
 
 namespace HelloShop.HybridApp

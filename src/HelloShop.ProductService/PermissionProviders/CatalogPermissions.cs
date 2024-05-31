@@ -1,24 +1,27 @@
-﻿namespace HelloShop.ProductService.PermissionProviders;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
 
- public static class CatalogPermissions
- {
-     public const string GroupName = "Catalog";
+namespace HelloShop.ProductService.PermissionProviders;
 
-     public static class Products
-     {
-         public const string Default = GroupName + ".Products";
-         public const string Details = Default + ".Details";
-         public const string Create = Default + ".Create";
-         public const string Update = Default + ".Update";
-         public const string Delete = Default + ".Delete";
-     }
+public static class CatalogPermissions
+{
+    public const string GroupName = "Catalog";
 
-     public static class Brands
-     {
-         public const string Default = GroupName + ".Brands";
-         public const string Details = Default + ".Details";
-         public const string Create = Default + ".Create";
-         public const string Update = Default + ".Update";
-         public const string Delete = Default + ".Delete";
-     }
- }
+    public static class Products
+    {
+        public const string Default = GroupName + ".Products";
+        public const string Details = Default + ".Details";
+        public const string Create = Default + ".Create";
+        public const string Update = Default + ".Update";
+        public const string Delete = Default + ".Delete";
+    }
+
+    public static class Brands
+    {
+        public const string Default = GroupName + ".Brands";
+        public const string Details = Default + ".Details";
+        public const string Create = Default + ".Create";
+        public const string Update = Default + ".Update";
+        public const string Delete = Default + ".Delete";
+    }
+}

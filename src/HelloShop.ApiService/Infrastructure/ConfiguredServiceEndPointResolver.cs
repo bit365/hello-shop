@@ -1,10 +1,12 @@
-﻿
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.ServiceDiscovery.Abstractions;
+using Microsoft.Extensions.ServiceDiscovery;
 
 namespace HelloShop.ApiService.Infrastructure;
 
-public class ConfiguredServiceEndPointResolver(IConfiguration configuration, IOptions<ConfigurationServiceEndPointResolverOptions> resolverOptions) : IConfiguredServiceEndPointResolver
+public class ConfiguredServiceEndPointResolver(IConfiguration configuration, IOptions<ConfigurationServiceEndpointProviderOptions> resolverOptions) : IConfiguredServiceEndPointResolver
 {
     private readonly Lazy<IReadOnlyCollection<ConfiguredServiceEndPoint>> _serviceEndPoints = new(() =>
     {

@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
 
 namespace HelloShop.IdentityService.Models.Users;
 

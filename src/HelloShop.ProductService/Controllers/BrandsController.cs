@@ -1,13 +1,16 @@
-﻿using AutoMapper;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using AutoMapper;
 using HelloShop.ProductService.Entities.Products;
 using HelloShop.ProductService.EntityFrameworks;
 using HelloShop.ProductService.Models.Products;
+using HelloShop.ProductService.PermissionProviders;
+using HelloShop.ServiceDefaults.Extensions;
 using HelloShop.ServiceDefaults.Models.Paging;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using HelloShop.ServiceDefaults.Extensions;
-using Microsoft.AspNetCore.Authorization;
-using HelloShop.ProductService.PermissionProviders;
 
 namespace HelloShop.ProductService;
 [Route("api/[controller]")]

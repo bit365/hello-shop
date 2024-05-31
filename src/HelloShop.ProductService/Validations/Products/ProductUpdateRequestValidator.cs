@@ -4,7 +4,7 @@
 using FluentValidation;
 using HelloShop.ProductService.Models.Products;
 
-namespace HelloWorld.ProductService.Validations.Products
+namespace HelloShop.ProductService.Validations.Products
 {
     public class ProductUpdateRequestValidator : AbstractValidator<ProductUpdateRequest>
     {

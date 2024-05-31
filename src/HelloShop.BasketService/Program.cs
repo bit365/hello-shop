@@ -1,4 +1,8 @@
+// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
 using HelloShop.BasketService.Services;
+using HelloShop.ServiceDefaults.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

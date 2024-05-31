@@ -1,4 +1,7 @@
-﻿using FluentValidation;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
@@ -32,17 +35,17 @@ public static class LocalizationExtensions
         ValidatorOptions.Global.DisplayNameResolver = (type, memberInfo, lambdaExpression) =>
         {
             string displayName = memberInfo.Name;
-        
+
             DisplayAttribute? displayAttribute = memberInfo.GetCustomAttribute<DisplayAttribute>(true);
-        
+
             displayName = displayAttribute?.Name ?? displayName;
-        
+
             DisplayNameAttribute? displayNameAttribute = memberInfo.GetCustomAttribute<DisplayNameAttribute>(true);
-        
+
             displayName = displayNameAttribute?.DisplayName ?? displayName;
-        
+
             var localizer = localizerFactory.Create(type);
-        
+
             return localizer[displayName];
         };
 

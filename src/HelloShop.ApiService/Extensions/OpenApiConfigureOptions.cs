@@ -1,10 +1,13 @@
-﻿using HelloShop.ApiService.Infrastructure;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using HelloShop.ApiService.Infrastructure;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace HelloShop.ApiService.Extensions;
 
-public class OpenApiConfigureOptions(IConfiguredServiceEndPointResolver serviceResolver, HttpClient httpClient) : IConfigureOptions<SwaggerUIOptions>
+public class OpenApiConfigureOptions(IConfiguredServiceEndPointResolver serviceResolver, HttpClient httpClient, ILogger<OpenApiConfigureOptions> logger) : IConfigureOptions<SwaggerUIOptions>
 {
     public void Configure(SwaggerUIOptions options)
     {
@@ -16,21 +19,27 @@ public class OpenApiConfigureOptions(IConfiguredServiceEndPointResolver serviceR
             {
                 UriBuilder uriBuilder = new(endPoint) { Path = "swagger/v1/swagger.json" };
 
-                HttpResponseMessage response = httpClient.GetAsync(uriBuilder.Uri).GetAwaiter().GetResult();
-
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                    urlDescriptors.Add(new UrlDescriptor
+                    HttpResponseMessage response = httpClient.GetAsync(uriBuilder.Uri).GetAwaiter().GetResult();
+                    if (response.IsSuccessStatusCode)
                     {
-                        Url = uriBuilder.Uri.ToString(),
-                        Name = serviceEndpoint.ServiceName
-                    });
-                    break;
+                        urlDescriptors.Add(new UrlDescriptor
+                        {
+                            Url = uriBuilder.Uri.ToString(),
+                            Name = serviceEndpoint.ServiceName
+                        });
+                        break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Failed to get swagger endpoint for {ServiceName}", serviceEndpoint.ServiceName);
                 }
             }
         }
         options.ConfigObject.Urls = urlDescriptors;
-        
+
         options.SwaggerEndpoint("v1/swagger.json", "apiservice");
     }
 }

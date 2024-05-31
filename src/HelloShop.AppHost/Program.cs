@@ -1,8 +1,11 @@
+// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var identityService = builder.AddProject<Projects.HelloShop_IdentityService>("identityservice");
 
-var orderingService=builder.AddProject<Projects.HelloShop_OrderingService>("orderingservice").WithReference(identityService);
+var orderingService = builder.AddProject<Projects.HelloShop_OrderingService>("orderingservice").WithReference(identityService);
 
 var productService = builder.AddProject<Projects.HelloShop_ProductService>("productservice").WithReference(identityService);
 

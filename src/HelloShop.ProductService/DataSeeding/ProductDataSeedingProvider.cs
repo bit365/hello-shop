@@ -1,4 +1,7 @@
-﻿using HelloShop.ProductService.Entities.Products;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using HelloShop.ProductService.Entities.Products;
 using HelloShop.ProductService.EntityFrameworks;
 using HelloShop.ServiceDefaults.Infrastructure;
 
@@ -84,7 +87,7 @@ namespace HelloShop.ProductService.DataSeeding
                     foreach (var product in productList)
                     {
                         product.Brand = brand;
-                       await dbContext.AddAsync(product);
+                        await dbContext.AddAsync(product);
                     }
                 }
 

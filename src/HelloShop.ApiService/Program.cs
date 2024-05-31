@@ -1,10 +1,13 @@
+// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using HelloShop.ApiService.Extensions;
 using HelloShop.ApiService.Infrastructure;
-using Yarp.ReverseProxy.Configuration;
+using HelloShop.ApiService.Services;
 using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using HelloShop.ApiService.Extensions;
-using HelloShop.ApiService.Services;
+using Yarp.ReverseProxy.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 

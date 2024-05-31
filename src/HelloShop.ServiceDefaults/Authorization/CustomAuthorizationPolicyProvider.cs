@@ -1,4 +1,7 @@
-﻿using HelloShop.ServiceDefaults.Permissions;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using HelloShop.ServiceDefaults.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.Extensions.Options;

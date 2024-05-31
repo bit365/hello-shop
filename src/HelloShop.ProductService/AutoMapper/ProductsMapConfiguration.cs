@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using AutoMapper;
 using HelloShop.ProductService.Entities.Products;
 using HelloShop.ProductService.Models.Products;
 

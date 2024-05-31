@@ -1,4 +1,7 @@
-﻿using HelloShop.ApiService.Services;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using HelloShop.ApiService.Services;
 using HelloShop.ServiceDefaults.Permissions;
 using Microsoft.AspNetCore.Mvc;
 

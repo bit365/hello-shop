@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using Microsoft.Extensions.Logging;
 
 namespace HelloShop.HybridApp
 {
@@ -17,8 +20,8 @@ namespace HelloShop.HybridApp
             builder.Services.AddMauiBlazorWebView();
 
 #if DEBUG
-    		builder.Services.AddBlazorWebViewDeveloperTools();
-    		builder.Logging.AddDebug();
+            builder.Services.AddBlazorWebViewDeveloperTools();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

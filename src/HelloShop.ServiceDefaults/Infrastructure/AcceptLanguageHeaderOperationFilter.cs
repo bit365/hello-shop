@@ -1,4 +1,7 @@
-﻿using Microsoft.Net.Http.Headers;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;

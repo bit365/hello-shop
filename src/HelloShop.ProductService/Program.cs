@@ -1,7 +1,10 @@
+// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
 using HelloShop.ProductService.Constants;
 using HelloShop.ProductService.EntityFrameworks;
-using Microsoft.EntityFrameworkCore;
 using HelloShop.ServiceDefaults.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,8 +32,6 @@ var app = builder.Build();
 
 app.MapDefaultEndpoints();
 
-app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
@@ -45,3 +46,8 @@ app.MapGroup("api/Permissions").MapPermissionDefinitions("Permissions");
 // End configure extensions request pipeline.
 
 app.Run();
+
+/// <summary>
+///  The test project requires a public Program type.
+/// </summary>
+public partial class Program { }

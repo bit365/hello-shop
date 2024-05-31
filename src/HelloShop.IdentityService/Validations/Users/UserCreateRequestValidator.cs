@@ -1,4 +1,7 @@
-﻿using FluentValidation;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using FluentValidation;
 using HelloShop.IdentityService.Entities;
 using HelloShop.IdentityService.EntityFrameworks;
 using HelloShop.IdentityService.Models.Users;
@@ -9,7 +12,7 @@ namespace HelloShop.IdentityService.Validations.Users;
 
 public class UserCreateRequestValidator : AbstractValidator<UserCreateRequest>
 {
-    public UserCreateRequestValidator(IdentityServiceDbContext dbContext,IStringLocalizer<UserCreateRequest> localizer )
+    public UserCreateRequestValidator(IdentityServiceDbContext dbContext, IStringLocalizer<UserCreateRequest> localizer)
     {
         RuleFor(m => m.UserName).NotNull().NotEmpty().Length(8, 16).Matches("^[a-zA-Z]+$");
 

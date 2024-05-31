@@ -1,7 +1,7 @@
-﻿using HelloShop.ServiceDefaults.Constants;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using HelloShop.ServiceDefaults.Constants;
 
 namespace HelloShop.ServiceDefaults.Authorization;
 

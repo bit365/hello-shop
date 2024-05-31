@@ -1,4 +1,7 @@
-﻿using FluentValidation;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using HelloShop.ServiceDefaults.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;

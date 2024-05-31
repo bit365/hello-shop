@@ -2,8 +2,8 @@
 // See the license file in the project root for more information.
 
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HelloShop.IdentityService.EntityFrameworks.EntityConfigurations
 {

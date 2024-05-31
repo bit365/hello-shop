@@ -1,5 +1,7 @@
+// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
 using Grpc.Core;
-using HelloShop.BasketService;
 
 namespace HelloShop.BasketService.Services;
 

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
