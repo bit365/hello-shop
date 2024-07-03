@@ -10,6 +10,11 @@ namespace MultiTenancySample.ServiceDefaults
 
             const string tenantKey = "tenant";
 
+            if(httpContext.User.FindAll(tenantKey).Any())
+            {
+                return httpContext.User.FindFirst(tenantKey)?.Value;
+            }
+
             if (httpContext.Request.Headers.TryGetValue(tenantKey, out var headerValues))
             {
                 return headerValues.First();

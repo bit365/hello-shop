@@ -21,7 +21,6 @@ namespace HelloShop.ProductService.FunctionalTests
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
         }
 
         [Fact]
