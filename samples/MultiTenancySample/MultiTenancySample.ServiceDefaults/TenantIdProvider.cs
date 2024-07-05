@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using Microsoft.AspNetCore.Http;
 
 namespace MultiTenancySample.ServiceDefaults
 {
@@ -10,7 +13,7 @@ namespace MultiTenancySample.ServiceDefaults
 
             const string tenantKey = "tenant";
 
-            if(httpContext.User.FindAll(tenantKey).Any())
+            if (httpContext.User.FindAll(tenantKey).Any())
             {
                 return httpContext.User.FindFirst(tenantKey)?.Value;
             }
