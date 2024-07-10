@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+option csharp_namespace = "HelloShop.BasketService.Protos";
+
+package basket;
+
+service Basket {
+    rpc GetBasket(google.protobuf.Empty) returns (CustomerBasketResponse) {
+        option (google.api.http) = {
+            get: "/api/basket"
+        };
+    }
+
+    rpc UpdateBasket(UpdateBasketRequest) returns (CustomerBasketResponse) {
+        option (google.api.http) = {
+			put: "/api/basket"
+			body: "*"
+		};
+    }
+
+    rpc DeleteBasket(google.protobuf.Empty) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+			delete: "/api/basket"
+		};
+	}
+}
+
+message CustomerBasketResponse {
+    repeated BasketListItem items = 1;
+}
+
+message BasketListItem {
+    int32 product_id = 1;
+    int32 quantity = 2;
+}
+
+message UpdateBasketRequest {
+    repeated BasketListItem items = 1;
+}
