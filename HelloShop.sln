@@ -27,9 +27,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloShop.ProductService.Un
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloShop.ProductService.FunctionalTests", "tests\HelloShop.ProductService.FunctionalTests\HelloShop.ProductService.FunctionalTests.csproj", "{45932B7F-6ED0-40F3-AA2C-F14A844FEE18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloShop.HybridApp", "src\HelloShop.HybridApp\HelloShop.HybridApp.csproj", "{E58F82E2-2E48-459B-A40E-497F24FC6DC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloShop.HybridApp", "src\HelloShop.HybridApp\HelloShop.HybridApp.csproj", "{E58F82E2-2E48-459B-A40E-497F24FC6DC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloShop.FunctionalTests", "tests\HelloShop.FunctionalTests\HelloShop.FunctionalTests.csproj", "{6BAA9747-E0D0-41B9-8A1B-88B777498C43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloShop.FunctionalTests", "tests\HelloShop.FunctionalTests\HelloShop.FunctionalTests.csproj", "{6BAA9747-E0D0-41B9-8A1B-88B777498C43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloShop.BasketService.UnitTests", "tests\HelloShop.BasketService.UnitTests\HelloShop.BasketService.UnitTests.csproj", "{BE88233A-D6EB-462B-B53C-B588A0BEFAFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloShop.BasketService.FunctionalTests", "tests\HelloShop.BasketService.FunctionalTests\HelloShop.BasketService.FunctionalTests.csproj", "{A0903D4D-EA4E-433A-AC5B-BE6ED4A5C958}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +91,14 @@ Global
 		{6BAA9747-E0D0-41B9-8A1B-88B777498C43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BAA9747-E0D0-41B9-8A1B-88B777498C43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BAA9747-E0D0-41B9-8A1B-88B777498C43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE88233A-D6EB-462B-B53C-B588A0BEFAFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE88233A-D6EB-462B-B53C-B588A0BEFAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE88233A-D6EB-462B-B53C-B588A0BEFAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE88233A-D6EB-462B-B53C-B588A0BEFAFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0903D4D-EA4E-433A-AC5B-BE6ED4A5C958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0903D4D-EA4E-433A-AC5B-BE6ED4A5C958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0903D4D-EA4E-433A-AC5B-BE6ED4A5C958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0903D4D-EA4E-433A-AC5B-BE6ED4A5C958}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +116,8 @@ Global
 		{45932B7F-6ED0-40F3-AA2C-F14A844FEE18} = {29BE158E-825E-48AB-A02D-4E537A5DC502}
 		{E58F82E2-2E48-459B-A40E-497F24FC6DC1} = {1AD03316-A743-4E9D-B3BC-FB9499D15141}
 		{6BAA9747-E0D0-41B9-8A1B-88B777498C43} = {29BE158E-825E-48AB-A02D-4E537A5DC502}
+		{BE88233A-D6EB-462B-B53C-B588A0BEFAFC} = {29BE158E-825E-48AB-A02D-4E537A5DC502}
+		{A0903D4D-EA4E-433A-AC5B-BE6ED4A5C958} = {29BE158E-825E-48AB-A02D-4E537A5DC502}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {845545A8-2006-46C3-ABD7-5BDF63F3858C}
