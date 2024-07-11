@@ -22,7 +22,7 @@ namespace HelloShop.ServiceDefaults.Extensions
 
             services.Configure<SwaggerUIOptions>(options =>
             {
-                options.DocumentTitle = Assembly.GetExecutingAssembly().GetName().Name;
+                options.DocumentTitle = Assembly.GetEntryAssembly()?.GetName().Name;
                 options.InjectStylesheet("/ServiceDefaults/Resources/OpenApi/Custom.css");
             });
 

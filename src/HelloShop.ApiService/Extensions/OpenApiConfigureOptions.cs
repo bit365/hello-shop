@@ -21,7 +21,8 @@ public class OpenApiConfigureOptions(IConfiguredServiceEndPointResolver serviceR
 
                 try
                 {
-                    HttpResponseMessage response = httpClient.GetAsync(uriBuilder.Uri).GetAwaiter().GetResult();
+                    HttpRequestMessage request = new(HttpMethod.Get, uriBuilder.Uri) { Version = new Version(2, 0) };
+                    HttpResponseMessage response = httpClient.SendAsync(request).GetAwaiter().GetResult();
                     if (response.IsSuccessStatusCode)
                     {
                         urlDescriptors.Add(new UrlDescriptor

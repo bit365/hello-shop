@@ -1,16 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
+using Microsoft.EntityFrameworkCore;
 using MultiTenancySample.FieldIsolationService.Entities;
 using MultiTenancySample.ServiceDefaults;
 
 namespace MultiTenancySample.FieldIsolationService.EntityFrameworks
 {
-    public class DataSeeding(IDbContextFactory<FieldIsolationServiceDbContext> dbContext, ICurrentTenant currentTenant)
+    public class DataSeeding(IDbContextFactory<FieldIsolationServiceDbContext> dbContextFactory, ICurrentTenant currentTenant)
     {
         public async Task SeedDataAsync()
         {
             currentTenant.SetTenant("Tenant1");
 
-            FieldIsolationServiceDbContext dbContext1 = await dbContext.CreateDbContextAsync();
+            FieldIsolationServiceDbContext dbContext1 = await dbContextFactory.CreateDbContextAsync();
 
             if (await dbContext1.Database.EnsureCreatedAsync())
             {
@@ -25,7 +28,7 @@ namespace MultiTenancySample.FieldIsolationService.EntityFrameworks
 
             currentTenant.SetTenant("Tenant2");
 
-            FieldIsolationServiceDbContext dbContext2 = await dbContext.CreateDbContextAsync();
+            FieldIsolationServiceDbContext dbContext2 = await dbContextFactory.CreateDbContextAsync();
 
             if (await dbContext2.Set<Product>().IgnoreQueryFilters().CountAsync() < 6)
             {
