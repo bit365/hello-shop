@@ -3,7 +3,9 @@
 
 using AutoMapper;
 using HelloShop.ProductService.AutoMapper;
+using HelloShop.ProductService.Controllers;
 using HelloShop.ProductService.Entities.Products;
+using HelloShop.ProductService.Infrastructure;
 using HelloShop.ProductService.Models.Products;
 using HelloShop.ProductService.UnitTests.Utilities;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +18,7 @@ namespace HelloShop.ProductService.UnitTests
         public async Task GetProductByIdReturnsProductDetailsResponse()
         {
             // Arrange
-            await using EntityFrameworks.ProductServiceDbContext dbContext = new FakeDbContextFactory().CreateDbContext();
+            await using ProductServiceDbContext dbContext = new FakeDbContextFactory().CreateDbContext();
 
             await dbContext.AddAsync(new Product { Id = 1, Name = "Product 1", Price = 10 });
 
@@ -40,7 +42,7 @@ namespace HelloShop.ProductService.UnitTests
         public async Task PostProductReturnsProductDetailsResponse(string productName, decimal price)
         {
             // Arrange
-            await using EntityFrameworks.ProductServiceDbContext dbContext = new FakeDbContextFactory().CreateDbContext();
+            await using ProductServiceDbContext dbContext = new FakeDbContextFactory().CreateDbContext();
 
             IMapper mapper = new MapperConfiguration(configure => configure.AddProfile<ProductsMapConfiguration>()).CreateMapper();
 

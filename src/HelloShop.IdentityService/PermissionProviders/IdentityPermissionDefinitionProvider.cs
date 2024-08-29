@@ -3,7 +3,7 @@
 
 using HelloShop.ServiceDefaults.Permissions;
 
-namespace HelloShop.IdentityService;
+namespace HelloShop.IdentityService.PermissionProviders;
 
 public class IdentityPermissionDefinitionProvider : IPermissionDefinitionProvider
 {

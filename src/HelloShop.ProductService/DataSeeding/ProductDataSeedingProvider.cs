@@ -2,14 +2,14 @@
 // See the license file in the project root for more information.
 
 using HelloShop.ProductService.Entities.Products;
-using HelloShop.ProductService.EntityFrameworks;
+using HelloShop.ProductService.Infrastructure;
 using HelloShop.ServiceDefaults.Infrastructure;
 
 namespace HelloShop.ProductService.DataSeeding
 {
     public class ProductDataSeedingProvider(ProductServiceDbContext dbContext) : IDataSeedingProvider
     {
-        public async Task SeedingAsync(IServiceProvider ServiceProvider)
+        public async Task SeedingAsync(IServiceProvider ServiceProvider, CancellationToken cancellationToken = default)
         {
             if (!dbContext.Set<Product>().Any())
             {
@@ -82,16 +82,16 @@ namespace HelloShop.ProductService.DataSeeding
                 {
                     var brand = new Brand { Name = brandName };
 
-                    await dbContext.AddAsync(brand);
+                    await dbContext.AddAsync(brand, cancellationToken);
 
                     foreach (var product in productList)
                     {
                         product.Brand = brand;
-                        await dbContext.AddAsync(product);
+                        await dbContext.AddAsync(product, cancellationToken);
                     }
                 }
 
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync(cancellationToken);
             }
         }
     }

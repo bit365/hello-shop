@@ -10,7 +10,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 
-namespace HelloShop.IdentityService;
+namespace HelloShop.IdentityService.Authentication;
 
 public class CustomJwtBearerHandler(IOptionsMonitor<CustomJwtBearerOptions> options, ILoggerFactory logger, UrlEncoder encoder) : SignInAuthenticationHandler<CustomJwtBearerOptions>(options, logger, encoder)
 {

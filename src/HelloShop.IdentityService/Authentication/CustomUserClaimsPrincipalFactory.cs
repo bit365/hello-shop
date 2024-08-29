@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 
-namespace HelloShop.IdentityService;
+namespace HelloShop.IdentityService.Authentication;
 
 public class CustomUserClaimsPrincipalFactory<TUser, TRole>(UserManager<TUser> userManager, RoleManager<TRole> roleManager, IOptions<IdentityOptions> options) : UserClaimsPrincipalFactory<TUser, TRole>(userManager, roleManager, options) where TUser : IdentityUser<int> where TRole : IdentityRole<int>
 {

@@ -1,27 +1,22 @@
 // Copyright (c) HelloShop Corporation. All rights reserved.
 // See the license file in the project root for more information.
 
-using HelloShop.ServiceDefaults.Extensions;
+using HelloShop.OrderingService.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddServiceDefaults();
-
 // Add services to the container.
-
+builder.AddServiceDefaults();
+builder.AddApplicationServices();
 builder.Services.AddControllers();
-builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
 app.MapDefaultEndpoints();
 
-app.UseAuthorization();
-
-app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+app.MapApplicationEndpoints();
 
 app.MapControllers();
-
-app.UseOpenApi();
 
 app.Run();

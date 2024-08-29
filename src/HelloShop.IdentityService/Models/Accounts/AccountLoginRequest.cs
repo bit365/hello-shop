@@ -3,7 +3,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace HelloShop.IdentityService;
+namespace HelloShop.IdentityService.Models.Accounts;
 
 public class AccountLoginRequest
 {

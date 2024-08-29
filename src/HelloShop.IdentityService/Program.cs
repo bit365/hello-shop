@@ -1,11 +1,11 @@
 // Copyright (c) HelloShop Corporation. All rights reserved.
 // See the license file in the project root for more information.
 
-using HelloShop.IdentityService;
+using HelloShop.IdentityService.Authentication;
 using HelloShop.IdentityService.Authorization;
 using HelloShop.IdentityService.Constants;
 using HelloShop.IdentityService.Entities;
-using HelloShop.IdentityService.EntityFrameworks;
+using HelloShop.IdentityService.Infrastructure;
 using HelloShop.ServiceDefaults.Authorization;
 using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

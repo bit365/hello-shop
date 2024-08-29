@@ -4,8 +4,9 @@
 using AutoMapper;
 using FluentValidation;
 using HelloShop.IdentityService.Entities;
-using HelloShop.IdentityService.EntityFrameworks;
+using HelloShop.IdentityService.Infrastructure;
 using HelloShop.IdentityService.Models.Users;
+using HelloShop.IdentityService.PermissionProviders;
 using HelloShop.ServiceDefaults.Authorization;
 using HelloShop.ServiceDefaults.Extensions;
 using HelloShop.ServiceDefaults.Models.Paging;

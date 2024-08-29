@@ -3,7 +3,7 @@
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var cache = builder.AddRedis("cache", port:6379);
+var cache = builder.AddRedis("cache", port: 6379);
 
 var identityService = builder.AddProject<Projects.HelloShop_IdentityService>("identityservice");
 

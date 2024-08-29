@@ -2,7 +2,7 @@
 // See the license file in the project root for more information.
 
 using HelloShop.IdentityService.Entities;
-using HelloShop.IdentityService.EntityFrameworks;
+using HelloShop.IdentityService.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

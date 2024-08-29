@@ -3,7 +3,7 @@
 
 using FluentValidation;
 using HelloShop.IdentityService.Entities;
-using HelloShop.IdentityService.EntityFrameworks;
+using HelloShop.IdentityService.Infrastructure;
 using HelloShop.IdentityService.Models.Users;
 using Microsoft.EntityFrameworkCore;
 

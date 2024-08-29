@@ -7,6 +7,6 @@ namespace HelloShop.ServiceDefaults.Infrastructure
     {
         int Order => default;
 
-        Task SeedingAsync(IServiceProvider serviceProvider);
+        Task SeedingAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken = default);
     }
 }

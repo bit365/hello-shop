@@ -10,9 +10,9 @@ namespace HelloShop.IdentityService.DataSeeding
 {
     public class UserDataSeedingProvider(UserManager<User> userManager, RoleManager<Role> roleManager) : IDataSeedingProvider
     {
-        public async Task SeedingAsync(IServiceProvider ServiceProvider)
+        public async Task SeedingAsync(IServiceProvider ServiceProvider, CancellationToken cancellationToken = default)
         {
-            var adminRole = await roleManager.Roles.SingleOrDefaultAsync(x => x.Name == "AdminRole");
+            var adminRole = await roleManager.Roles.SingleOrDefaultAsync(x => x.Name == "AdminRole", cancellationToken);
 
             if (adminRole == null)
             {
@@ -20,7 +20,7 @@ namespace HelloShop.IdentityService.DataSeeding
                 await roleManager.CreateAsync(adminRole);
             }
 
-            var guestRole = await roleManager.Roles.SingleOrDefaultAsync(x => x.Name == "GuestRole");
+            var guestRole = await roleManager.Roles.SingleOrDefaultAsync(x => x.Name == "GuestRole", cancellationToken: cancellationToken);
 
             if (guestRole == null)
             {

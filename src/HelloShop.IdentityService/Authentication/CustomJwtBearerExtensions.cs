@@ -5,7 +5,7 @@ using HelloShop.IdentityService.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 
-namespace HelloShop.IdentityService;
+namespace HelloShop.IdentityService.Authentication;
 
 public static class CustomJwtBearerExtensions
 {

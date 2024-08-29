@@ -1,7 +1,9 @@
 ﻿// Copyright (c) HelloShop Corporation. All rights reserved.
 // See the license file in the project root for more information.
 
+using HelloShop.IdentityService.Authentication;
 using HelloShop.IdentityService.Entities;
+using HelloShop.IdentityService.Models.Accounts;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -13,7 +15,7 @@ using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace HelloShop.IdentityService;
+namespace HelloShop.IdentityService.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Tokens;
 
-namespace HelloShop.IdentityService;
+namespace HelloShop.IdentityService.Authentication;
 
 public class CustomJwtBearerOptions : AuthenticationSchemeOptions
 {

@@ -3,7 +3,7 @@
 
 using AutoMapper;
 using HelloShop.ProductService.Entities.Products;
-using HelloShop.ProductService.EntityFrameworks;
+using HelloShop.ProductService.Infrastructure;
 using HelloShop.ProductService.Models.Products;
 using HelloShop.ProductService.PermissionProviders;
 using HelloShop.ServiceDefaults.Extensions;
@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace HelloShop.ProductService;
+namespace HelloShop.ProductService.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class BrandsController(ProductServiceDbContext dbContext, IMapper mapper) : ControllerBase
