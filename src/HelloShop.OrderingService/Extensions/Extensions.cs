@@ -3,8 +3,10 @@
 
 using HelloShop.OrderingService.Constants;
 using HelloShop.OrderingService.Infrastructure;
+using HelloShop.OrderingService.Services;
 using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace HelloShop.OrderingService.Extensions
 {
@@ -17,6 +19,13 @@ namespace HelloShop.OrderingService.Extensions
             builder.Services.AddDbContext<OrderingServiceDbContext>(options =>
             {
                 options.UseNpgsql(builder.Configuration.GetConnectionString(DbConstants.MasterConnectionStringName));
+            });
+
+            builder.Services.AddScoped<IClientRequestManager, ClientRequestManager>();
+
+            builder.Services.AddMediatR(options =>
+            {
+                options.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             });
         }
 
