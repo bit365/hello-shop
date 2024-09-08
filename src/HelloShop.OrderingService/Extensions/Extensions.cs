@@ -1,6 +1,7 @@
 ﻿// Copyright (c) HelloShop Corporation. All rights reserved.
 // See the license file in the project root for more information.
 
+using HelloShop.OrderingService.Behaviors;
 using HelloShop.OrderingService.Constants;
 using HelloShop.OrderingService.Infrastructure;
 using HelloShop.OrderingService.Services;
@@ -26,6 +27,8 @@ namespace HelloShop.OrderingService.Extensions
             builder.Services.AddMediatR(options =>
             {
                 options.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+                options.AddBehavior(typeof(LoggingBehavior<,>));
+                options.AddBehavior(typeof(ValidatorBehavior<,>));
             });
         }
 
