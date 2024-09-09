@@ -7,59 +7,95 @@ using HelloShop.OrderingService.Commands.Orders;
 using HelloShop.OrderingService.Models.Orders;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
-namespace HelloShop.OrderingService.Controllers
+namespace HelloShop.OrderingService.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+[Authorize]
+public class OrdersController(ILogger<OrdersController> logger, IMediator mediator, IMapper mapper) : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [Authorize]
-    public class OrdersController(ILogger<OrdersController> logger, IMediator mediator, IMapper mapper) : ControllerBase
+    [HttpPost]
+    public async Task<IActionResult> CreateOrder([FromHeader(Name = "x-request-id")] Guid requestId, CreateOrderRequest request)
     {
-        [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromHeader(Name = "x-request-id")] Guid requestId, CreateOrderRequest request)
+        using (logger.BeginScope(new List<KeyValuePair<string, object>> { new("IdentifiedCommandId", requestId) }))
         {
-            using (logger.BeginScope(new List<KeyValuePair<string, object>> { new("IdentifiedCommandId", requestId) }))
+            string? nameIdentifier = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            string? userName = User.FindFirst(ClaimTypes.Name)?.Value;
+
+            if (!int.TryParse(nameIdentifier, out int userId) || string.IsNullOrWhiteSpace(userName))
             {
-                string? nameIdentifier = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                string? userName = User.FindFirst(ClaimTypes.Name)?.Value;
+                throw new InvalidOperationException("User id or name not found in claims.");
+            }
 
-                if (!int.TryParse(nameIdentifier, out int userId) || string.IsNullOrWhiteSpace(userName))
+            CreateOrderCommand createOrderCommand = mapper.Map<CreateOrderCommand>(request, opts => opts.AfterMap((src, dest) =>
+            {
+                dest.UserId = userId;
+                dest.UserName = userName;
+            }));
+
+            var createOrderIdentifiedCommand = new IdentifiedCommand<CreateOrderCommand, bool>(createOrderCommand, requestId);
+
+            logger.LogInformation("Sending create order command.");
+
+            try
+            {
+                var result = await mediator.Send(createOrderIdentifiedCommand);
+                return result ? Ok() : Problem(detail: "Create order failed to process.", statusCode: 500);
+
+            }
+            catch (ApplicationException ex) when (ex.InnerException is FluentValidation.ValidationException validationException)
+            {
+                logger.LogWarning("Validation error in create order command.");
+
+                ModelStateDictionary modelState = validationException.Errors.Aggregate(ModelState, (acc, error) =>
                 {
-                    throw new InvalidOperationException("User id or name not found in claims.");
-                }
+                    acc.AddModelError(error.PropertyName, error.ErrorMessage);
+                    return acc;
+                });
 
-                CreateOrderCommand createOrderCommand = mapper.Map<CreateOrderCommand>(request, opts => opts.AfterMap((src, dest) =>
-                {
-                    dest.UserId = userId;
-                    dest.UserName = userName;
-                }));
-
-                var createOrderIdentifiedCommand = new IdentifiedCommand<CreateOrderCommand, bool>(createOrderCommand, requestId);
-
-                logger.LogInformation("Sending create order command.");
-
-                try
-                {
-                    var result = await mediator.Send(createOrderIdentifiedCommand);
-                    return result ? Ok() : Problem(detail: "Create order failed to process.", statusCode: 500);
-
-                }
-                catch (ApplicationException ex) when (ex.InnerException is FluentValidation.ValidationException validationException)
-                {
-                    logger.LogWarning("Validation error in create order command.");
-
-                    ModelStateDictionary modelState = validationException.Errors.Aggregate(ModelState, (acc, error) =>
-                    {
-                        acc.AddModelError(error.PropertyName, error.ErrorMessage);
-                        return acc;
-                    });
-
-                    return ValidationProblem(modelState);
-                }
+                return ValidationProblem(modelState);
             }
         }
+    }
+
+
+    [HttpPut("Cancel/{id}")]
+    public async Task<IActionResult> CancelOrder([FromHeader(Name = "x-request-id")] Guid requestId, int id)
+    {
+        CancelOrderCommand cancelOrderCommand = new(id);
+
+        var requestCancelOrder = new IdentifiedCommand<CancelOrderCommand, bool>(cancelOrderCommand, requestId);
+
+        var commandResult = await mediator.Send(requestCancelOrder);
+
+        if (!commandResult)
+        {
+            return Problem(detail: "Cancel order failed to process.", statusCode: 500);
+        }
+
+        return Ok();
+    }
+
+    [HttpPut("Ship/{id}")]
+    public async Task<IActionResult> ShipOrder([FromHeader(Name = "x-request-id")] Guid requestId, int id)
+    {
+        ShipOrderCommand shipOrderCommand = new(id);
+
+        var requestShipOrder = new IdentifiedCommand<ShipOrderCommand, bool>(shipOrderCommand, requestId);
+
+        var commandResult = await mediator.Send(requestShipOrder);
+
+        if (!commandResult)
+        {
+            return Problem(detail: "Ship order failed to process.", statusCode: 500);
+        }
+
+        return Ok();
     }
 }

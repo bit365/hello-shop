@@ -30,6 +30,8 @@ namespace HelloShop.OrderingService.Extensions
                 options.AddBehavior(typeof(LoggingBehavior<,>));
                 options.AddBehavior(typeof(ValidatorBehavior<,>));
             });
+
+            builder.Services.AddModelMapper().AddModelValidator();
         }
 
         public static WebApplication MapApplicationEndpoints(this WebApplication app)
