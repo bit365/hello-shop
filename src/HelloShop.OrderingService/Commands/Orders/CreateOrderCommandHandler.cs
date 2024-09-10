@@ -1,16 +1,48 @@
 ﻿// Copyright (c) HelloShop Corporation. All rights reserved.
 // See the license file in the project root for more information.
 
+using AutoMapper;
+using HelloShop.OrderingService.Entities.Buyers;
+using HelloShop.OrderingService.Entities.Orders;
+using HelloShop.OrderingService.Infrastructure;
 using HelloShop.OrderingService.Services;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace HelloShop.OrderingService.Commands.Orders
 {
-    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, bool>
+    public class CreateOrderCommandHandler(OrderingServiceDbContext dbContext, IMapper mapper) : IRequestHandler<CreateOrderCommand, bool>
     {
-        public Task<bool> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            Address address = mapper.Map<Address>(request);
+
+            IEnumerable<OrderItem> orderItems = mapper.Map<IEnumerable<OrderItem>>(request.OrderItems);
+
+            Buyer? buyer = await dbContext.Set<Buyer>().FindAsync([request.UserId], cancellationToken);
+
+            if (buyer == null)
+            {
+                buyer = new() { Id = request.UserId, Name = request.UserName };
+                await dbContext.AddAsync(buyer, cancellationToken);
+                await dbContext.SaveChangesAsync(cancellationToken);
+            }
+
+            PaymentMethod? paymentMethod = await dbContext.Set<PaymentMethod>().SingleOrDefaultAsync(pm => pm.BuyerId == buyer.Id && pm.CardNumber == request.CardNumber, cancellationToken);
+
+            if (paymentMethod == null)
+            {
+                paymentMethod = new() { BuyerId = buyer.Id, Alias = request.CardAlias, CardNumber = request.CardNumber, SecurityNumber = request.CardSecurityNumber, CardHolderName = request.CardHolderName, Expiration = request.CardExpiration };
+                await dbContext.AddAsync(paymentMethod, cancellationToken);
+                await dbContext.SaveChangesAsync(cancellationToken);
+            }
+
+            Order order = new(buyer.Id, address, orderItems) { PaymentMethodId = paymentMethod.Id };
+
+            await dbContext.AddAsync(order, cancellationToken);
+            await dbContext.SaveChangesAsync(cancellationToken);
+
+            return await Task.FromResult(true);
         }
     }
 

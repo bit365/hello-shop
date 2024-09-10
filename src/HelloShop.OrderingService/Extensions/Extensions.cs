@@ -29,6 +29,7 @@ namespace HelloShop.OrderingService.Extensions
                 options.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
                 options.AddBehavior(typeof(LoggingBehavior<,>));
                 options.AddBehavior(typeof(ValidatorBehavior<,>));
+                options.AddBehavior(typeof(TransactionBehavior<,>));
             });
 
             builder.Services.AddModelMapper().AddModelValidator();
