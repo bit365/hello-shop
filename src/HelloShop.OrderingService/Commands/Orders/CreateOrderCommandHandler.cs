@@ -5,13 +5,14 @@ using AutoMapper;
 using HelloShop.OrderingService.Entities.Buyers;
 using HelloShop.OrderingService.Entities.Orders;
 using HelloShop.OrderingService.Infrastructure;
+using HelloShop.OrderingService.LocalEvents;
 using HelloShop.OrderingService.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace HelloShop.OrderingService.Commands.Orders
 {
-    public class CreateOrderCommandHandler(OrderingServiceDbContext dbContext, IMapper mapper) : IRequestHandler<CreateOrderCommand, bool>
+    public class CreateOrderCommandHandler(IMediator mediator, OrderingServiceDbContext dbContext, IMapper mapper) : IRequestHandler<CreateOrderCommand, bool>
     {
         public async Task<bool> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
@@ -41,6 +42,8 @@ namespace HelloShop.OrderingService.Commands.Orders
 
             await dbContext.AddAsync(order, cancellationToken);
             await dbContext.SaveChangesAsync(cancellationToken);
+
+            await mediator.Publish(new OrderStartedLocalEvent(order), cancellationToken);
 
             return await Task.FromResult(true);
         }

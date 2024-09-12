@@ -33,6 +33,8 @@ namespace HelloShop.OrderingService.Extensions
             });
 
             builder.Services.AddModelMapper().AddModelValidator();
+
+            builder.Services.AddTransient<ISmsSender, MessageService>().AddTransient<IEmailSender, MessageService>();
         }
 
         public static WebApplication MapApplicationEndpoints(this WebApplication app)
