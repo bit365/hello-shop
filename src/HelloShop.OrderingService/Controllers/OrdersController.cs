@@ -7,10 +7,8 @@ using HelloShop.OrderingService.Commands.Orders;
 using HelloShop.OrderingService.Models.Orders;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
 namespace HelloShop.OrderingService.Controllers;

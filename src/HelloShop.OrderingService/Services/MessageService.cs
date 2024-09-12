@@ -1,8 +1,6 @@
 ﻿// Copyright (c) HelloShop Corporation. All rights reserved.
 // See the license file in the project root for more information.
 
-using Microsoft.Extensions.Logging;
-
 namespace HelloShop.OrderingService.Services
 {
     public class MessageService(ILogger<MessageService> logger) : IEmailSender, ISmsSender
