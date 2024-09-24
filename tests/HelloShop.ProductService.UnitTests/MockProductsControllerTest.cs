@@ -36,7 +36,12 @@ namespace HelloShop.ProductService.UnitTests
             // Arrange
             Mock<IProductService> mock = new();
 
-            mock.Setup(m => m.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync([new Product { Id = 1, Name = "Product 1", Price = 10 }, new Product { Id = 2, Name = "Product 2", Price = 20 }]);
+            var mockProducts = new List<Product> {
+                new() { Id = 1, Name = "Product 1", Description = "Product 1", ImageUrl = "1.jpg", Price = 10 },
+                new() { Id = 2, Name = "Product 2",Description="Product 2", ImageUrl="2.jpg", Price = 20 }
+            };
+
+            mock.Setup(m => m.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(mockProducts);
 
             // Act
             IMapper mapper = new Mapper(new MapperConfiguration(cfg => cfg.CreateMap<Product, ProductListItem>()));

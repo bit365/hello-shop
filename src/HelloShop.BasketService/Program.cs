@@ -2,8 +2,12 @@
 // See the license file in the project root for more information.
 
 using Calzolari.Grpc.AspNetCore.Validation;
+using HelloShop.BasketService.DistributedEvents.EventHandling;
+using HelloShop.BasketService.DistributedEvents.Events;
 using HelloShop.BasketService.Repositories;
 using HelloShop.BasketService.Services;
+using HelloShop.ServiceDefaults.DistributedEvents.Abstractions;
+using HelloShop.ServiceDefaults.DistributedEvents.DaprBuildingBlocks;
 using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -38,6 +42,9 @@ builder.Services.AddLocalization().AddPermissionDefinitions();
 builder.Services.AddAuthorization().AddRemotePermissionChecker().AddCustomAuthorization();
 builder.Services.AddGrpcValidation();
 builder.Services.AddCors();
+
+builder.AddDaprDistributedEventBus().AddSubscription<OrderStartedDistributedEvent, OrderStartedDistributedEventHandler>();
+
 // End addd extensions services to the container.
 
 var app = builder.Build();
@@ -50,6 +57,7 @@ app.MapDefaultEndpoints();
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client.").WithTags("Welcome");
 
 // Configure extensions request pipeline.
+app.MapDaprDistributedEventBus();
 app.UseAuthentication().UseAuthorization();
 app.MapGrpcService<GreeterService>();
 app.MapGrpcService<CustomerBasketService>();

@@ -5,6 +5,9 @@ using HelloShop.OrderingService.Behaviors;
 using HelloShop.OrderingService.Constants;
 using HelloShop.OrderingService.Infrastructure;
 using HelloShop.OrderingService.Services;
+using HelloShop.OrderingService.Workers;
+using HelloShop.ServiceDefaults.DistributedEvents.Abstractions;
+using HelloShop.ServiceDefaults.DistributedEvents.DaprBuildingBlocks;
 using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -35,11 +38,21 @@ namespace HelloShop.OrderingService.Extensions
             builder.Services.AddModelMapper().AddModelValidator();
 
             builder.Services.AddTransient<ISmsSender, MessageService>().AddTransient<IEmailSender, MessageService>();
+
+            builder.AddDaprDistributedEventBus().AddSubscriptionFromAssembly();
+
+            builder.Services.Configure<HostOptions>(hostOptions =>
+            {
+                hostOptions.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
+            });
+
+            builder.Services.AddHostedService<GracePeriodWorker>();
         }
 
         public static WebApplication MapApplicationEndpoints(this WebApplication app)
         {
             app.UseDataSeedingProviders();
+            app.MapDaprDistributedEventBus();
 
             return app;
         }

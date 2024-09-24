@@ -2,17 +2,19 @@
 // See the license file in the project root for more information.
 
 using AutoMapper;
+using HelloShop.OrderingService.DistributedEvents.Events;
 using HelloShop.OrderingService.Entities.Buyers;
 using HelloShop.OrderingService.Entities.Orders;
 using HelloShop.OrderingService.Infrastructure;
 using HelloShop.OrderingService.LocalEvents;
 using HelloShop.OrderingService.Services;
+using HelloShop.ServiceDefaults.DistributedEvents.Abstractions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace HelloShop.OrderingService.Commands.Orders
 {
-    public class CreateOrderCommandHandler(IMediator mediator, OrderingServiceDbContext dbContext, IMapper mapper) : IRequestHandler<CreateOrderCommand, bool>
+    public class CreateOrderCommandHandler(IMediator mediator, OrderingServiceDbContext dbContext, IMapper mapper, IDistributedEventBus distributedEventBus) : IRequestHandler<CreateOrderCommand, bool>
     {
         public async Task<bool> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
@@ -44,6 +46,8 @@ namespace HelloShop.OrderingService.Commands.Orders
             await dbContext.SaveChangesAsync(cancellationToken);
 
             await mediator.Publish(new OrderStartedLocalEvent(order), cancellationToken);
+
+            await distributedEventBus.PublishAsync(new OrderStartedDistributedEvent(request.UserId), cancellationToken);
 
             return await Task.FromResult(true);
         }

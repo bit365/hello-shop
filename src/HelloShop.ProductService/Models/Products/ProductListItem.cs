@@ -13,5 +13,7 @@ public class ProductListItem
 
     public required string BrandName { get; set; }
 
+    public int AvailableStock { get; set; }
+
     public DateTimeOffset CreationTime { get; init; }
 }

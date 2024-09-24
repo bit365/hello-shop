@@ -3,6 +3,8 @@
 
 using HelloShop.ProductService.Constants;
 using HelloShop.ProductService.Infrastructure;
+using HelloShop.ServiceDefaults.DistributedEvents.Abstractions;
+using HelloShop.ServiceDefaults.DistributedEvents.DaprBuildingBlocks;
 using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +28,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddModelMapper().AddModelValidator();
 builder.Services.AddLocalization().AddPermissionDefinitions();
 builder.Services.AddAuthorization().AddRemotePermissionChecker().AddCustomAuthorization();
+builder.AddDaprDistributedEventBus().AddSubscriptionFromAssembly();
 // End addd extensions services to the container.
 
 var app = builder.Build();
@@ -43,6 +46,7 @@ app.UseDataSeedingProviders();
 app.UseCustomLocalization();
 app.UseOpenApi();
 app.MapGroup("api/Permissions").MapPermissionDefinitions("Permissions");
+app.MapDaprDistributedEventBus();
 // End configure extensions request pipeline.
 
 app.Run();

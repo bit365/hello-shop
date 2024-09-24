@@ -20,7 +20,7 @@ namespace HelloShop.ProductService.UnitTests
             // Arrange
             await using ProductServiceDbContext dbContext = new FakeDbContextFactory().CreateDbContext();
 
-            await dbContext.AddAsync(new Product { Id = 1, Name = "Product 1", Price = 10 });
+            await dbContext.AddAsync(new Product { Id = 1, Name = "Product 1", Price = 10, Description = "Product 1", ImageUrl = "1.jpg" });
 
             await dbContext.SaveChangesAsync();
 
@@ -36,10 +36,10 @@ namespace HelloShop.ProductService.UnitTests
         }
 
         [Theory]
-        [InlineData("Product 1", 10)]
-        [InlineData("Product 2", 20)]
-        [InlineData("Product 3", 30)]
-        public async Task PostProductReturnsProductDetailsResponse(string productName, decimal price)
+        [InlineData("Product 1", 10, "Product 1", 1, "1.jpg", 100)]
+        [InlineData("Product 2", 20, "Product 2", 2, "2.jpg", 200)]
+        [InlineData("Product 3", 30, "Product 3", 3, "3.jpg", 300)]
+        public async Task PostProductReturnsProductDetailsResponse(string productName, decimal price, string description, int brandId, string imageUrl, int availableStock)
         {
             // Arrange
             await using ProductServiceDbContext dbContext = new FakeDbContextFactory().CreateDbContext();
@@ -49,7 +49,8 @@ namespace HelloShop.ProductService.UnitTests
             ProductsController productsController = new(dbContext, mapper);
 
             // Act
-            ActionResult<ProductDetailsResponse> createdAtActionResult = await productsController.PostProduct(new ProductCreateRequest { Name = productName, Price = price });
+            ProductCreateRequest productCreateRequest = new() { Name = productName, Price = price, Description = description, BrandId = brandId, ImageUrl = imageUrl, AvailableStock = availableStock };
+            ActionResult<ProductDetailsResponse> createdAtActionResult = await productsController.PostProduct(productCreateRequest);
             ProductDetailsResponse? result = (createdAtActionResult?.Result as CreatedAtActionResult)?.Value as ProductDetailsResponse;
 
             //Assert

@@ -8,13 +8,15 @@ public class ProductDetailsResponse
 
     public required string Name { get; init; }
 
-    public string? Description { get; init; }
+    public required string Description { get; init; }
 
     public decimal Price { get; init; }
 
     public required BrandDetailsResponse Brand { get; init; }
 
-    public string? ImageUrl { get; init; }
+    public required string ImageUrl { get; init; }
+
+    public int AvailableStock { get; init; }
 
     public DateTimeOffset CreationTime { get; init; }
 }
