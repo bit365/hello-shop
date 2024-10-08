@@ -47,6 +47,7 @@ namespace HelloShop.OrderingService.Extensions
             });
 
             builder.Services.AddHostedService<GracePeriodWorker>();
+            builder.Services.AddHostedService<PaymentWorker>();
         }
 
         public static WebApplication MapApplicationEndpoints(this WebApplication app)
