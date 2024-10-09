@@ -48,6 +48,8 @@ namespace HelloShop.OrderingService.Extensions
 
             builder.Services.AddHostedService<GracePeriodWorker>();
             builder.Services.AddHostedService<PaymentWorker>();
+
+            builder.Services.AddTransient<IDistributedEventService, DistributedEventService<OrderingServiceDbContext>>();
         }
 
         public static WebApplication MapApplicationEndpoints(this WebApplication app)

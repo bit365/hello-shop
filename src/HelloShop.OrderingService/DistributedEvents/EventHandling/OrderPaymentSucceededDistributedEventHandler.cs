@@ -4,12 +4,13 @@
 using HelloShop.OrderingService.DistributedEvents.Events;
 using HelloShop.OrderingService.Entities.Orders;
 using HelloShop.OrderingService.Infrastructure;
+using HelloShop.OrderingService.Services;
 using HelloShop.ServiceDefaults.DistributedEvents.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace HelloShop.OrderingService.DistributedEvents.EventHandling
 {
-    public class OrderPaymentSucceededDistributedEventHandler(OrderingServiceDbContext dbContext, IDistributedEventBus distributedEventBus) : IDistributedEventHandler<OrderPaymentSucceededDistributedEvent>
+    public class OrderPaymentSucceededDistributedEventHandler(OrderingServiceDbContext dbContext, IDistributedEventService distributedEventService) : IDistributedEventHandler<OrderPaymentSucceededDistributedEvent>
     {
         public async Task HandleAsync(OrderPaymentSucceededDistributedEvent @event)
         {
@@ -29,13 +30,15 @@ namespace HelloShop.OrderingService.DistributedEvents.EventHandling
 
                 await dbContext.SaveChangesAsync();
 
-                await transaction.CommitAsync();
-
                 var orderStockList = order.OrderItems.Select(orderItem => new OrderStockItem(orderItem.ProductId, orderItem.Units));
 
                 var integrationEvent = new OrderPaidDistributedEvent(order.Id, orderStockList);
 
-                await distributedEventBus.PublishAsync(integrationEvent);
+                await distributedEventService.AddAndSaveEventAsync(integrationEvent);
+
+                await distributedEventService.PublishEventsThroughEventBusAsync(transaction.TransactionId);
+
+                await transaction.CommitAsync();
             });
         }
     }

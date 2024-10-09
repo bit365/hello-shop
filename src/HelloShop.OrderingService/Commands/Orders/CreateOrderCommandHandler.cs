@@ -14,10 +14,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HelloShop.OrderingService.Commands.Orders
 {
-    public class CreateOrderCommandHandler(IMediator mediator, OrderingServiceDbContext dbContext, IMapper mapper, IDistributedEventBus distributedEventBus) : IRequestHandler<CreateOrderCommand, bool>
+    public class CreateOrderCommandHandler(IMediator mediator, IDistributedEventService distributedEventService, OrderingServiceDbContext dbContext, IMapper mapper) : IRequestHandler<CreateOrderCommand, bool>
     {
         public async Task<bool> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
+            var orderStartedIntegrationEvent = new OrderStartedDistributedEvent(request.UserId);
+
+            await distributedEventService.AddAndSaveEventAsync(orderStartedIntegrationEvent, cancellationToken);
+
             Address address = mapper.Map<Address>(request);
 
             IEnumerable<OrderItem> orderItems = mapper.Map<IEnumerable<OrderItem>>(request.OrderItems);
@@ -46,8 +50,6 @@ namespace HelloShop.OrderingService.Commands.Orders
             await dbContext.SaveChangesAsync(cancellationToken);
 
             await mediator.Publish(new OrderStartedLocalEvent(order), cancellationToken);
-
-            await distributedEventBus.PublishAsync(new OrderStartedDistributedEvent(request.UserId), cancellationToken);
 
             return await Task.FromResult(true);
         }

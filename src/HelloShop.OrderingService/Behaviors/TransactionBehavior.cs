@@ -3,13 +3,14 @@
 
 using HelloShop.OrderingService.Extensions;
 using HelloShop.OrderingService.Infrastructure;
+using HelloShop.OrderingService.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace HelloShop.OrderingService.Behaviors
 {
-    public class TransactionBehavior<TRequest, TResponse>(OrderingServiceDbContext dbContext, ILoggerFactory loggerFactory) : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+    public class TransactionBehavior<TRequest, TResponse>(OrderingServiceDbContext dbContext, ILoggerFactory loggerFactory, IDistributedEventService eventService) : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly ILogger<TransactionBehavior<TRequest, TResponse>> _logger = loggerFactory.CreateLogger<TransactionBehavior<TRequest, TResponse>>();
 
@@ -42,6 +43,8 @@ namespace HelloShop.OrderingService.Behaviors
                     }
 
                     await transaction.CommitAsync();
+
+                    await eventService.PublishEventsThroughEventBusAsync(transaction.TransactionId, cancellationToken);
                 });
 
                 return response ?? throw new ApplicationException($"Command {typeName} returned null response");

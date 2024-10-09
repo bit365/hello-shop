@@ -15,7 +15,7 @@
 		<ProjectReference Include="..\HelloShop.WebApp\HelloShop.WebApp.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Aspire.Hosting.AppHost" Version="8.0.2" />
-		<PackageReference Include="Aspire.Hosting.Redis" Version="8.0.2" />
+		<PackageReference Include="Aspire.Hosting.AppHost" Version="8.2.1" />
+		<PackageReference Include="Aspire.Hosting.Redis" Version="8.2.1" />
 	</ItemGroup>
 </Project>
