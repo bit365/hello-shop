@@ -10,7 +10,9 @@ using HelloShop.ServiceDefaults.DistributedEvents.Abstractions;
 using HelloShop.ServiceDefaults.DistributedEvents.DaprBuildingBlocks;
 using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
+using System.Text;
 
 namespace HelloShop.OrderingService.Extensions
 {
@@ -18,6 +20,17 @@ namespace HelloShop.OrderingService.Extensions
     {
         public static void AddApplicationServices(this IHostApplicationBuilder builder)
         {
+            const string issuerSigningKey = ServiceDefaults.Constants.IdentityConstants.IssuerSigningKey;
+
+            builder.Services.AddAuthentication().AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters.ValidateIssuer = false;
+                options.TokenValidationParameters.ValidateAudience = false;
+                options.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(issuerSigningKey));
+            });
+
+            builder.Services.AddHttpContextAccessor();
+
             builder.Services.AddDataSeedingProviders();
 
             builder.Services.AddDbContext<OrderingServiceDbContext>(options =>
@@ -30,9 +43,9 @@ namespace HelloShop.OrderingService.Extensions
             builder.Services.AddMediatR(options =>
             {
                 options.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-                options.AddBehavior(typeof(LoggingBehavior<,>));
-                options.AddBehavior(typeof(ValidatorBehavior<,>));
-                options.AddBehavior(typeof(TransactionBehavior<,>));
+                options.AddOpenBehavior(typeof(LoggingBehavior<,>));
+                options.AddOpenBehavior(typeof(ValidatorBehavior<,>));
+                options.AddOpenBehavior(typeof(TransactionBehavior<,>));
             });
 
             builder.Services.AddModelMapper().AddModelValidator();
@@ -50,10 +63,14 @@ namespace HelloShop.OrderingService.Extensions
             builder.Services.AddHostedService<PaymentWorker>();
 
             builder.Services.AddTransient<IDistributedEventService, DistributedEventService<OrderingServiceDbContext>>();
+
+            builder.Services.AddOpenApi();
         }
 
         public static WebApplication MapApplicationEndpoints(this WebApplication app)
         {
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseOpenApi();
             app.UseDataSeedingProviders();
             app.MapDaprDistributedEventBus();
 

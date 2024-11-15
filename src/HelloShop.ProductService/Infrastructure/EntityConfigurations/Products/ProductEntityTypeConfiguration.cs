@@ -13,7 +13,7 @@ public class ProductEntityTypeConfiguration : IEntityTypeConfiguration<Product>
     {
         builder.ToTable("Products");
 
-        builder.Property(x => x.Name).HasMaxLength(32);
+        builder.Property(x => x.Name).HasMaxLength(64);
 
         builder.Property(x => x.ImageUrl).HasMaxLength(256);
 

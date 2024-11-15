@@ -15,9 +15,6 @@ namespace HelloShop.IdentityService.Infrastructure
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-            AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
         }
     }
 }

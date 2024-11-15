@@ -3,6 +3,7 @@
 
 using AutoMapper;
 using HelloShop.OrderingService.Commands.Orders;
+using HelloShop.OrderingService.Entities.Orders;
 using HelloShop.OrderingService.Models.Orders;
 
 namespace HelloShop.OrderingService.AutoMapper
@@ -11,8 +12,10 @@ namespace HelloShop.OrderingService.AutoMapper
     {
         public OrdersMapConfiguration()
         {
-            CreateMap<BasketItem, CreateOrderCommand.CreateOrderCommandItem>().ForMember(dest => dest.Units, opts => opts.MapFrom(src => src.Quantity));
             CreateMap<CreateOrderRequest, CreateOrderCommand>().ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.Items));
+            CreateMap<BasketItem, CreateOrderCommand.CreateOrderCommandItem>().ForMember(dest => dest.Units, opt => opt.MapFrom(src => src.Quantity));
+            CreateMap<CreateOrderCommand.CreateOrderCommandItem, OrderItem>();
+            CreateMap<CreateOrderCommand, Address>();
         }
     }
 }

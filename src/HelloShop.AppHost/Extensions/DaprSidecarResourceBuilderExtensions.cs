@@ -13,7 +13,7 @@ namespace HelloShop.AppHost.Extensions
 {
     public static class DaprSidecarResourceBuilderExtensions
     {
-        public static IResourceBuilder<IDaprSidecarResource> WithReference(this IResourceBuilder<IDaprSidecarResource> builder, IResourceBuilder<IResourceWithConnectionString> resourceBuilder, int waitInSeconds = 5)
+        public static IResourceBuilder<IDaprSidecarResource> WithReference(this IResourceBuilder<IDaprSidecarResource> builder, IResourceBuilder<IResourceWithConnectionString> resourceBuilder, int waitInSeconds = 10)
         {
             builder.WithAnnotation(new EnvironmentCallbackAnnotation(async context =>
             {
