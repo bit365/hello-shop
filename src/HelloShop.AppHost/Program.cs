@@ -6,7 +6,7 @@ using Aspire.Hosting.Dapr;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var cache = builder.AddRedis("cache", port: 6379);
+var cache = builder.AddRedis("cache", port: 6380).WithPersistence();
 
 var rabbitmq = builder.AddRabbitMQ("rabbitmq").WithManagementPlugin();
 
@@ -19,14 +19,14 @@ var orderingService = builder.AddProject<Projects.HelloShop_OrderingService>("or
     .WithReference(identityService)
     .WithDaprSidecar(options =>
     {
-        options.WithOptions(daprSidecarOptions).WithReference(rabbitmq);
+        options.WithOptions(daprSidecarOptions).WithReference(rabbitmq).WithReference(cache);
     });
 
 var productService = builder.AddProject<Projects.HelloShop_ProductService>("productservice")
     .WithReference(identityService)
     .WithDaprSidecar(options =>
     {
-        options.WithOptions(daprSidecarOptions).WithReference(rabbitmq);
+        options.WithOptions(daprSidecarOptions).WithReference(rabbitmq).WithReference(cache);
     }); ;
 
 var basketService = builder.AddProject<Projects.HelloShop_BasketService>("basketservice")
@@ -34,7 +34,7 @@ var basketService = builder.AddProject<Projects.HelloShop_BasketService>("basket
     .WithReference(cache)
     .WithDaprSidecar(options =>
     {
-        options.WithOptions(daprSidecarOptions).WithReference(rabbitmq);
+        options.WithOptions(daprSidecarOptions).WithReference(rabbitmq).WithReference(cache);
     });
 
 var apiservice = builder.AddProject<Projects.HelloShop_ApiService>("apiservice")

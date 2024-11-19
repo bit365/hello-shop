@@ -5,6 +5,7 @@ using HelloShop.ProductService.Constants;
 using HelloShop.ProductService.Infrastructure;
 using HelloShop.ServiceDefaults.DistributedEvents.Abstractions;
 using HelloShop.ServiceDefaults.DistributedEvents.DaprBuildingBlocks;
+using HelloShop.ServiceDefaults.DistributedLocks;
 using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +30,7 @@ builder.Services.AddModelMapper().AddModelValidator();
 builder.Services.AddLocalization().AddPermissionDefinitions();
 builder.Services.AddAuthorization().AddRemotePermissionChecker().AddCustomAuthorization();
 builder.AddDaprDistributedEventBus().AddSubscriptionFromAssembly();
+builder.Services.AddSingleton<IDistributedLock, DaprDistributedLock>();
 // End addd extensions services to the container.
 
 var app = builder.Build();

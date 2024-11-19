@@ -1,0 +1,15 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: lockstore
+spec:
+  type: lock.redis
+  version: v1
+  metadata:
+  - name: redisHost
+    secretKeyRef:
+       name: ConnectionStrings__cache
+  - name: redisPassword
+    value: ""
+auth:
+  secretStore: env-secretstore
