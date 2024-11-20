@@ -5,6 +5,7 @@ using AutoMapper;
 using HelloShop.OrderingService.Commands;
 using HelloShop.OrderingService.Commands.Orders;
 using HelloShop.OrderingService.Models.Orders;
+using HelloShop.OrderingService.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -62,7 +63,6 @@ public class OrdersController(ILogger<OrdersController> logger, IMediator mediat
         }
     }
 
-
     [HttpPut("Cancel/{id}")]
     public async Task<IActionResult> CancelOrder([FromHeader(Name = "x-request-id")] Guid requestId, int id)
     {
@@ -95,5 +95,28 @@ public class OrdersController(ILogger<OrdersController> logger, IMediator mediat
         }
 
         return Ok();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetOrders([FromServices] IOrderQueries orderQueries)
+    {
+        string? nameIdentifier = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (!int.TryParse(nameIdentifier, out int userId))
+        {
+            throw new ApplicationException("User id not found in claims.");
+        }
+
+        IEnumerable<OrderSummary> orders = await orderQueries.GetOrdersFromUserAsync(userId);
+
+        return Ok(orders);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetOrder(int id, [FromServices] IOrderQueries orderQueries)
+    {
+        OrderDetails order = await orderQueries.GetOrderAsync(id);
+
+        return Ok(order);
     }
 }

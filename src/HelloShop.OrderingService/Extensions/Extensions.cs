@@ -4,6 +4,7 @@
 using HelloShop.OrderingService.Behaviors;
 using HelloShop.OrderingService.Constants;
 using HelloShop.OrderingService.Infrastructure;
+using HelloShop.OrderingService.Queries;
 using HelloShop.OrderingService.Services;
 using HelloShop.OrderingService.Workers;
 using HelloShop.ServiceDefaults.DistributedEvents.Abstractions;
@@ -47,6 +48,8 @@ namespace HelloShop.OrderingService.Extensions
                 options.AddOpenBehavior(typeof(ValidatorBehavior<,>));
                 options.AddOpenBehavior(typeof(TransactionBehavior<,>));
             });
+
+            builder.Services.AddScoped<IOrderQueries, OrderQueries>();
 
             builder.Services.AddModelMapper().AddModelValidator();
 
