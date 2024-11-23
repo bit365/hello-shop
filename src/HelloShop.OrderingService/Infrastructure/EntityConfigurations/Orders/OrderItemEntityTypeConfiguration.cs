@@ -11,8 +11,6 @@ namespace HelloShop.OrderingService.Infrastructure.EntityConfigurations.Orders
     {
         public void Configure(EntityTypeBuilder<OrderItem> builder)
         {
-            builder.ToTable("OrderItems");
-
             builder.Property(x => x.ProductName).HasMaxLength(16);
             builder.Property(x => x.PictureUrl).HasMaxLength(256);
         }

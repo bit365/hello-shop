@@ -11,7 +11,7 @@ namespace HelloShop.IdentityService.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("Users");
+            builder.ToTable("user");
 
             builder.Property(u => u.Id).HasColumnOrder(1);
             builder.Property(u => u.UserName).HasMaxLength(16).HasColumnOrder(2);

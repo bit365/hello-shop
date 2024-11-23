@@ -11,7 +11,7 @@ namespace HelloShop.IdentityService.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<IdentityRoleClaim<int>> builder)
         {
-            builder.ToTable("RoleClaims");
+            builder.ToTable("role_claim");
 
             builder.Property(rc => rc.ClaimType).HasMaxLength(128);
         }

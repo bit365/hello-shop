@@ -36,7 +36,8 @@ namespace HelloShop.OrderingService.Extensions
 
             builder.Services.AddDbContext<OrderingServiceDbContext>(options =>
             {
-                options.UseNpgsql(builder.Configuration.GetConnectionString(DbConstants.MasterConnectionStringName));
+                options.UseNpgsql(builder.Configuration.GetConnectionString(DbConstants.MasterConnectionStringName), x => x.MigrationsHistoryTable(DbConstants.MigrationsHistoryTableName));
+                options.UseSnakeCaseNamingConvention();
             });
 
             builder.Services.AddScoped<IClientRequestManager, ClientRequestManager>();

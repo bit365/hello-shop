@@ -8,6 +8,7 @@
 		<ProjectReference Include="..\HelloShop.ServiceDefaults\HelloShop.ServiceDefaults.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="EFCore.NamingConventions" Version="8.0.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -15,8 +15,6 @@ namespace HelloShop.OrderingService.Infrastructure.EntityConfigurations.EventLog
 
         public void Configure(EntityTypeBuilder<DistributedEventLog> builder)
         {
-            builder.ToTable("DistributedEventLogs");
-
             builder.HasKey(x => x.EventId);
             builder.Property(x => x.EventTypeName).HasMaxLength(32);
             builder.Property(x => x.Status).HasConversion<string>();

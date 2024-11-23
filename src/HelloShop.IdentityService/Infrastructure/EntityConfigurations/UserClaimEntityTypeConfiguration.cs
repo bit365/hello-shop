@@ -11,7 +11,7 @@ namespace HelloShop.IdentityService.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<IdentityUserClaim<int>> builder)
         {
-            builder.ToTable("UserClaims");
+            builder.ToTable("user_claim");
 
             builder.Property(uc => uc.ClaimType).HasMaxLength(128);
         }

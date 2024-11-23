@@ -11,8 +11,6 @@ namespace HelloShop.OrderingService.Infrastructure.EntityConfigurations.Buyers
     {
         public void Configure(EntityTypeBuilder<PaymentMethod> builder)
         {
-            builder.ToTable("PaymentMethods");
-
             builder.Property(x => x.Alias).HasMaxLength(16);
             builder.Property(x => x.CardNumber).HasMaxLength(16);
             builder.Property(x => x.CardHolderName).HasMaxLength(16);

@@ -17,7 +17,7 @@ namespace HelloShop.OrderingService.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -26,129 +26,223 @@ namespace HelloShop.OrderingService.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("character varying(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasColumnName("name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_buyer");
 
-                    b.ToTable("Buyer", (string)null);
+                    b.ToTable("buyer", (string)null);
                 });
 
             modelBuilder.Entity("HelloShop.OrderingService.Entities.Buyers.PaymentMethod", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Alias")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("character varying(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasColumnName("alias");
 
                     b.Property<int>("BuyerId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("buyer_id");
 
                     b.Property<string>("CardHolderName")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("character varying(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasColumnName("card_holder_name");
 
                     b.Property<string>("CardNumber")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("character varying(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasColumnName("card_number");
 
                     b.Property<DateTimeOffset?>("Expiration")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("expiration");
 
                     b.Property<string>("SecurityNumber")
                         .HasMaxLength(6)
-                        .HasColumnType("character varying(6)");
+                        .HasColumnType("character varying(6)")
+                        .HasColumnName("security_number");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_payment_method");
 
-                    b.HasIndex("BuyerId");
+                    b.HasIndex("BuyerId")
+                        .HasDatabaseName("ix_payment_method_buyer_id");
 
-                    b.ToTable("PaymentMethods", (string)null);
+                    b.ToTable("payment_method", (string)null);
+                });
+
+            modelBuilder.Entity("HelloShop.OrderingService.Entities.EventLogs.DistributedEventLog", b =>
+                {
+                    b.Property<Guid>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("event_id");
+
+                    b.Property<DateTimeOffset>("CreationTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("creation_time");
+
+                    b.Property<string>("DistributedEvent")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("distributed_event");
+
+                    b.Property<string>("EventTypeName")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .HasColumnName("event_type_name");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("status");
+
+                    b.Property<int>("TimesSent")
+                        .HasColumnType("integer")
+                        .HasColumnName("times_sent");
+
+                    b.Property<Guid>("TransactionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("transaction_id");
+
+                    b.HasKey("EventId")
+                        .HasName("pk_distributed_event_log");
+
+                    b.ToTable("distributed_event_log", (string)null);
+                });
+
+            modelBuilder.Entity("HelloShop.OrderingService.Entities.Idempotency.ClientRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
+                        .HasColumnName("name");
+
+                    b.Property<DateTimeOffset>("Time")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("time");
+
+                    b.HasKey("Id")
+                        .HasName("pk_client_request");
+
+                    b.ToTable("client_request", (string)null);
                 });
 
             modelBuilder.Entity("HelloShop.OrderingService.Entities.Orders.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BuyerId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("buyer_id");
 
                     b.Property<string>("Description")
                         .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
+                        .HasColumnType("character varying(64)")
+                        .HasColumnName("description");
 
                     b.Property<DateTimeOffset>("OrderDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("order_date");
 
                     b.Property<string>("OrderStatus")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("order_status");
 
                     b.Property<int?>("PaymentMethodId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("payment_method_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_order");
 
-                    b.HasIndex("BuyerId");
+                    b.HasIndex("BuyerId")
+                        .HasDatabaseName("ix_order_buyer_id");
 
-                    b.HasIndex("PaymentMethodId");
+                    b.HasIndex("PaymentMethodId")
+                        .HasDatabaseName("ix_order_payment_method_id");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("order", (string)null);
                 });
 
             modelBuilder.Entity("HelloShop.OrderingService.Entities.Orders.OrderItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("OrderId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("order_id");
 
                     b.Property<string>("PictureUrl")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("picture_url");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("product_id");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("character varying(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasColumnName("product_name");
 
                     b.Property<decimal>("UnitPrice")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("unit_price");
 
                     b.Property<int>("Units")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("units");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_order_item");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("OrderId")
+                        .HasDatabaseName("ix_order_item_order_id");
 
-                    b.ToTable("OrderItems", (string)null);
+                    b.ToTable("order_item", (string)null);
                 });
 
             modelBuilder.Entity("HelloShop.OrderingService.Entities.Buyers.PaymentMethod", b =>
@@ -157,7 +251,8 @@ namespace HelloShop.OrderingService.Infrastructure.Migrations
                         .WithMany("PaymentMethods")
                         .HasForeignKey("BuyerId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_payment_method_buyer_buyer_id");
                 });
 
             modelBuilder.Entity("HelloShop.OrderingService.Entities.Orders.Order", b =>
@@ -166,17 +261,20 @@ namespace HelloShop.OrderingService.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("BuyerId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_order_buyer_buyer_id");
 
                     b.HasOne("HelloShop.OrderingService.Entities.Buyers.PaymentMethod", null)
                         .WithMany()
                         .HasForeignKey("PaymentMethodId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_order_payment_method_payment_method_id");
 
                     b.OwnsOne("HelloShop.OrderingService.Entities.Orders.Address", "Address", b1 =>
                         {
                             b1.Property<int>("OrderId")
-                                .HasColumnType("integer");
+                                .HasColumnType("integer")
+                                .HasColumnName("id");
 
                             b1.Property<string>("City")
                                 .IsRequired()
@@ -210,10 +308,11 @@ namespace HelloShop.OrderingService.Infrastructure.Migrations
 
                             b1.HasKey("OrderId");
 
-                            b1.ToTable("Orders");
+                            b1.ToTable("order");
 
                             b1.WithOwner()
-                                .HasForeignKey("OrderId");
+                                .HasForeignKey("OrderId")
+                                .HasConstraintName("fk_order_order_id");
                         });
 
                     b.Navigation("Address")
@@ -226,7 +325,8 @@ namespace HelloShop.OrderingService.Infrastructure.Migrations
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_order_item_order_order_id");
                 });
 
             modelBuilder.Entity("HelloShop.OrderingService.Entities.Buyers.Buyer", b =>

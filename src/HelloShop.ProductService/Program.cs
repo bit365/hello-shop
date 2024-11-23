@@ -20,7 +20,8 @@ builder.Services.AddControllers();
 // Add extensions services to the container.
 builder.Services.AddDbContext<ProductServiceDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString(DbConstants.ConnectionStringName));
+    options.UseNpgsql(builder.Configuration.GetConnectionString(DbConstants.ConnectionStringName), x => x.MigrationsHistoryTable(DbConstants.MigrationsHistoryTableName));
+    options.UseSnakeCaseNamingConvention();
 });
 builder.Services.AddHttpClient().AddHttpContextAccessor().AddDistributedMemoryCache();
 builder.Services.AddDataSeedingProviders();

@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace HelloShop.IdentityService.EntityFrameworks.Migrations
+namespace HelloShop.IdentityService.Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityServiceDbContext))]
     partial class IdentityServiceDbContextModelSnapshot : ModelSnapshot
@@ -17,7 +17,7 @@ namespace HelloShop.IdentityService.EntityFrameworks.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -26,32 +26,39 @@ namespace HelloShop.IdentityService.EntityFrameworks.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("PermissionName")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
+                        .HasColumnType("character varying(64)")
+                        .HasColumnName("permission_name");
 
                     b.Property<string>("ResourceId")
                         .HasMaxLength(32)
-                        .HasColumnType("character varying(32)");
+                        .HasColumnType("character varying(32)")
+                        .HasColumnName("resource_id");
 
                     b.Property<string>("ResourceType")
                         .HasMaxLength(16)
-                        .HasColumnType("character varying(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasColumnName("resource_type");
 
                     b.Property<int>("RoleId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("role_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_permission_granted");
 
                     b.HasIndex("RoleId", "PermissionName", "ResourceType", "ResourceId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_permission_granted_role_id_permission_name_resource_type_re");
 
-                    b.ToTable("PermissionGranted", (string)null);
+                    b.ToTable("permission_granted", (string)null);
                 });
 
             modelBuilder.Entity("HelloShop.IdentityService.Entities.Role", b =>
@@ -59,6 +66,7 @@ namespace HelloShop.IdentityService.EntityFrameworks.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
+                        .HasColumnName("id")
                         .HasColumnOrder(1);
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
@@ -67,29 +75,34 @@ namespace HelloShop.IdentityService.EntityFrameworks.Migrations
                         .IsConcurrencyToken()
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)")
+                        .HasColumnName("concurrency_stamp")
                         .HasColumnOrder(4);
 
                     b.Property<DateTimeOffset>("CreationTime")
                         .HasColumnType("timestamp with time zone")
+                        .HasColumnName("creation_time")
                         .HasColumnOrder(5);
 
                     b.Property<string>("Name")
                         .HasMaxLength(16)
                         .HasColumnType("character varying(16)")
+                        .HasColumnName("name")
                         .HasColumnOrder(2);
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(16)
                         .HasColumnType("character varying(16)")
+                        .HasColumnName("normalized_name")
                         .HasColumnOrder(3);
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_role");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("role", (string)null);
                 });
 
             modelBuilder.Entity("HelloShop.IdentityService.Entities.User", b =>
@@ -97,80 +110,97 @@ namespace HelloShop.IdentityService.EntityFrameworks.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
+                        .HasColumnName("id")
                         .HasColumnOrder(1);
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer")
+                        .HasColumnName("access_failed_count")
                         .HasColumnOrder(15);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)")
+                        .HasColumnName("concurrency_stamp")
                         .HasColumnOrder(9);
 
                     b.Property<DateTimeOffset>("CreationTime")
                         .HasColumnType("timestamp with time zone")
+                        .HasColumnName("creation_time")
                         .HasColumnOrder(16);
 
                     b.Property<string>("Email")
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
+                        .HasColumnName("email")
                         .HasColumnOrder(4);
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean")
+                        .HasColumnName("email_confirmed")
                         .HasColumnOrder(6);
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean")
+                        .HasColumnName("lockout_enabled")
                         .HasColumnOrder(14);
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone")
+                        .HasColumnName("lockout_end")
                         .HasColumnOrder(13);
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
+                        .HasColumnName("normalized_email")
                         .HasColumnOrder(5);
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(16)
                         .HasColumnType("character varying(16)")
+                        .HasColumnName("normalized_user_name")
                         .HasColumnOrder(3);
 
                     b.Property<string>("PasswordHash")
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
+                        .HasColumnName("password_hash")
                         .HasColumnOrder(7);
 
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(16)
                         .HasColumnType("character varying(16)")
+                        .HasColumnName("phone_number")
                         .HasColumnOrder(10);
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean")
+                        .HasColumnName("phone_number_confirmed")
                         .HasColumnOrder(11);
 
                     b.Property<string>("SecurityStamp")
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
+                        .HasColumnName("security_stamp")
                         .HasColumnOrder(8);
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean")
+                        .HasColumnName("two_factor_enabled")
                         .HasColumnOrder(12);
 
                     b.Property<string>("UserName")
                         .HasMaxLength(16)
                         .HasColumnType("character varying(16)")
+                        .HasColumnName("user_name")
                         .HasColumnOrder(2);
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_user");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -179,116 +209,143 @@ namespace HelloShop.IdentityService.EntityFrameworks.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("user", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("character varying(128)")
+                        .HasColumnName("claim_type");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("claim_value");
 
                     b.Property<int>("RoleId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("role_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_role_claim");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("ix_role_claim_role_id");
 
-                    b.ToTable("RoleClaims", (string)null);
+                    b.ToTable("role_claim", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("character varying(128)")
+                        .HasColumnName("claim_type");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("claim_value");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_user_claim");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_user_claim_user_id");
 
-                    b.ToTable("UserClaims", (string)null);
+                    b.ToTable("user_claim", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(16)
-                        .HasColumnType("character varying(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasColumnName("login_provider");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("provider_key");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasMaxLength(16)
-                        .HasColumnType("character varying(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasColumnName("provider_display_name");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
 
-                    b.HasKey("LoginProvider", "ProviderKey");
+                    b.HasKey("LoginProvider", "ProviderKey")
+                        .HasName("pk_user_login");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_user_login_user_id");
 
-                    b.ToTable("UserLogins", (string)null);
+                    b.ToTable("user_login", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
 
                     b.Property<int>("RoleId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("role_id");
 
-                    b.HasKey("UserId", "RoleId");
+                    b.HasKey("UserId", "RoleId")
+                        .HasName("pk_user_role");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("ix_user_role_role_id");
 
-                    b.ToTable("UserRoles", (string)null);
+                    b.ToTable("user_role", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
 
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(16)
-                        .HasColumnType("character varying(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasColumnName("login_provider");
 
                     b.Property<string>("Name")
                         .HasMaxLength(16)
-                        .HasColumnType("character varying(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasColumnName("name");
 
                     b.Property<string>("Value")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("value");
 
-                    b.HasKey("UserId", "LoginProvider", "Name");
+                    b.HasKey("UserId", "LoginProvider", "Name")
+                        .HasName("pk_user_token");
 
-                    b.ToTable("UserTokens", (string)null);
+                    b.ToTable("user_token", (string)null);
                 });
 
             modelBuilder.Entity("HelloShop.IdentityService.Entities.PermissionGranted", b =>
@@ -297,7 +354,8 @@ namespace HelloShop.IdentityService.EntityFrameworks.Migrations
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_permission_granted_asp_net_roles_role_id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -306,7 +364,8 @@ namespace HelloShop.IdentityService.EntityFrameworks.Migrations
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_role_claim_asp_net_roles_role_id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
@@ -315,7 +374,8 @@ namespace HelloShop.IdentityService.EntityFrameworks.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_user_claim_asp_net_users_user_id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
@@ -324,7 +384,8 @@ namespace HelloShop.IdentityService.EntityFrameworks.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_user_login_user_user_id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
@@ -333,13 +394,15 @@ namespace HelloShop.IdentityService.EntityFrameworks.Migrations
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_user_role_role_role_id");
 
                     b.HasOne("HelloShop.IdentityService.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_user_role_user_user_id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -348,7 +411,8 @@ namespace HelloShop.IdentityService.EntityFrameworks.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_user_token_user_user_id");
                 });
 #pragma warning restore 612, 618
         }

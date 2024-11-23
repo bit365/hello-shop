@@ -10,8 +10,6 @@ public class PermissionGrantedEntityTypeConfiguration : IEntityTypeConfiguration
 {
     public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<PermissionGranted> builder)
     {
-        builder.ToTable("PermissionGranted");
-
         builder.Property(x => x.Id);
         builder.Property(x => x.PermissionName).HasMaxLength(64);
         builder.Property(x => x.ResourceType).HasMaxLength(16);

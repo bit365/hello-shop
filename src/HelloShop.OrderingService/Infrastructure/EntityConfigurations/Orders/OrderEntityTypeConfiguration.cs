@@ -12,8 +12,6 @@ namespace HelloShop.OrderingService.Infrastructure.EntityConfigurations.Orders
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder.ToTable("Orders");
-
             builder.Property(x => x.Description).HasMaxLength(64);
             builder.Property(x => x.OrderStatus).HasConversion<string>();
 

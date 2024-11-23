@@ -11,7 +11,6 @@ namespace HelloShop.OrderingService.Infrastructure.EntityConfigurations.Buyers
     {
         public void Configure(EntityTypeBuilder<Buyer> builder)
         {
-            builder.ToTable("Buyer");
             builder.Property(x => x.Name).HasMaxLength(16).IsRequired();
             builder.HasMany(b => b.PaymentMethods).WithOne().HasForeignKey(x => x.BuyerId).OnDelete(DeleteBehavior.Cascade);
         }

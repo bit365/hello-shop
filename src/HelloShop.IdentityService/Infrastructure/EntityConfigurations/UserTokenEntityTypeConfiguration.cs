@@ -11,7 +11,7 @@ namespace HelloShop.IdentityService.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<IdentityUserToken<int>> builder)
         {
-            builder.ToTable("UserTokens");
+            builder.ToTable("user_token");
 
             builder.Property(ut => ut.Name).HasMaxLength(16);
             builder.Property(ut => ut.LoginProvider).HasMaxLength(16);

@@ -10,7 +10,7 @@ namespace HelloShop.IdentityService.Infrastructure.EntityConfigurations
     {
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<IdentityUserRole<int>> builder)
         {
-            builder.ToTable("UserRoles");
+            builder.ToTable("user_role");
         }
     }
 }

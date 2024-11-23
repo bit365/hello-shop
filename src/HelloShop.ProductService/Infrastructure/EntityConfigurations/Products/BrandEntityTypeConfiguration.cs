@@ -11,7 +11,6 @@ public class BrandEntityTypeConfiguration : IEntityTypeConfiguration<Brand>
 {
     public void Configure(EntityTypeBuilder<Brand> builder)
     {
-        builder.ToTable("Brands");
         builder.Property(x => x.Name).HasMaxLength(32);
     }
 }
