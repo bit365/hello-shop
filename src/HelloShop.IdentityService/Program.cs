@@ -61,6 +61,7 @@ builder.Services.AddPermissionDefinitions();
 builder.Services.AddAuthorization().AddDistributedMemoryCache().AddHttpClient().AddHttpContextAccessor().AddTransient<IPermissionChecker, LocalPermissionChecker>().AddCustomAuthorization();
 builder.Services.AddModelMapper().AddModelValidator();
 builder.Services.AddCustomLocalization();
+builder.Services.AddSingleton(TimeProvider.System);
 
 var app = builder.Build();
 

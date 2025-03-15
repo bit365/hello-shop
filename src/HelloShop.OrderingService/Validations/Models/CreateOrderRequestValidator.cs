@@ -8,7 +8,7 @@ namespace HelloShop.OrderingService.Validations.Models
 {
     public class CreateOrderRequestValidator : AbstractValidator<CreateOrderRequest>
     {
-        public CreateOrderRequestValidator()
+        public CreateOrderRequestValidator(TimeProvider timeProvider)
         {
             RuleFor(x => x.Items).NotNull().NotEmpty();
             RuleForEach(x => x.Items).SetValidator(new BasketListItemValidator());
@@ -21,7 +21,7 @@ namespace HelloShop.OrderingService.Validations.Models
             RuleFor(x => x.CardNumber).NotNull().NotEmpty().Length(16).Must(x => x.All(char.IsNumber));
             RuleFor(x => x.CardHolderName).NotNull().NotEmpty().Length(1, 8);
             RuleFor(x => x.CardSecurityNumber).NotNull().NotEmpty().Length(6).Must(x => x.All(char.IsNumber));
-            RuleFor(x => x.CardExpiration).Must(x => x.HasValue && x.Value > DateTimeOffset.Now);
+            RuleFor(x => x.CardExpiration).Must(x => x.HasValue && x.Value > timeProvider.GetLocalNow());
         }
 
         public class BasketListItemValidator : AbstractValidator<BasketItem>

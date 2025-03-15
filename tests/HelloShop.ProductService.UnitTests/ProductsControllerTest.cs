@@ -9,6 +9,7 @@ using HelloShop.ProductService.Infrastructure;
 using HelloShop.ProductService.Models.Products;
 using HelloShop.ProductService.UnitTests.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Time.Testing;
 
 namespace HelloShop.ProductService.UnitTests
 {
@@ -59,6 +60,17 @@ namespace HelloShop.ProductService.UnitTests
                 Assert.Equal(price, result?.Price);
                 Assert.Equal(productName, result?.Name);
             });
+        }
+
+        [Fact]
+        public async Task UseTimeProviderTestService()
+        {
+            FakeTimeProvider fakeTimeProvider = new();
+            fakeTimeProvider.SetUtcNow(fakeTimeProvider.GetUtcNow().AddDays(1));
+
+            Assert.Equal(DateTime.UtcNow.AddHours(1), fakeTimeProvider.GetUtcNow());
+
+            await Task.CompletedTask;
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace HelloShop.ServiceDefaults.Authorization;
 
-public abstract class PermissionChecker(IHttpContextAccessor httpContextAccessor, IDistributedCache distributedCache) : IPermissionChecker
+public abstract class PermissionChecker(IHttpContextAccessor httpContextAccessor, IDistributedCache distributedCache,TimeProvider timeProvider) : IPermissionChecker
 {
     protected HttpContext HttpContext { get; init; } = httpContextAccessor.HttpContext ?? throw new InvalidOperationException();
 
@@ -36,7 +36,7 @@ public abstract class PermissionChecker(IHttpContextAccessor httpContextAccessor
 
             await distributedCache.SetObjectAsync(cacheKey, new PermissionGrantCacheItem(isGranted), new DistributedCacheEntryOptions
             {
-                AbsoluteExpiration = DateTimeOffset.Now
+                AbsoluteExpiration = timeProvider.GetUtcNow()
             });
 
             if (isGranted)

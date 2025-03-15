@@ -11,7 +11,7 @@ namespace HelloShop.ServiceDefaults.DistributedEvents.Abstractions
         public DistributedEvent()
         {
             Id = Guid.NewGuid();
-            CreationTime = DateTimeOffset.UtcNow;
+            CreationTime = TimeProvider.System.GetUtcNow();
         }
 
         public Guid Id { get; set; }

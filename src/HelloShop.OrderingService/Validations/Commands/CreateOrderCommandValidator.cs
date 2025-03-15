@@ -8,7 +8,7 @@ namespace HelloShop.OrderingService.Validations.Commands
 {
     public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
     {
-        public CreateOrderCommandValidator()
+        public CreateOrderCommandValidator(TimeProvider timeProvider)
         {
             RuleFor(x => x.UserId).GreaterThan(0);
             RuleFor(x => x.UserName).NotNull().NotEmpty().Length(1, 16);
@@ -23,7 +23,7 @@ namespace HelloShop.OrderingService.Validations.Commands
             RuleFor(x => x.CardNumber).NotNull().NotEmpty().Length(16).Must(x => x.All(char.IsNumber));
             RuleFor(x => x.CardHolderName).NotNull().NotEmpty().Length(1, 8);
             RuleFor(x => x.CardSecurityNumber).NotNull().NotEmpty().Length(6).Must(x => x.All(char.IsNumber));
-            RuleFor(x => x.CardExpiration).Must(x => x.HasValue && x.Value > DateTimeOffset.Now);
+            RuleFor(x => x.CardExpiration).Must(x => x.HasValue && x.Value > timeProvider.GetUtcNow());
         }
 
         public class BasketListItemValidator : AbstractValidator<CreateOrderCommand.CreateOrderCommandItem>

@@ -69,6 +69,8 @@ namespace HelloShop.OrderingService.Extensions
             builder.Services.AddTransient<IDistributedEventService, DistributedEventService<OrderingServiceDbContext>>();
 
             builder.Services.AddOpenApi();
+
+            builder.Services.AddSingleton(TimeProvider.System);
         }
 
         public static WebApplication MapApplicationEndpoints(this WebApplication app)

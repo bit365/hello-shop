@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HelloShop.OrderingService.Workers
 {
-    public class GracePeriodWorker(IServiceScopeFactory serviceScopeFactory, ILogger<GracePeriodWorker> logger) : BackgroundService
+    public class GracePeriodWorker(IServiceScopeFactory serviceScopeFactory, ILogger<GracePeriodWorker> logger,TimeProvider timeProvider) : BackgroundService
     {
         protected async override Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -25,7 +25,7 @@ namespace HelloShop.OrderingService.Workers
                 var dbContext = scope.ServiceProvider.GetRequiredService<OrderingServiceDbContext>();
                 var distributedEventBus = scope.ServiceProvider.GetRequiredService<IDistributedEventBus>();
 
-                DateTimeOffset dateTimeOffset = DateTimeOffset.UtcNow.AddMinutes(-1);
+                DateTimeOffset dateTimeOffset = timeProvider.GetUtcNow().AddMinutes(-1);
 
                 try
                 {

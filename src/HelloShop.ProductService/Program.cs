@@ -43,6 +43,7 @@ builder.Services.AddLocalization().AddPermissionDefinitions();
 builder.Services.AddAuthorization().AddRemotePermissionChecker().AddCustomAuthorization();
 builder.AddDaprDistributedEventBus().AddSubscriptionFromAssembly();
 builder.Services.AddSingleton<IDistributedLock, DaprDistributedLock>();
+builder.Services.AddSingleton(TimeProvider.System);
 // End addd extensions services to the container.
 
 var app = builder.Build();

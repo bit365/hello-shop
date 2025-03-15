@@ -12,13 +12,13 @@ using System.Text.Encodings.Web;
 
 namespace HelloShop.IdentityService.Authentication;
 
-public class CustomJwtBearerHandler(IOptionsMonitor<CustomJwtBearerOptions> options, ILoggerFactory logger, UrlEncoder encoder) : SignInAuthenticationHandler<CustomJwtBearerOptions>(options, logger, encoder)
+public class CustomJwtBearerHandler(IOptionsMonitor<CustomJwtBearerOptions> options, ILoggerFactory logger, UrlEncoder encoder,TimeProvider timeProvider) : SignInAuthenticationHandler<CustomJwtBearerOptions>(options, logger, encoder)
 {
     protected override Task<AuthenticateResult> HandleAuthenticateAsync() => throw new NotImplementedException();
 
     protected override async Task HandleSignInAsync(ClaimsPrincipal user, AuthenticationProperties? properties)
     {
-        var utcNow = TimeProvider.GetUtcNow();
+        var utcNow =timeProvider.GetUtcNow();
 
         JwtSecurityTokenHandler tokenHandler = new();
 
