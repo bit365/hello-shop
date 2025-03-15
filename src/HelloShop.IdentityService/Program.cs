@@ -23,7 +23,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<IdentityServiceDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString(DbConstants.ConnectionStringName),x=>x.MigrationsHistoryTable(DbConstants.MigrationsHistoryTableName));
+    options.UseNpgsql(builder.Configuration.GetConnectionString(DbConstants.ConnectionStringName), x => x.MigrationsHistoryTable(DbConstants.MigrationsHistoryTableName));
 });
 
 builder.Services.AddIdentity<User, Role>(options =>

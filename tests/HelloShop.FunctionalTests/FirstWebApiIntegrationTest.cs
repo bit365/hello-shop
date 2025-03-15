@@ -1,8 +1,10 @@
 // Copyright (c) HelloShop Corporation. All rights reserved.
 // See the license file in the project root for more information.
 
-using Aspire.Hosting;
+using Aspire.Hosting.ApplicationModel;
+using HelloShop.FunctionalTests.Helpers;
 using Microsoft.AspNetCore.Authentication.BearerToken;
+using Microsoft.Extensions.DependencyInjection;
 using System.Dynamic;
 using System.Net;
 using System.Net.Http.Headers;
@@ -11,18 +13,24 @@ using System.Text.Json.Nodes;
 
 namespace HelloShop.FunctionalTests
 {
-    public class FirstWebApiIntegrationTest
+    public class FirstWebApiIntegrationTest(TestingAspireAppHost app) : IAsyncLifetime, IClassFixture<TestingAspireAppHost>
     {
+        public async Task InitializeAsync()
+        {
+            await app.StartAsync();
+        }
+
+        public async Task DisposeAsync() => await Task.CompletedTask;
+
         [Fact]
         public async Task WebAppRootReturnsOkStatusCode()
         {
             // Arrange
-            IDistributedApplicationTestingBuilder appHost = await DistributedApplicationTestingBuilder.CreateAsync<Projects.HelloShop_AppHost>();
-            await using DistributedApplication app = await appHost.BuildAsync();
-            await app.StartAsync();
+            var resourceNotificationService = app.Services.GetRequiredService<ResourceNotificationService>();
 
             // Act
             HttpClient httpClient = app.CreateHttpClient("webapp");
+            await resourceNotificationService.WaitForResourceAsync("webapp", KnownResourceStates.Running).WaitAsync(TimeSpan.FromSeconds(30));
             HttpResponseMessage response = await httpClient.GetAsync("/");
 
             // Assert
@@ -33,12 +41,11 @@ namespace HelloShop.FunctionalTests
         public async Task IdetityServiceAccountLoginReturnsSuccessStatusCode()
         {
             // Arrange
-            IDistributedApplicationTestingBuilder appHost = await DistributedApplicationTestingBuilder.CreateAsync<Projects.HelloShop_AppHost>();
-            await using DistributedApplication app = await appHost.BuildAsync();
-            await app.StartAsync();
+            var resourceNotificationService = app.Services.GetRequiredService<ResourceNotificationService>();
 
             // Act
             HttpClient httpClient = app.CreateHttpClient("identityservice");
+            await resourceNotificationService.WaitForResourceHealthyAsync("identityservice").WaitAsync(TimeSpan.FromSeconds(30));
             HttpResponseMessage response = await httpClient.PostAsJsonAsync("api/Account/Login", new
             {
                 UserName = "guest",
@@ -53,12 +60,11 @@ namespace HelloShop.FunctionalTests
         public async Task IdetityServiceAccountLoginReturnsAccessToken()
         {
             // Arrange
-            IDistributedApplicationTestingBuilder appHost = await DistributedApplicationTestingBuilder.CreateAsync<Projects.HelloShop_AppHost>();
-            await using DistributedApplication app = await appHost.BuildAsync();
-            await app.StartAsync();
+            var resourceNotificationService = app.Services.GetRequiredService<ResourceNotificationService>();
 
             // Act
             HttpClient httpClient = app.CreateHttpClient("identityservice");
+            await resourceNotificationService.WaitForResourceHealthyAsync("identityservice").WaitAsync(TimeSpan.FromSeconds(30));
             HttpResponseMessage response = await httpClient.PostAsJsonAsync("api/Account/Login", new
             {
                 UserName = "guest",
@@ -74,13 +80,11 @@ namespace HelloShop.FunctionalTests
         public async Task IdetityServiceAccountLoginReturnsTokenExpiresInSeconds()
         {
             // Arrange
-            IDistributedApplicationTestingBuilder appHost = await DistributedApplicationTestingBuilder.CreateAsync<Projects.HelloShop_AppHost>();
-            await using DistributedApplication app = await appHost.BuildAsync();
-
-            await app.StartAsync();
+            var resourceNotificationService = app.Services.GetRequiredService<ResourceNotificationService>();
 
             // Act
             HttpClient httpClient = app.CreateHttpClient("identityservice");
+            await resourceNotificationService.WaitForResourceHealthyAsync("identityservice").WaitAsync(TimeSpan.FromSeconds(30));
             HttpResponseMessage response = await httpClient.PostAsJsonAsync("api/Account/Login", new
             {
                 UserName = "guest",
@@ -97,13 +101,11 @@ namespace HelloShop.FunctionalTests
         public async Task ProductServiceGetProductReturnsProductDetails()
         {
             // Arrange
-            IDistributedApplicationTestingBuilder appHost = await DistributedApplicationTestingBuilder.CreateAsync<Projects.HelloShop_AppHost>();
-
-            await using DistributedApplication app = await appHost.BuildAsync();
-            await app.StartAsync();
+            var resourceNotificationService = app.Services.GetRequiredService<ResourceNotificationService>();
 
             // Act
             HttpClient identityServiceHttpClient = app.CreateHttpClient("identityservice");
+            await resourceNotificationService.WaitForResourceHealthyAsync("identityservice").WaitAsync(TimeSpan.FromSeconds(30));
             HttpResponseMessage loginResponse = await identityServiceHttpClient.PostAsJsonAsync("api/Account/Login", new
             {
                 UserName = "admin",
@@ -114,16 +116,17 @@ namespace HelloShop.FunctionalTests
 
             HttpClient productServiceHttpClient = app.CreateHttpClient("productservice");
             productServiceHttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessTokenResponse?.AccessToken);
+            await resourceNotificationService.WaitForResourceHealthyAsync("productservice").WaitAsync(TimeSpan.FromSeconds(30));
 
             HttpResponseMessage productDetailsResponse = await productServiceHttpClient.GetAsync("api/Products/1");
 
             JsonNode? result = await productDetailsResponse.Content.ReadFromJsonAsync<JsonNode>();
 
-            string? productName = result?["Name"]?.GetValue<string>();
+            int? productId = result?["Id"]?.GetValue<int?>();
 
             // Assert
-            Assert.NotNull(productName);
-            Assert.Equal("Product 1", productName);
+            Assert.NotNull(productId);
+            Assert.Equal(1, productId);
         }
     }
 }

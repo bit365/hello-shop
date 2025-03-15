@@ -1,7 +1,6 @@
 // Copyright (c) HelloShop Corporation. All rights reserved.
 // See the license file in the project root for more information.
 
-using Calzolari.Grpc.AspNetCore.Validation;
 using HelloShop.BasketService.DistributedEvents.EventHandling;
 using HelloShop.BasketService.DistributedEvents.Events;
 using HelloShop.BasketService.Repositories;
@@ -31,7 +30,7 @@ builder.Services.AddHttpContextAccessor();
 builder.AddRedisDistributedCache("cache");
 builder.Services.AddSingleton<IBasketRepository, DistributedCacheBasketRepository>();
 
-builder.Services.AddGrpc(options => options.EnableMessageValidation()).AddJsonTranscoding();
+builder.Services.AddGrpc().AddJsonTranscoding();
 builder.Services.AddGrpcSwagger();
 builder.Services.AddOpenApi();
 
@@ -40,7 +39,6 @@ builder.Services.AddCustomLocalization();
 builder.Services.AddModelMapper().AddModelValidator();
 builder.Services.AddLocalization().AddPermissionDefinitions();
 builder.Services.AddAuthorization().AddRemotePermissionChecker().AddCustomAuthorization();
-builder.Services.AddGrpcValidation();
 builder.Services.AddCors();
 
 builder.AddDaprDistributedEventBus().AddSubscription<OrderStartedDistributedEvent, OrderStartedDistributedEventHandler>();

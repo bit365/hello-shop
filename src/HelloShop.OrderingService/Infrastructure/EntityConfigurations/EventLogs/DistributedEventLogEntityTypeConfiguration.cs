@@ -2,10 +2,10 @@
 // See the license file in the project root for more information.
 
 using HelloShop.OrderingService.Entities.EventLogs;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
 using HelloShop.ServiceDefaults.DistributedEvents.Abstractions;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Text.Json;
 
 namespace HelloShop.OrderingService.Infrastructure.EntityConfigurations.EventLogs
 {

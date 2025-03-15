@@ -3,7 +3,6 @@
 
 using Android.App;
 using Android.Content.PM;
-using Microsoft.Maui;
 
 namespace HelloShop.HybridApp
 {

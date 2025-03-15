@@ -2,12 +2,7 @@
 // See the license file in the project root for more information.
 
 using Dapr.Client;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HelloShop.ServiceDefaults.DistributedLocks
 {

@@ -2,7 +2,6 @@
 // See the license file in the project root for more information.
 
 using Foundation;
-using Microsoft.Maui;
 
 namespace HelloShop.HybridApp
 {

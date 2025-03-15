@@ -4,7 +4,7 @@
 using HelloShop.ProductService.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace HelloShop.ProductService.UnitTests.Utilities
+namespace HelloShop.ProductService.UnitTests.Helpers
 {
     public class FakeDbContextFactory : IDbContextFactory<ProductServiceDbContext>
     {

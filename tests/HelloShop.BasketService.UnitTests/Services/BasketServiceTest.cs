@@ -2,6 +2,8 @@
 // See the license file in the project root for more information.
 
 using AutoMapper;
+using FluentValidation;
+using FluentValidation.Results;
 using Google.Protobuf.WellKnownTypes;
 using HelloShop.BasketService.AutoMapper;
 using HelloShop.BasketService.Entities;
@@ -25,7 +27,8 @@ namespace HelloShop.BasketService.UnitTests.Services
             var basketRepositoryMock = new Mock<IBasketRepository>();
             var loggerMock = NullLogger<CustomerBasketService>.Instance;
             var mapperMock = new Mock<IMapper>();
-            var service = new CustomerBasketService(basketRepositoryMock.Object, loggerMock, mapperMock.Object);
+            var validatorMock = new Mock<IValidator<UpdateBasketRequest>>();
+            var service = new CustomerBasketService(basketRepositoryMock.Object, loggerMock, mapperMock.Object, validatorMock.Object);
 
             TestServerCallContext serverCallContext = TestServerCallContext.Create();
 
@@ -50,11 +53,13 @@ namespace HelloShop.BasketService.UnitTests.Services
             var basketRepositoryMock = new Mock<IBasketRepository>();
             basketRepositoryMock.Setup(x => x.GetBasketAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(new CustomerBasket() { BuyerId = 1, Items = [new BasketItem { ProductId = 1, Quantity = 1 }] });
 
+            var validatorMock = new Mock<IValidator<UpdateBasketRequest>>();
+
             var logger = NullLogger<CustomerBasketService>.Instance;
 
             var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<BasketsMapConfiguration>()));
 
-            var service = new CustomerBasketService(basketRepositoryMock.Object, logger, mapper);
+            var service = new CustomerBasketService(basketRepositoryMock.Object, logger, mapper, validatorMock.Object);
 
             TestServerCallContext serverCallContext = TestServerCallContext.Create();
 
@@ -82,7 +87,10 @@ namespace HelloShop.BasketService.UnitTests.Services
             var logger = NullLogger<CustomerBasketService>.Instance;
             var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<BasketsMapConfiguration>()));
 
-            var service = new CustomerBasketService(basketRepositoryMock.Object, logger, mapper);
+            var validatorMock = new Mock<IValidator<UpdateBasketRequest>>();
+            validatorMock.Setup(x => x.ValidateAsync(It.IsAny<UpdateBasketRequest>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
+
+            var service = new CustomerBasketService(basketRepositoryMock.Object, logger, mapper, validatorMock.Object);
 
             TestServerCallContext serverCallContext = TestServerCallContext.Create();
 
@@ -112,7 +120,10 @@ namespace HelloShop.BasketService.UnitTests.Services
             var basketRepositoryMock = new Mock<IBasketRepository>();
             var logger = NullLogger<CustomerBasketService>.Instance;
             var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<BasketsMapConfiguration>()));
-            var service = new CustomerBasketService(basketRepositoryMock.Object, logger, mapper);
+
+            var validatorMock = new Mock<IValidator<UpdateBasketRequest>>();
+
+            var service = new CustomerBasketService(basketRepositoryMock.Object, logger, mapper, validatorMock.Object);
 
             TestServerCallContext serverCallContext = TestServerCallContext.Create();
 

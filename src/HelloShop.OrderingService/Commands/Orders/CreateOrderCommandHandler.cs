@@ -8,7 +8,6 @@ using HelloShop.OrderingService.Entities.Orders;
 using HelloShop.OrderingService.Infrastructure;
 using HelloShop.OrderingService.LocalEvents;
 using HelloShop.OrderingService.Services;
-using HelloShop.ServiceDefaults.DistributedEvents.Abstractions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

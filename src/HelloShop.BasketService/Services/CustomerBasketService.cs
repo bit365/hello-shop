@@ -2,6 +2,7 @@
 // See the license file in the project root for more information.
 
 using AutoMapper;
+using FluentValidation;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using HelloShop.BasketService.Entities;
@@ -18,7 +19,7 @@ using System.Security.Claims;
 namespace HelloShop.BasketService.Services
 {
     [Authorize]
-    public class CustomerBasketService(IBasketRepository repository, ILogger<CustomerBasketService> logger, IMapper mapper) : Basket.BasketBase
+    public class CustomerBasketService(IBasketRepository repository, ILogger<CustomerBasketService> logger, IMapper mapper, IValidator<UpdateBasketRequest> validator) : Basket.BasketBase
     {
         public override async Task<CustomerBasketResponse> GetBasket(Empty request, ServerCallContext context)
         {
@@ -35,7 +36,7 @@ namespace HelloShop.BasketService.Services
 
             if (basket is not null)
             {
-                mapper.Map<CustomerBasketResponse>(basket);
+                return mapper.Map<CustomerBasketResponse>(basket);
             }
 
             return new();
@@ -43,6 +44,12 @@ namespace HelloShop.BasketService.Services
 
         public override async Task<CustomerBasketResponse> UpdateBasket(UpdateBasketRequest request, ServerCallContext context)
         {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+            {
+                throw new RpcException(new Status(StatusCode.InvalidArgument, validationResult.ToString()));
+            }
+
             string? nameIdentifier = context.GetHttpContext().User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (!int.TryParse(nameIdentifier, out int userId))

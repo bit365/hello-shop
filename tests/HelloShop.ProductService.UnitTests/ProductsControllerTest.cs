@@ -7,7 +7,7 @@ using HelloShop.ProductService.Controllers;
 using HelloShop.ProductService.Entities.Products;
 using HelloShop.ProductService.Infrastructure;
 using HelloShop.ProductService.Models.Products;
-using HelloShop.ProductService.UnitTests.Utilities;
+using HelloShop.ProductService.UnitTests.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HelloShop.ProductService.UnitTests

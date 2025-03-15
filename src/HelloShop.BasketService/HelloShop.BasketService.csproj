@@ -14,7 +14,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Aspire.StackExchange.Redis.DistributedCaching" Version="9.1.0" />
-    <PackageReference Include="Calzolari.Grpc.AspNetCore.Validation" Version="8.1.0" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.70.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Grpc.Swagger" Version="0.9.3" />

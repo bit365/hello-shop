@@ -1,7 +1,7 @@
 // Copyright (c) HelloShop Corporation. All rights reserved.
 // See the license file in the project root for more information.
 
-using HelloShop.ProductService.FunctionalTests.Utilities;
+using HelloShop.ProductService.FunctionalTests.Helpers;
 using HelloShop.ProductService.Models.Products;
 using System.Net;
 using System.Net.Http.Json;
@@ -31,7 +31,10 @@ namespace HelloShop.ProductService.FunctionalTests
 
             // Act
             HttpResponseMessage response = await client.GetAsync("api/Brands/1");
+            string responseContent = await response.Content.ReadAsStringAsync();
+
             BrandDetailsResponse? brandDetails = await response.Content.ReadFromJsonAsync<BrandDetailsResponse>();
+
 
             // Assert
             Assert.NotNull(brandDetails);

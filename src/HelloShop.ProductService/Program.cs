@@ -8,6 +8,8 @@ using HelloShop.ServiceDefaults.DistributedEvents.DaprBuildingBlocks;
 using HelloShop.ServiceDefaults.DistributedLocks;
 using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,15 @@ builder.AddServiceDefaults();
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+const string issuerSigningKey = HelloShop.ServiceDefaults.Constants.IdentityConstants.IssuerSigningKey;
+
+builder.Services.AddAuthentication().AddJwtBearer(options =>
+{
+    options.TokenValidationParameters.ValidateIssuer = false;
+    options.TokenValidationParameters.ValidateAudience = false;
+    options.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(issuerSigningKey));
+});
 
 // Add extensions services to the container.
 builder.Services.AddDbContext<ProductServiceDbContext>(options =>

@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace HelloShop.ProductService.FunctionalTests.Utilities
+namespace HelloShop.ProductService.FunctionalTests.Helpers
 {
     public class FakeAccessTokenCreator
     {

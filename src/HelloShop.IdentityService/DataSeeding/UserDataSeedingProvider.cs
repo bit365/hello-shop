@@ -6,7 +6,6 @@ using HelloShop.IdentityService.Infrastructure;
 using HelloShop.ServiceDefaults.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace HelloShop.IdentityService.DataSeeding
 {
