@@ -19,7 +19,7 @@ public class RemotePermissionChecker(IHttpContextAccessor httpContextAccessor, I
 
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-        httpClient.BaseAddress = new Uri("http://identityservice");
+        httpClient.BaseAddress = new Uri("https+http://identityservice");
 
         Dictionary<string, string?> parameters = new()
         {

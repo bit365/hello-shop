@@ -1,6 +1,7 @@
 // Copyright (c) HelloShop Corporation. All rights reserved.
 // See the license file in the project root for more information.
 
+using Aspire.Hosting;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using System.Dynamic;
 using System.Net;

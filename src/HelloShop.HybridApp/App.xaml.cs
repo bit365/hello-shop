@@ -8,8 +8,6 @@ namespace HelloShop.HybridApp
         public App()
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
         }
     }
 }
