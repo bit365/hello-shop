@@ -9,7 +9,7 @@ using System.Net.Http.Headers;
 
 namespace HelloShop.ServiceDefaults.Authorization;
 
-public class RemotePermissionChecker(IHttpContextAccessor httpContextAccessor, IDistributedCache distributedCache, IHttpClientFactory httpClientFactory) : PermissionChecker(httpContextAccessor, distributedCache)
+public class RemotePermissionChecker(IHttpContextAccessor httpContextAccessor, IDistributedCache distributedCache, IHttpClientFactory httpClientFactory,TimeProvider timeProvider) : PermissionChecker(httpContextAccessor, distributedCache, timeProvider)
 {
     public override async Task<bool> IsGrantedAsync(int roleId, string permissionName, string? resourceType = null, string? resourceId = null)
     {

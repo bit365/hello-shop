@@ -6,7 +6,7 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace HelloShop.ServiceDefaults.Authorization
 {
-    public class FakePermissionChecker(IHttpContextAccessor httpContextAccessor, IDistributedCache distributedCache) : PermissionChecker(httpContextAccessor, distributedCache)
+    public class FakePermissionChecker(IHttpContextAccessor httpContextAccessor, IDistributedCache distributedCache, TimeProvider timeProvider) : PermissionChecker(httpContextAccessor, distributedCache,timeProvider)
     {
         public override Task<bool> IsGrantedAsync(int roleId, string permissionName, string? resourceType = null, string? resourceId = null) => Task.FromResult(true);
     }

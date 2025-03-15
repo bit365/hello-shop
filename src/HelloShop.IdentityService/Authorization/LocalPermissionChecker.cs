@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace HelloShop.IdentityService.Authorization;
-public class LocalPermissionChecker(IHttpContextAccessor httpContextAccessor, IdentityServiceDbContext dbContext, IDistributedCache distributedCache) : PermissionChecker(httpContextAccessor, distributedCache)
+public class LocalPermissionChecker(IHttpContextAccessor httpContextAccessor, IdentityServiceDbContext dbContext, IDistributedCache distributedCache,TimeProvider timeProvider) : PermissionChecker(httpContextAccessor, distributedCache, timeProvider)
 {
     public override async Task<bool> IsGrantedAsync(int roleId, string name, string? resourceType = null, string? resourceId = null)
     {
