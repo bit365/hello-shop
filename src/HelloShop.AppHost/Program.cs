@@ -6,9 +6,11 @@ using HelloShop.AppHost.Extensions;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var cache = builder.AddRedis("cache", port: 6380).WithPersistence();
+var cache = builder.AddRedis("cache", port: 6380).WithLifetime(ContainerLifetime.Persistent).WithPersistence();
 
-var rabbitmq = builder.AddRabbitMQ("rabbitmq").WithManagementPlugin();
+var rabbitmqUser = builder.AddParameter("rabbitmqUser", secret: true);
+var rabbitmqPassword = builder.AddParameter("rabbitmqPassword", secret: true);
+var rabbitmq = builder.AddRabbitMQ("rabbitmq", rabbitmqUser, rabbitmqPassword).WithLifetime(ContainerLifetime.Persistent).WithManagementPlugin();
 
 var identityService = builder.AddProject<Projects.HelloShop_IdentityService>("identityservice")
     .WithDaprSidecar();
@@ -19,33 +21,33 @@ var orderingService = builder.AddProject<Projects.HelloShop_OrderingService>("or
     .WithReference(identityService)
     .WithDaprSidecar(options =>
     {
-        options.WithOptions(daprSidecarOptions).WithReference(rabbitmq).WithReference(cache);
+        options.WithOptions(daprSidecarOptions).WithReferenceAndWaitFor(rabbitmq).WithReferenceAndWaitFor(cache);
     });
 
 var productService = builder.AddProject<Projects.HelloShop_ProductService>("productservice")
-    .WithReference(identityService)
+    .WithReference(identityService).WaitFor(identityService)
     .WithDaprSidecar(options =>
     {
-        options.WithOptions(daprSidecarOptions).WithReference(rabbitmq).WithReference(cache);
-    }); ;
+        options.WithOptions(daprSidecarOptions).WithReferenceAndWaitFor(rabbitmq).WithReferenceAndWaitFor(cache);
+    });
 
 var basketService = builder.AddProject<Projects.HelloShop_BasketService>("basketservice")
-    .WithReference(identityService)
-    .WithReference(cache)
+    .WithReference(identityService).WaitFor(identityService)
+    .WithReference(cache).WaitFor(cache)
     .WithDaprSidecar(options =>
     {
-        options.WithOptions(daprSidecarOptions).WithReference(rabbitmq).WithReference(cache);
+        options.WithOptions(daprSidecarOptions).WithReferenceAndWaitFor(rabbitmq).WithReferenceAndWaitFor(cache);
     });
 
 var apiservice = builder.AddProject<Projects.HelloShop_ApiService>("apiservice")
-.WithReference(identityService)
-.WithReference(orderingService)
-.WithReference(productService)
-.WithReference(basketService)
+.WithReference(identityService).WaitFor(identityService)
+.WithReference(orderingService).WaitFor(orderingService)
+.WithReference(productService).WaitFor(productService)
+.WithReference(basketService).WaitFor(basketService)
 .WithDaprSidecar();
 
 builder.AddProject<Projects.HelloShop_WebApp>("webapp")
-    .WithReference(apiservice)
+    .WithReference(apiservice).WaitFor(apiservice)
     .WithDaprSidecar();
 
 builder.Build().Run();

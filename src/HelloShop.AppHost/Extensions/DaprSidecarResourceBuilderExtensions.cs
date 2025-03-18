@@ -8,13 +8,12 @@ namespace HelloShop.AppHost.Extensions
 {
     public static class DaprSidecarResourceBuilderExtensions
     {
-        public static IResourceBuilder<IDaprSidecarResource> WithReference(this IResourceBuilder<IDaprSidecarResource> builder, IResourceBuilder<IResourceWithConnectionString> resourceBuilder, int waitInSeconds = 10)
+        public static IResourceBuilder<IDaprSidecarResource> WithReferenceAndWaitFor(this IResourceBuilder<IDaprSidecarResource> builder, IResourceBuilder<IResourceWithConnectionString> resourceBuilder)
         {
             builder.WithAnnotation(new EnvironmentCallbackAnnotation(async context =>
             {
                 var notificationService = context.ExecutionContext.ServiceProvider.GetRequiredService<ResourceNotificationService>();
-                await notificationService.WaitForResourceAsync(resourceBuilder.Resource.Name, KnownResourceStates.Running);
-                await Task.Delay(TimeSpan.FromSeconds(waitInSeconds));
+                await notificationService.WaitForResourceHealthyAsync(resourceBuilder.Resource.Name);
                 var connectionStringName = resourceBuilder.Resource.ConnectionStringEnvironmentVariable ?? $"ConnectionStrings__{resourceBuilder.Resource.Name}";
                 context.EnvironmentVariables[connectionStringName] = new ConnectionStringReference(resourceBuilder.Resource, false);
             }));
