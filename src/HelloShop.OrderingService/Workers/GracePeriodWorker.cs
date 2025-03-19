@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HelloShop.OrderingService.Workers
 {
-    public class GracePeriodWorker(IServiceScopeFactory serviceScopeFactory, ILogger<GracePeriodWorker> logger,TimeProvider timeProvider) : BackgroundService
+    public class GracePeriodWorker(IServiceScopeFactory serviceScopeFactory, ILogger<GracePeriodWorker> logger, TimeProvider timeProvider) : BackgroundService
     {
         protected async override Task ExecuteAsync(CancellationToken stoppingToken)
         {

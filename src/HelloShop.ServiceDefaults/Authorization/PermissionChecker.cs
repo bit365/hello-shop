@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace HelloShop.ServiceDefaults.Authorization;
 
-public abstract class PermissionChecker(IHttpContextAccessor httpContextAccessor, IDistributedCache distributedCache,TimeProvider timeProvider) : IPermissionChecker
+public abstract class PermissionChecker(IHttpContextAccessor httpContextAccessor, IDistributedCache distributedCache, TimeProvider timeProvider) : IPermissionChecker
 {
     protected HttpContext HttpContext { get; init; } = httpContextAccessor.HttpContext ?? throw new InvalidOperationException();
 

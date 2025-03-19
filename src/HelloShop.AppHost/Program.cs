@@ -6,6 +6,14 @@ using HelloShop.AppHost.Extensions;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
+var postgreUser = builder.AddParameter("postgreUser", secret: true);
+var postgrePassword = builder.AddParameter("postgrePassword", secret: true);
+var postgres = builder.AddPostgres("postgres", postgreUser, postgrePassword, port: 5432).WithPgAdmin()
+    .WithLifetime(ContainerLifetime.Persistent);
+var identitydb = postgres.AddDatabase("identitydb");
+var productdb = postgres.AddDatabase("productdb");
+var orderingdb = postgres.AddDatabase("orderingdb");
+
 var cache = builder.AddRedis("cache", port: 6380).WithLifetime(ContainerLifetime.Persistent).WithPersistence();
 
 var rabbitmqUser = builder.AddParameter("rabbitmqUser", secret: true);
@@ -13,12 +21,14 @@ var rabbitmqPassword = builder.AddParameter("rabbitmqPassword", secret: true);
 var rabbitmq = builder.AddRabbitMQ("rabbitmq", rabbitmqUser, rabbitmqPassword).WithLifetime(ContainerLifetime.Persistent).WithManagementPlugin();
 
 var identityService = builder.AddProject<Projects.HelloShop_IdentityService>("identityservice")
+    .WithReference(identitydb).WaitFor(identitydb)
     .WithDaprSidecar();
 
 DaprSidecarOptions daprSidecarOptions = new() { ResourcesPaths = ["DaprComponents"] };
 
 var orderingService = builder.AddProject<Projects.HelloShop_OrderingService>("orderingservice")
     .WithReference(identityService)
+    .WithReference(orderingdb).WaitFor(orderingdb)
     .WithDaprSidecar(options =>
     {
         options.WithOptions(daprSidecarOptions).WithReferenceAndWaitFor(rabbitmq).WithReferenceAndWaitFor(cache);
@@ -26,6 +36,7 @@ var orderingService = builder.AddProject<Projects.HelloShop_OrderingService>("or
 
 var productService = builder.AddProject<Projects.HelloShop_ProductService>("productservice")
     .WithReference(identityService).WaitFor(identityService)
+    .WithReference(productdb).WaitFor(productdb)
     .WithDaprSidecar(options =>
     {
         options.WithOptions(daprSidecarOptions).WithReferenceAndWaitFor(rabbitmq).WithReferenceAndWaitFor(cache);

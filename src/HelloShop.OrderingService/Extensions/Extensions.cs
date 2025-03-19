@@ -12,6 +12,7 @@ using HelloShop.ServiceDefaults.DistributedEvents.DaprBuildingBlocks;
 using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 using System.Reflection;
 using System.Text;
 
@@ -34,9 +35,9 @@ namespace HelloShop.OrderingService.Extensions
 
             builder.Services.AddDataSeedingProviders();
 
-            builder.Services.AddDbContext<OrderingServiceDbContext>(options =>
+            builder.AddNpgsqlDbContext<OrderingServiceDbContext>(connectionName: DbConstants.MasterConnectionStringName, configureDbContextOptions: options =>
             {
-                options.UseNpgsql(builder.Configuration.GetConnectionString(DbConstants.MasterConnectionStringName), x => x.MigrationsHistoryTable(DbConstants.MigrationsHistoryTableName));
+                new NpgsqlDbContextOptionsBuilder(options).MigrationsHistoryTable(DbConstants.MigrationsHistoryTableName);
                 options.UseSnakeCaseNamingConvention();
             });
 

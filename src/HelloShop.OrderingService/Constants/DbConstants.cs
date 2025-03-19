@@ -5,9 +5,9 @@ namespace HelloShop.OrderingService.Constants
 {
     public class DbConstants
     {
-        public const string MasterConnectionStringName = "OrderingDatabaseMaster";
+        public const string MasterConnectionStringName = "orderingdb";
 
-        public const string SlaveConnectionStringName = "OrderingDatabaseSlave";
+        public const string SlaveConnectionStringName = "orderingdb";
 
         public const string MigrationsHistoryTableName = "migrations_history";
     }

@@ -11,6 +11,7 @@ using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,9 +22,10 @@ builder.AddServiceDefaults();
 
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<IdentityServiceDbContext>(options =>
+builder.AddNpgsqlDbContext<IdentityServiceDbContext>(connectionName: DbConstants.ConnectionStringName, configureDbContextOptions: options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString(DbConstants.ConnectionStringName), x => x.MigrationsHistoryTable(DbConstants.MigrationsHistoryTableName));
+    new NpgsqlDbContextOptionsBuilder(options).MigrationsHistoryTable(DbConstants.MigrationsHistoryTableName);
+    options.UseSnakeCaseNamingConvention();
 });
 
 builder.Services.AddIdentity<User, Role>(options =>

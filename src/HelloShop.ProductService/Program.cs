@@ -9,6 +9,7 @@ using HelloShop.ServiceDefaults.DistributedLocks;
 using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,9 +30,9 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
 });
 
 // Add extensions services to the container.
-builder.Services.AddDbContext<ProductServiceDbContext>(options =>
+builder.AddNpgsqlDbContext<ProductServiceDbContext>(connectionName: DbConstants.ConnectionStringName, configureDbContextOptions: options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString(DbConstants.ConnectionStringName), x => x.MigrationsHistoryTable(DbConstants.MigrationsHistoryTableName));
+    new NpgsqlDbContextOptionsBuilder(options).MigrationsHistoryTable(DbConstants.MigrationsHistoryTableName);
     options.UseSnakeCaseNamingConvention();
 });
 builder.Services.AddHttpClient().AddHttpContextAccessor().AddDistributedMemoryCache();
