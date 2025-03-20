@@ -2,13 +2,13 @@
 // See the license file in the project root for more information.
 
 using Dapr.Client;
-using HelloShop.ServiceDefaults.DistributedEvents.Abstractions;
+using HelloShop.EventBus.Abstractions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace HelloShop.ServiceDefaults.DistributedEvents.DaprBuildingBlocks
+namespace HelloShop.EventBus.Dapr
 {
-    public class DaprDistributedEventBus(DaprClient daprClient, IOptions<DaprDistributedEventBusOptions> options, ILogger<DaprDistributedEventBus> logger) : IDistributedEventBus
+    public class DaprEventBus(DaprClient daprClient, IOptions<DaprEventBusOptions> options, ILogger<DaprEventBus> logger) : IEventBus
     {
         public async Task PublishAsync(DistributedEvent @event, CancellationToken cancellationToken = default)
         {

@@ -3,9 +3,9 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace HelloShop.ServiceDefaults.DistributedEvents.Abstractions
+namespace HelloShop.EventBus.Abstractions
 {
-    public interface IDistributedEventBusBuilder
+    public interface IEventBusBuilder
     {
         public IServiceCollection Services { get; }
     }

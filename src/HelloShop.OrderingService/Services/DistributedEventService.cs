@@ -1,13 +1,13 @@
 ﻿// Copyright (c) HelloShop Corporation. All rights reserved.
 // See the license file in the project root for more information.
 
+using HelloShop.EventBus.Abstractions;
 using HelloShop.OrderingService.Entities.EventLogs;
-using HelloShop.ServiceDefaults.DistributedEvents.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace HelloShop.OrderingService.Services
 {
-    public class DistributedEventService<TContext>(TContext dbContext, IDistributedEventBus distributedEventBus, ILogger<DistributedEventService<TContext>> logger) : IDistributedEventService, IDisposable where TContext : DbContext
+    public class DistributedEventService<TContext>(TContext dbContext, IEventBus distributedEventBus, ILogger<DistributedEventService<TContext>> logger) : IDistributedEventService, IDisposable where TContext : DbContext
     {
         private volatile bool _disposedValue;
 

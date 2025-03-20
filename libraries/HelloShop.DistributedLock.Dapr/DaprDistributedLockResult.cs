@@ -3,7 +3,7 @@
 
 using Dapr.Client;
 
-namespace HelloShop.ServiceDefaults.DistributedLocks
+namespace HelloShop.DistributedLock.Dapr
 {
 #pragma warning disable CS0618
     public class DaprDistributedLockResult(TryLockResponse tryLockResponse) : IDistributedLockResult

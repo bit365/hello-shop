@@ -1,14 +1,14 @@
 ﻿// Copyright (c) HelloShop Corporation. All rights reserved.
 // See the license file in the project root for more information.
 
+using HelloShop.EventBus.Abstractions;
+using HelloShop.EventBus.Dapr;
 using HelloShop.OrderingService.Behaviors;
 using HelloShop.OrderingService.Constants;
 using HelloShop.OrderingService.Infrastructure;
 using HelloShop.OrderingService.Queries;
 using HelloShop.OrderingService.Services;
 using HelloShop.OrderingService.Workers;
-using HelloShop.ServiceDefaults.DistributedEvents.Abstractions;
-using HelloShop.ServiceDefaults.DistributedEvents.DaprBuildingBlocks;
 using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -57,7 +57,7 @@ namespace HelloShop.OrderingService.Extensions
 
             builder.Services.AddTransient<ISmsSender, MessageService>().AddTransient<IEmailSender, MessageService>();
 
-            builder.AddDaprDistributedEventBus().AddSubscriptionFromAssembly();
+            builder.AddDaprEventBus().AddSubscriptionFromAssembly();
 
             builder.Services.Configure<HostOptions>(hostOptions =>
             {
@@ -79,7 +79,7 @@ namespace HelloShop.OrderingService.Extensions
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseOpenApi();
             app.UseDataSeedingProviders();
-            app.MapDaprDistributedEventBus();
+            app.MapDaprEventBus();
 
             return app;
         }

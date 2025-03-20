@@ -3,7 +3,7 @@
 
 using HelloShop.BasketService.DistributedEvents.Events;
 using HelloShop.BasketService.Repositories;
-using HelloShop.ServiceDefaults.DistributedEvents.Abstractions;
+using HelloShop.EventBus.Abstractions;
 
 namespace HelloShop.BasketService.DistributedEvents.EventHandling
 {

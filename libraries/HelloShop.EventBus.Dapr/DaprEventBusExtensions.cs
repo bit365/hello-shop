@@ -1,9 +1,7 @@
 ﻿// Copyright (c) HelloShop Corporation. All rights reserved.
 // See the license file in the project root for more information.
 
-using FluentValidation;
-using FluentValidation.Results;
-using HelloShop.ServiceDefaults.DistributedEvents.Abstractions;
+using HelloShop.EventBus.Abstractions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -14,25 +12,25 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 
-namespace HelloShop.ServiceDefaults.DistributedEvents.DaprBuildingBlocks
+namespace HelloShop.EventBus.Dapr
 {
-    public static class DaprDistributedEventBusExtensions
+    public static class DaprEventBusExtensions
     {
-        private const string DefaultSectionName = "DaprDistributedEventBus";
+        private const string DefaultSectionName = "DaprEventBus";
 
-        public static IDistributedEventBusBuilder AddDaprDistributedEventBus(this IHostApplicationBuilder builder, string sectionName = DefaultSectionName)
+        public static IEventBusBuilder AddDaprEventBus(this IHostApplicationBuilder builder, string sectionName = DefaultSectionName)
         {
             ArgumentNullException.ThrowIfNull(builder);
 
             builder.Services.AddDaprClient();
 
-            DaprDistributedEventBusOptions daprOptions = new();
+            DaprEventBusOptions daprOptions = new();
 
             builder.Configuration.GetSection(sectionName).Bind(daprOptions);
 
             builder.Services.AddSingleton(Options.Create(daprOptions));
 
-            builder.Services.AddSingleton<IDistributedEventBus, DaprDistributedEventBus>();
+            builder.Services.AddSingleton<IEventBus, DaprEventBus>();
 
             if (daprOptions.RequireAuthenticatedDaprApiToken)
             {
@@ -43,18 +41,18 @@ namespace HelloShop.ServiceDefaults.DistributedEvents.DaprBuildingBlocks
             return new DistributedEventBusBuilder(builder.Services);
         }
 
-        private class DistributedEventBusBuilder(IServiceCollection services) : IDistributedEventBusBuilder
+        private class DistributedEventBusBuilder(IServiceCollection services) : IEventBusBuilder
         {
             public IServiceCollection Services => services;
         }
 
-        public static WebApplication MapDaprDistributedEventBus(this WebApplication app)
+        public static WebApplication MapDaprEventBus(this WebApplication app)
         {
             ArgumentNullException.ThrowIfNull(app);
 
-            var eventBusOptions = app.Services.GetRequiredService<IOptions<DistributedEventBusOptions>>().Value;
+            var eventBusOptions = app.Services.GetRequiredService<IOptions<EventBusOptions>>().Value;
 
-            var daprEventBusOptions = app.Services.GetRequiredService<IOptions<DaprDistributedEventBusOptions>>().Value;
+            var daprEventBusOptions = app.Services.GetRequiredService<IOptions<DaprEventBusOptions>>().Value;
 
             RouteHandlerBuilder routeHandler = app.MapPost($"/api/DistributedEvents", async (DaprCloudEvent<JsonElement> cloudEvent, IHttpContextAccessor contextAccessor) =>
             {
@@ -72,16 +70,6 @@ namespace HelloShop.ServiceDefaults.DistributedEvents.DaprBuildingBlocks
                     return Results.BadRequest();
                 }
 
-                if (httpContext.RequestServices.GetService(typeof(IValidator<>).MakeGenericType(eventType)) is IValidator validator)
-                {
-                    ValidationResult validationResult = await validator.ValidateAsync(new ValidationContext<DistributedEvent>(@event));
-
-                    if (!validationResult.IsValid)
-                    {
-                        return Results.ValidationProblem(validationResult.ToDictionary());
-                    }
-                }
-
                 foreach (var handler in httpContext.RequestServices.GetKeyedServices<IDistributedEventHandler>(eventType))
                 {
                     await handler.HandleAsync(@event);
@@ -91,12 +79,12 @@ namespace HelloShop.ServiceDefaults.DistributedEvents.DaprBuildingBlocks
 
             }).WithTags(nameof(DistributedEvent));
 
+            app.MapSubscribeHandler();
+
             foreach (var subscription in eventBusOptions.EventTypes)
             {
                 routeHandler.WithTopic(daprEventBusOptions.PubSubName, subscription.Key, enableRawPayload: false);
             }
-
-            app.MapSubscribeHandler();
 
             return app;
         }

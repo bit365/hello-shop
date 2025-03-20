@@ -4,7 +4,7 @@
 using Dapr;
 using System.Text.Json.Serialization;
 
-namespace HelloShop.ServiceDefaults.DistributedEvents.DaprBuildingBlocks
+namespace HelloShop.EventBus.Dapr
 {
     public class DaprCloudEvent<TData>(TData data) : CloudEvent<TData>(data)
     {

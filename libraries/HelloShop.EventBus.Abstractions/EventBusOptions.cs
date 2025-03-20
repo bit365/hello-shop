@@ -4,9 +4,9 @@
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 
-namespace HelloShop.ServiceDefaults.DistributedEvents.Abstractions
+namespace HelloShop.EventBus.Abstractions
 {
-    public class DistributedEventBusOptions
+    public class EventBusOptions
     {
         public Dictionary<string, Type> EventTypes { get; } = [];
 

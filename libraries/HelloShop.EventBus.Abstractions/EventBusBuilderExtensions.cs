@@ -5,13 +5,13 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Text.Json;
 
-namespace HelloShop.ServiceDefaults.DistributedEvents.Abstractions
+namespace HelloShop.EventBus.Abstractions
 {
-    public static class DistributedEventBusBuilderExtensions
+    public static class EventBusBuilderExtensions
     {
-        public static IDistributedEventBusBuilder ConfigureJsonOptions(this IDistributedEventBusBuilder eventBusBuilder, Action<JsonSerializerOptions> configure)
+        public static IEventBusBuilder ConfigureJsonOptions(this IEventBusBuilder eventBusBuilder, Action<JsonSerializerOptions> configure)
         {
-            eventBusBuilder.Services.Configure<DistributedEventBusOptions>(o =>
+            eventBusBuilder.Services.Configure<EventBusOptions>(o =>
             {
                 configure(o.JsonSerializerOptions);
             });
@@ -19,11 +19,11 @@ namespace HelloShop.ServiceDefaults.DistributedEvents.Abstractions
             return eventBusBuilder;
         }
 
-        public static IDistributedEventBusBuilder AddSubscription<TEvent, TEventHandler>(this IDistributedEventBusBuilder eventBusBuilder) where TEvent : DistributedEvent where TEventHandler : class, IDistributedEventHandler<TEvent>
+        public static IEventBusBuilder AddSubscription<TEvent, TEventHandler>(this IEventBusBuilder eventBusBuilder) where TEvent : DistributedEvent where TEventHandler : class, IDistributedEventHandler<TEvent>
         {
             eventBusBuilder.Services.AddKeyedTransient<IDistributedEventHandler, TEventHandler>(typeof(TEvent));
 
-            eventBusBuilder.Services.Configure<DistributedEventBusOptions>(o =>
+            eventBusBuilder.Services.Configure<EventBusOptions>(o =>
             {
                 o.EventTypes[typeof(TEvent).Name] = typeof(TEvent);
             });
@@ -31,11 +31,11 @@ namespace HelloShop.ServiceDefaults.DistributedEvents.Abstractions
             return eventBusBuilder;
         }
 
-        public static IDistributedEventBusBuilder AddSubscription(this IDistributedEventBusBuilder eventBusBuilder, Type eventType, Type eventHandlerType)
+        public static IEventBusBuilder AddSubscription(this IEventBusBuilder eventBusBuilder, Type eventType, Type eventHandlerType)
         {
             eventBusBuilder.Services.AddKeyedTransient(typeof(IDistributedEventHandler), eventType, eventHandlerType);
 
-            eventBusBuilder.Services.Configure<DistributedEventBusOptions>(o =>
+            eventBusBuilder.Services.Configure<EventBusOptions>(o =>
             {
                 o.EventTypes[eventType.Name] = eventType;
             });
@@ -43,7 +43,7 @@ namespace HelloShop.ServiceDefaults.DistributedEvents.Abstractions
             return eventBusBuilder;
         }
 
-        public static IDistributedEventBusBuilder AddSubscriptionFromAssembly(this IDistributedEventBusBuilder eventBusBuilder, Assembly? assembly = null)
+        public static IEventBusBuilder AddSubscriptionFromAssembly(this IEventBusBuilder eventBusBuilder, Assembly? assembly = null)
         {
             assembly ??= Assembly.GetCallingAssembly();
 

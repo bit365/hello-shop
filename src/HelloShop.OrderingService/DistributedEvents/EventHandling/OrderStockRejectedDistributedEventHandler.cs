@@ -1,10 +1,10 @@
 ﻿// Copyright (c) HelloShop Corporation. All rights reserved.
 // See the license file in the project root for more information.
 
+using HelloShop.EventBus.Abstractions;
 using HelloShop.OrderingService.DistributedEvents.Events;
 using HelloShop.OrderingService.Entities.Orders;
 using HelloShop.OrderingService.Infrastructure;
-using HelloShop.ServiceDefaults.DistributedEvents.Abstractions;
 
 namespace HelloShop.OrderingService.DistributedEvents.EventHandling
 {

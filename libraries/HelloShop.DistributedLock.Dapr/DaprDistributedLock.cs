@@ -4,7 +4,7 @@
 using Dapr.Client;
 using System.Diagnostics;
 
-namespace HelloShop.ServiceDefaults.DistributedLocks
+namespace HelloShop.DistributedLock.Dapr
 {
     public class DaprDistributedLock(DaprClient daprClient) : IDistributedLock
     {
@@ -12,9 +12,10 @@ namespace HelloShop.ServiceDefaults.DistributedLocks
         {
             expiryInSeconds = expiryInSeconds == default ? 60 : expiryInSeconds;
 
+            // The CallerMemberNameAttribute is used to get the name of the calling method.
             string? lockOwner = new StackTrace().GetFrame(1)?.GetMethod()?.DeclaringType?.Name;
 
-#pragma warning disable CS0618 
+#pragma warning disable CS0618
             TryLockResponse response = await daprClient.Lock("lockstore", resourceId, lockOwner, expiryInSeconds, cancellationToken);
 #pragma warning restore CS0618
 

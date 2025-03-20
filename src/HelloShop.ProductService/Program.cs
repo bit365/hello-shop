@@ -1,11 +1,11 @@
 // Copyright (c) HelloShop Corporation. All rights reserved.
 // See the license file in the project root for more information.
 
+using HelloShop.DistributedLock.Dapr;
+using HelloShop.EventBus.Abstractions;
+using HelloShop.EventBus.Dapr;
 using HelloShop.ProductService.Constants;
 using HelloShop.ProductService.Infrastructure;
-using HelloShop.ServiceDefaults.DistributedEvents.Abstractions;
-using HelloShop.ServiceDefaults.DistributedEvents.DaprBuildingBlocks;
-using HelloShop.ServiceDefaults.DistributedLocks;
 using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -42,8 +42,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddModelMapper().AddModelValidator();
 builder.Services.AddLocalization().AddPermissionDefinitions();
 builder.Services.AddAuthorization().AddRemotePermissionChecker().AddCustomAuthorization();
-builder.AddDaprDistributedEventBus().AddSubscriptionFromAssembly();
-builder.Services.AddSingleton<IDistributedLock, DaprDistributedLock>();
+builder.AddDaprEventBus().AddSubscriptionFromAssembly();
+builder.Services.AddDaprDistributedLock();
 builder.Services.AddSingleton(TimeProvider.System);
 // End addd extensions services to the container.
 
@@ -62,7 +62,7 @@ app.UseDataSeedingProviders();
 app.UseCustomLocalization();
 app.UseOpenApi();
 app.MapGroup("api/Permissions").MapPermissionDefinitions("Permissions");
-app.MapDaprDistributedEventBus();
+app.MapDaprEventBus();
 // End configure extensions request pipeline.
 
 app.Run();

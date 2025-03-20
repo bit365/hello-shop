@@ -4,7 +4,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace HelloShop.ServiceDefaults.DistributedEvents.Abstractions
+namespace HelloShop.EventBus.Abstractions
 {
     public record DistributedEvent
     {
