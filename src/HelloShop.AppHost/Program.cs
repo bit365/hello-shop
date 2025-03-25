@@ -8,8 +8,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var postgreUser = builder.AddParameter("postgreUser", secret: true);
 var postgrePassword = builder.AddParameter("postgrePassword", secret: true);
-var postgres = builder.AddPostgres("postgres", postgreUser, postgrePassword, port: 5432).WithPgAdmin()
-    .WithLifetime(ContainerLifetime.Persistent);
+var postgres = builder.AddPostgres("postgres", postgreUser, postgrePassword, port: 5432).WithPgAdmin();
 var identitydb = postgres.AddDatabase("identitydb");
 var productdb = postgres.AddDatabase("productdb");
 var orderingdb = postgres.AddDatabase("orderingdb");

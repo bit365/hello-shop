@@ -33,13 +33,13 @@ namespace HelloShop.OrderingService.Extensions
 
             builder.Services.AddHttpContextAccessor();
 
-            builder.Services.AddDataSeedingProviders();
-
             builder.AddNpgsqlDbContext<OrderingServiceDbContext>(connectionName: DbConstants.MasterConnectionStringName, configureDbContextOptions: options =>
             {
                 new NpgsqlDbContextOptionsBuilder(options).MigrationsHistoryTable(DbConstants.MigrationsHistoryTableName);
                 options.UseSnakeCaseNamingConvention();
             });
+
+            builder.Services.AddSingleton<MigrationService<OrderingServiceDbContext>>().AddHostedService<DataSeeder>();
 
             builder.Services.AddScoped<IClientRequestManager, ClientRequestManager>();
 
@@ -78,7 +78,6 @@ namespace HelloShop.OrderingService.Extensions
         {
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseOpenApi();
-            app.UseDataSeedingProviders();
             app.MapDaprEventBus();
 
             return app;

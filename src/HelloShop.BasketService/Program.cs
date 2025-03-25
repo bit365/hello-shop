@@ -34,7 +34,6 @@ builder.Services.AddGrpc().AddJsonTranscoding();
 builder.Services.AddGrpcSwagger();
 builder.Services.AddOpenApi();
 
-builder.Services.AddDataSeedingProviders();
 builder.Services.AddCustomLocalization();
 builder.Services.AddModelMapper().AddModelValidator();
 builder.Services.AddLocalization().AddPermissionDefinitions();
@@ -59,7 +58,6 @@ app.MapDaprEventBus();
 app.UseAuthentication().UseAuthorization();
 app.MapGrpcService<GreeterService>();
 app.MapGrpcService<CustomerBasketService>();
-app.UseDataSeedingProviders();
 app.UseCustomLocalization();
 app.UseOpenApi();
 app.MapGroup("api/Permissions").MapPermissionDefinitions("Permissions");

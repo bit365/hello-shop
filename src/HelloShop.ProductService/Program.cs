@@ -6,6 +6,8 @@ using HelloShop.EventBus.Abstractions;
 using HelloShop.EventBus.Dapr;
 using HelloShop.ProductService.Constants;
 using HelloShop.ProductService.Infrastructure;
+using HelloShop.ProductService.Services;
+using HelloShop.ProductService.Workers;
 using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -35,8 +37,8 @@ builder.AddNpgsqlDbContext<ProductServiceDbContext>(connectionName: DbConstants.
     new NpgsqlDbContextOptionsBuilder(options).MigrationsHistoryTable(DbConstants.MigrationsHistoryTableName);
     options.UseSnakeCaseNamingConvention();
 });
+builder.Services.AddSingleton<MigrationService<ProductServiceDbContext>>().AddHostedService<DataSeeder>();
 builder.Services.AddHttpClient().AddHttpContextAccessor().AddDistributedMemoryCache();
-builder.Services.AddDataSeedingProviders();
 builder.Services.AddCustomLocalization();
 builder.Services.AddOpenApi();
 builder.Services.AddModelMapper().AddModelValidator();
@@ -58,14 +60,15 @@ app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(
 app.MapControllers();
 
 // Configure extensions request pipeline.
-app.UseDataSeedingProviders();
 app.UseCustomLocalization();
 app.UseOpenApi();
 app.MapGroup("api/Permissions").MapPermissionDefinitions("Permissions");
 app.MapDaprEventBus();
 // End configure extensions request pipeline.
 
-app.Run();
+await app.Services.GetRequiredService<MigrationService<ProductServiceDbContext>>().ExecuteAsync();
+
+await app.RunAsync();
 
 /// <summary>
 ///  The test project requires a public Program type.

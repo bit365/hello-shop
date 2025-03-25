@@ -6,6 +6,8 @@ using HelloShop.IdentityService.Authorization;
 using HelloShop.IdentityService.Constants;
 using HelloShop.IdentityService.Entities;
 using HelloShop.IdentityService.Infrastructure;
+using HelloShop.IdentityService.Services;
+using HelloShop.IdentityService.Workers;
 using HelloShop.ServiceDefaults.Authorization;
 using HelloShop.ServiceDefaults.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -27,6 +29,8 @@ builder.AddNpgsqlDbContext<IdentityServiceDbContext>(connectionName: DbConstants
     new NpgsqlDbContextOptionsBuilder(options).MigrationsHistoryTable(DbConstants.MigrationsHistoryTableName);
     options.UseSnakeCaseNamingConvention();
 });
+
+builder.Services.AddSingleton<MigrationService<IdentityServiceDbContext>>().AddHostedService<DataSeeder>();
 
 builder.Services.AddIdentity<User, Role>(options =>
 {
@@ -57,7 +61,6 @@ builder.Services.AddAuthentication(options =>
     options.SecurityAlgorithm = SecurityAlgorithms.HmacSha256;
 });
 
-builder.Services.AddDataSeedingProviders();
 builder.Services.AddOpenApi();
 builder.Services.AddPermissionDefinitions();
 builder.Services.AddAuthorization().AddDistributedMemoryCache().AddHttpClient().AddHttpContextAccessor().AddTransient<IPermissionChecker, LocalPermissionChecker>().AddCustomAuthorization();
@@ -75,9 +78,10 @@ app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(
 
 app.MapControllers();
 
-app.UseDataSeedingProviders();
 app.UseOpenApi();
 app.MapGroup("api/Permissions").MapPermissionDefinitions("Permissions");
 app.UseCustomLocalization();
 
-app.Run();
+await app.Services.GetRequiredService<MigrationService<IdentityServiceDbContext>>().ExecuteAsync();
+
+await app.RunAsync();
