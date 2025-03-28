@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libraries\HelloShop.EventBus.Dapr\HelloShop.EventBus.Dapr.csproj" />
+    <ProjectReference Include="..\..\libraries\HelloShop.EventBus.Logging\HelloShop.EventBus.Logging.csproj" />
     <ProjectReference Include="..\HelloShop.ServiceDefaults\HelloShop.ServiceDefaults.csproj" />
   </ItemGroup>
   <ItemGroup>

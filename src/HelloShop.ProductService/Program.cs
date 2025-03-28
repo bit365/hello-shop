@@ -4,6 +4,7 @@
 using HelloShop.DistributedLock.Dapr;
 using HelloShop.EventBus.Abstractions;
 using HelloShop.EventBus.Dapr;
+using HelloShop.EventBus.Logging;
 using HelloShop.ProductService.Constants;
 using HelloShop.ProductService.Infrastructure;
 using HelloShop.ProductService.Services;
@@ -47,6 +48,7 @@ builder.Services.AddAuthorization().AddRemotePermissionChecker().AddCustomAuthor
 builder.AddDaprEventBus().AddSubscriptionFromAssembly();
 builder.Services.AddDaprDistributedLock();
 builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.AddDistributedEventLogs<ProductServiceDbContext>().AddTransient<IDistributedEventService, DistributedEventService>();
 // End addd extensions services to the container.
 
 var app = builder.Build();

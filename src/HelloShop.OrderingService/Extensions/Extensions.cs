@@ -3,6 +3,7 @@
 
 using HelloShop.EventBus.Abstractions;
 using HelloShop.EventBus.Dapr;
+using HelloShop.EventBus.Logging;
 using HelloShop.OrderingService.Behaviors;
 using HelloShop.OrderingService.Constants;
 using HelloShop.OrderingService.Infrastructure;
@@ -67,7 +68,7 @@ namespace HelloShop.OrderingService.Extensions
             builder.Services.AddHostedService<GracePeriodWorker>();
             builder.Services.AddHostedService<PaymentWorker>();
 
-            builder.Services.AddTransient<IDistributedEventService, DistributedEventService<OrderingServiceDbContext>>();
+            builder.Services.AddDistributedEventLogs<OrderingServiceDbContext>().AddTransient<IDistributedEventService, DistributedEventService>();
 
             builder.Services.AddOpenApi();
 

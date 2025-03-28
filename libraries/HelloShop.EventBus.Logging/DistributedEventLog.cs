@@ -4,7 +4,7 @@
 using HelloShop.EventBus.Abstractions;
 using System.Diagnostics.CodeAnalysis;
 
-namespace HelloShop.OrderingService.Entities.EventLogs
+namespace HelloShop.EventBus.Logging
 {
     public enum DistributedEventStatus { NotPublished, InProgress, Published, PublishedFailed }
 
@@ -20,7 +20,7 @@ namespace HelloShop.OrderingService.Entities.EventLogs
 
         public int TimesSent { get; set; }
 
-        public DateTimeOffset CreationTime { get; set; } = DateTimeOffset.UtcNow;
+        public DateTimeOffset CreationTime { get; init; } = TimeProvider.System.GetUtcNow();
 
         public required Guid TransactionId { get; set; }
 

@@ -7,7 +7,7 @@ namespace HelloShop.EventBus.RabbitMQ
     {
         public string ExchangeName { get; set; } = "event-bus-exchange";
 
-        public required string QueueName { get; set; }
+        public required string QueueName { get; set; } = "event-bus-queue";
 
         public int RetryCount { get; set; } = 10;
     }

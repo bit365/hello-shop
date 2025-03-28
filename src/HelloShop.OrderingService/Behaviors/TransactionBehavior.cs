@@ -41,7 +41,7 @@ namespace HelloShop.OrderingService.Behaviors
 
                         _logger.LogInformation("Commit transaction {TransactionId} for {CommandName}", transaction.TransactionId, typeName);
                     }
-
+                    await dbContext.SaveChangesAsync(cancellationToken);
                     await transaction.CommitAsync();
 
                     await eventService.PublishEventsThroughEventBusAsync(transaction.TransactionId, cancellationToken);

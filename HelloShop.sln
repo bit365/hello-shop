@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloShop.DistributedLock",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloShop.DistributedLock.Dapr", "libraries\HelloShop.DistributedLock.Dapr\HelloShop.DistributedLock.Dapr.csproj", "{37F01A0B-50D6-48BA-8A20-FBADB5524CD7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloShop.EventBus.Logging", "libraries\HelloShop.EventBus.Logging\HelloShop.EventBus.Logging.csproj", "{ACBA2FA9-ADBB-4FCD-A303-6D8D4B2131AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,6 +127,10 @@ Global
 		{37F01A0B-50D6-48BA-8A20-FBADB5524CD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37F01A0B-50D6-48BA-8A20-FBADB5524CD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37F01A0B-50D6-48BA-8A20-FBADB5524CD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACBA2FA9-ADBB-4FCD-A303-6D8D4B2131AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACBA2FA9-ADBB-4FCD-A303-6D8D4B2131AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACBA2FA9-ADBB-4FCD-A303-6D8D4B2131AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACBA2FA9-ADBB-4FCD-A303-6D8D4B2131AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -148,6 +154,7 @@ Global
 		{5D403BF6-9267-4B0F-AEB3-2143C8BBA8CD} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{86729635-8E31-4C53-81AE-7C410C848219} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{37F01A0B-50D6-48BA-8A20-FBADB5524CD7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{ACBA2FA9-ADBB-4FCD-A303-6D8D4B2131AA} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {845545A8-2006-46C3-ABD7-5BDF63F3858C}

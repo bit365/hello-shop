@@ -6,10 +6,11 @@ using HelloShop.EventBus.Abstractions;
 using HelloShop.ProductService.DistributedEvents.Events;
 using HelloShop.ProductService.Entities.Products;
 using HelloShop.ProductService.Infrastructure;
+using HelloShop.ProductService.Services;
 
 namespace HelloShop.ProductService.DistributedEvents.EventHandling
 {
-    public class OrderAwaitingValidationDistributedEventHandler(ProductServiceDbContext dbContext, IEventBus distributedEventBus, IDistributedLock distributedLock, ILogger<OrderAwaitingValidationDistributedEventHandler> logger) : IDistributedEventHandler<OrderAwaitingValidationDistributedEvent>
+    public class OrderAwaitingValidationDistributedEventHandler(ProductServiceDbContext dbContext, IDistributedEventService distributedEventService, IDistributedLock distributedLock, ILogger<OrderAwaitingValidationDistributedEventHandler> logger) : IDistributedEventHandler<OrderAwaitingValidationDistributedEvent>
     {
         public async Task HandleAsync(OrderAwaitingValidationDistributedEvent @event)
         {
@@ -30,7 +31,8 @@ namespace HelloShop.ProductService.DistributedEvents.EventHandling
 
             DistributedEvent confirmedEvent = confirmedOrderStockItems.All(c => c.Value) ? new OrderStockConfirmedDistributedEvent(@event.OrderId) : new OrderStockRejectedDistributedEvent(@event.OrderId);
 
-            await distributedEventBus.PublishAsync(confirmedEvent);
+            await distributedEventService.SaveEventAndDbContextChangesAsync(confirmedEvent);
+            await distributedEventService.PublishThroughEventBusAsync(confirmedEvent);
         }
     }
 }

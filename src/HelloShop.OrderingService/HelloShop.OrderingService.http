@@ -1,9 +1,12 @@
-@HelloShop.OrderingService_HostAddress = https://localhost:8105
+@HelloWorld.OrderingService_HostAddress = https://localhost:8105
+@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGVpZCI6IjEiLCJuYmYiOjE3NDI4Njg1ODAsImV4cCI6MTc2NDkwMDU4MCwiaWF0IjoxNzQyODY4NTgwfQ.6Wm6S4CNtKi9lGqxam4_ZnDebnTXVxycDubbv0DLy2c
 
-POST {{HelloShop.OrderingService_HostAddress}}/api/orders
+###
+
+POST {{HelloWorld.OrderingService_HostAddress}}/api/orders
 Content-Type: application/json
-x-request-id: 8ddc1737-6a31-4b4f-bccd-63d0966348a1
-Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGVpZCI6IjEiLCJuYmYiOjE3MjA1NzY3NDYsImV4cCI6MTc0MjYwODc0NiwiaWF0IjoxNzIwNTc2NzQ2fQ.ju_D3zeGLKqJYVckbb8Y3yNkp40nOqRAJrdOsISs4d4
+x-request-id: 1ddc1737-6a32-4b4f-bccd-63d0966348a3
+Authorization : Bearer {{AccessToken}}
 
 {
   "country": "USA",
@@ -36,12 +39,20 @@ Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwi
 
 ###
 
-GET {{HelloShop.OrderingService_HostAddress}}/api/orders
+GET {{HelloWorld.OrderingService_HostAddress}}/api/orders
 Content-Type: application/json
-Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGVpZCI6IjEiLCJuYmYiOjE3MjA1NzY3NDYsImV4cCI6MTc0MjYwODc0NiwiaWF0IjoxNzIwNTc2NzQ2fQ.ju_D3zeGLKqJYVckbb8Y3yNkp40nOqRAJrdOsISs4d4
+Authorization : Bearer {{AccessToken}}
 
 ###
 
-GET {{HelloShop.OrderingService_HostAddress}}/api/orders/1
+GET {{HelloWorld.OrderingService_HostAddress}}/api/orders/1
 Content-Type: application/json
-Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGVpZCI6IjEiLCJuYmYiOjE3MjA1NzY3NDYsImV4cCI6MTc0MjYwODc0NiwiaWF0IjoxNzIwNTc2NzQ2fQ.ju_D3zeGLKqJYVckbb8Y3yNkp40nOqRAJrdOsISs4d4
+Authorization : Bearer {{AccessToken}}
+
+###
+
+
+PUT {{HelloWorld.OrderingService_HostAddress}}/api/orders/ship/1
+Content-Type: application/json
+x-request-id: 1ddc1737-6a32-4b4f-bccd-63d0966348a1
+Authorization : Bearer {{AccessToken}}
