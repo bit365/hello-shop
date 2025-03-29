@@ -28,7 +28,8 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
 
 builder.Services.AddHttpContextAccessor();
 builder.AddRedisDistributedCache("cache");
-builder.Services.AddSingleton<IBasketRepository, DistributedCacheBasketRepository>();
+builder.Services.AddHybridCache();
+builder.Services.AddSingleton<IBasketRepository, BasketRepository>();
 
 builder.Services.AddGrpc().AddJsonTranscoding();
 builder.Services.AddGrpcSwagger();

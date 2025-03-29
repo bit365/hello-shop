@@ -7,10 +7,10 @@ namespace HelloShop.BasketService.Repositories
 {
     public interface IBasketRepository
     {
-        Task<CustomerBasket?> GetBasketAsync(int customerId, CancellationToken token = default);
+        Task<CustomerBasket?> GetBasketAsync(int customerId, CancellationToken cancellationToken = default);
 
-        Task<CustomerBasket?> UpdateBasketAsync(CustomerBasket basket, CancellationToken token = default);
+        Task<CustomerBasket?> UpdateBasketAsync(CustomerBasket basket, CancellationToken cancellationToken = default);
 
-        Task DeleteBasketAsync(int customerId, CancellationToken token = default);
+        Task DeleteBasketAsync(int customerId, CancellationToken cancellationToken = default);
     }
 }
