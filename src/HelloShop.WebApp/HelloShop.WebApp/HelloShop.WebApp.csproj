@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\HelloShop.AppShared\HelloShop.AppShared.csproj" />
+    <ProjectReference Include="..\..\HelloShop.ServiceDefaults\HelloShop.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\HelloShop.WebApp.Client\HelloShop.WebApp.Client.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
+  </ItemGroup>
+
+</Project>
