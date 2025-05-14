@@ -2,9 +2,7 @@
 // See the license file in the project root for more information.
 
 using HelloShop.BasketService.Entities;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Hybrid;
-using System.Threading;
 
 namespace HelloShop.BasketService.Repositories
 {
@@ -15,7 +13,7 @@ namespace HelloShop.BasketService.Repositories
         private static string GetBasketKey(int customerId) => $"{BasketKeyPrefix}:{customerId}";
 
         public async Task DeleteBasketAsync(int customerId, CancellationToken cancellationToken = default) => await cache.RemoveAsync(GetBasketKey(customerId), cancellationToken);
-        
+
         public async Task<CustomerBasket?> GetBasketAsync(int customerId, CancellationToken cancellationToken = default)
         {
             return await cache.GetOrCreateAsync(GetBasketKey(customerId), async cancel => await Task.FromResult<CustomerBasket?>(default), cancellationToken: cancellationToken);

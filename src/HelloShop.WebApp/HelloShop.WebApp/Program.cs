@@ -1,4 +1,6 @@
-using HelloShop.WebApp.Client.Pages;
+// Copyright (c) HelloShop Corporation. All rights reserved.
+// See the license file in the project root for more information.
+
 using HelloShop.WebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,6 +37,9 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(HelloShop.WebApp.Client._Imports).Assembly);
+    .AddAdditionalAssemblies(
+        typeof(HelloShop.AppShared._Imports).Assembly,
+        typeof(HelloShop.WebApp.Client._Imports).Assembly
+    );
 
 app.Run();
