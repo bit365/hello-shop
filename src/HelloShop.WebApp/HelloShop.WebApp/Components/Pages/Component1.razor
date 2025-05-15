@@ -1,4 +1,15 @@
 ﻿@page "/component1"
 @rendermode InteractiveServer
 
-<h3>Component1</h3>
+@using HelloShop.AppShared.Components.Demo
+
+<h1>Component1</h1>
+
+<div class="border my-3 p-3">
+    <CountComponent Title="Counter1" InitCount="1"></CountComponent>
+</div>
+
+<div class="border my-3 p-3">
+    <CountComponent Title="Counter2" InitCount="2"></CountComponent>
+</div>
+

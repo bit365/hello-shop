@@ -13,7 +13,8 @@ var identitydb = postgres.AddDatabase("identitydb");
 var productdb = postgres.AddDatabase("productdb");
 var orderingdb = postgres.AddDatabase("orderingdb");
 
-var cache = builder.AddRedis("cache", port: 6380).WithLifetime(ContainerLifetime.Persistent).WithPersistence();
+var redisPassword = builder.AddParameter("redisPassword", secret: true);
+var cache = builder.AddRedis("cache", port: 6379, password: redisPassword).WithLifetime(ContainerLifetime.Persistent).WithPersistence();
 
 var rabbitmqUser = builder.AddParameter("rabbitmqUser", secret: true);
 var rabbitmqPassword = builder.AddParameter("rabbitmqPassword", secret: true);

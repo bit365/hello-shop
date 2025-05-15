@@ -7,9 +7,8 @@ spec:
   version: v1
   metadata:
   - name: redisHost
-    secretKeyRef:
-       name: ConnectionStrings__cache
+    value: "localhost:6379"
   - name: redisPassword
-    value: ""
+    value: "guest"
 auth:
   secretStore: env-secretstore
