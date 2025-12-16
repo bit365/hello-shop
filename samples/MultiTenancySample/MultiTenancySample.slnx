@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="MultiTenancySample.DatabaseIsolationService/MultiTenancySample.DatabaseIsolationService.csproj" />
+  <Project Path="MultiTenancySample.FieldIsolationService/MultiTenancySample.FieldIsolationService.csproj" />
+  <Project Path="MultiTenancySample.SchemaIsolationService/MultiTenancySample.SchemaIsolationService.csproj" />
+  <Project Path="MultiTenancySample.ServiceDefaults/MultiTenancySample.ServiceDefaults.csproj" />
+</Solution>

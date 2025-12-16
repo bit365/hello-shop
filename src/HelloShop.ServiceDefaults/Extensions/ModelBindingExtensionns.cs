@@ -2,9 +2,9 @@
 // See the license file in the project root for more information.
 
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using HelloShop.ServiceDefaults.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using System.Reflection;
 
 namespace HelloShop.ServiceDefaults.Extensions;
@@ -15,7 +15,10 @@ public static class ModelBindingExtensionns
     {
         assembly ??= Assembly.GetCallingAssembly();
 
-        services.AddAutoMapper(assembly);
+        services.AddAutoMapper(cfg =>
+        {
+            cfg.AddMaps(assembly);
+        });
 
         return services;
     }

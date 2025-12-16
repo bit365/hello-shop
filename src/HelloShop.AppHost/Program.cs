@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Aspire.Hosting.Dapr;
 using HelloShop.AppHost.Extensions;
+using k8s.Models;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -50,7 +51,7 @@ var basketService = builder.AddProject<Projects.HelloShop_BasketService>("basket
         options.WithOptions(daprSidecarOptions).WithReferenceAndWaitFor(rabbitmq).WithReferenceAndWaitFor(cache);
     });
 
-var apiservice = builder.AddProject<Projects.HelloShop_ApiService>("apiservice")
+var apiService = builder.AddProject<Projects.HelloShop_ApiService>("apiservice")
 .WithReference(identityService).WaitFor(identityService)
 .WithReference(orderingService).WaitFor(orderingService)
 .WithReference(productService).WaitFor(productService)
@@ -58,7 +59,14 @@ var apiservice = builder.AddProject<Projects.HelloShop_ApiService>("apiservice")
 .WithDaprSidecar();
 
 builder.AddProject<Projects.HelloShop_WebApp>("webapp")
-    .WithReference(apiservice).WaitFor(apiservice)
+    .WithReference(apiService).WaitFor(apiService)
     .WithDaprSidecar();
+
+var mauiapp = builder.AddMauiProject("hybridapp", "../HelloShop.HybridApp/HelloShop.HybridApp.csproj");
+
+mauiapp.AddWindowsDevice().WithReference(apiService).WaitFor(apiService);
+mauiapp.AddMacCatalystDevice().WithReference(apiService).WaitFor(apiService);
+mauiapp.AddiOSSimulator().WithReference(apiService).WaitFor(apiService);
+mauiapp.AddAndroidEmulator().WithReference(apiService).WaitFor(apiService);
 
 builder.Build().Run();

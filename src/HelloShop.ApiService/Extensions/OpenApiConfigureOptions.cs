@@ -17,7 +17,7 @@ public class OpenApiConfigureOptions(IConfiguredServiceEndPointResolver serviceR
         {
             foreach (var endPoint in serviceEndpoint.Endpoints ?? [])
             {
-                UriBuilder uriBuilder = new(endPoint) { Path = "swagger/v1/swagger.json" };
+                UriBuilder uriBuilder = new(endPoint) { Path = "/openapi/v1.json" };
 
                 try
                 {
@@ -35,12 +35,15 @@ public class OpenApiConfigureOptions(IConfiguredServiceEndPointResolver serviceR
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "Failed to get swagger endpoint for {ServiceName}", serviceEndpoint.ServiceName);
+                    if (logger.IsEnabled(LogLevel.Error))
+                    {
+                        logger.LogError(ex, "Failed to get swagger endpoint for {ServiceName}", serviceEndpoint.ServiceName);
+                    }
                 }
             }
         }
         options.ConfigObject.Urls = urlDescriptors;
 
-        options.SwaggerEndpoint("v1/swagger.json", "apiservice");
+        options.SwaggerEndpoint("/openapi/v1.json", "apiservice");
     }
 }

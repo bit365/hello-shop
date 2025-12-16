@@ -7,6 +7,7 @@ using HelloShop.ProductService.Entities.Products;
 using HelloShop.ProductService.Models.Products;
 using HelloShop.ProductService.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 
 namespace HelloShop.ProductService.UnitTests
@@ -22,7 +23,7 @@ namespace HelloShop.ProductService.UnitTests
             mock.Setup(m => m.FindAsync(It.Is<int>(id => id == 1), It.IsAny<CancellationToken>())).ReturnsAsync((Product?)null);
 
             // Act
-            IMapper mapper = new Mapper(new MapperConfiguration(cfg => cfg.CreateMap<Product, ProductDetailsResponse>()));
+            IMapper mapper = new Mapper(new MapperConfiguration(cfg => cfg.CreateMap<Product, ProductDetailsResponse>(), new NullLoggerFactory()));
             MockProductsController mockProductsController = new(mock.Object, mapper);
             ActionResult<ProductDetailsResponse> result = await mockProductsController.GetProduct(1);
 
@@ -44,7 +45,7 @@ namespace HelloShop.ProductService.UnitTests
             mock.Setup(m => m.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(mockProducts);
 
             // Act
-            IMapper mapper = new Mapper(new MapperConfiguration(cfg => cfg.CreateMap<Product, ProductListItem>()));
+            IMapper mapper = new Mapper(new MapperConfiguration(cfg => cfg.CreateMap<Product, ProductListItem>(), new NullLoggerFactory()));
             MockProductsController mockProductsController = new(mock.Object, mapper);
             ActionResult<IEnumerable<ProductListItem>> result = await mockProductsController.GetProducts();
 

@@ -61,7 +61,7 @@ builder.Services.AddAuthentication(options =>
     options.SecurityAlgorithm = SecurityAlgorithms.HmacSha256;
 });
 
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApiServices();
 builder.Services.AddPermissionDefinitions();
 builder.Services.AddAuthorization().AddDistributedMemoryCache().AddHttpClient().AddHttpContextAccessor().AddTransient<IPermissionChecker, LocalPermissionChecker>().AddCustomAuthorization();
 builder.Services.AddModelMapper().AddModelValidator();
@@ -78,7 +78,7 @@ app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(
 
 app.MapControllers();
 
-app.UseOpenApi();
+app.UseOpenApiWithUI();
 app.MapGroup("api/Permissions").MapPermissionDefinitions("Permissions");
 app.UseCustomLocalization();
 

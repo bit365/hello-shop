@@ -46,6 +46,6 @@ app.MapReverseProxy();
 
 app.MapControllers();
 
-app.UseOpenApi();
+app.UseOpenApiWithUI();
 
 app.Run();

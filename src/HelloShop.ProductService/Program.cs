@@ -41,7 +41,7 @@ builder.AddNpgsqlDbContext<ProductServiceDbContext>(connectionName: DbConstants.
 builder.Services.AddSingleton<MigrationService<ProductServiceDbContext>>().AddHostedService<DataSeeder>();
 builder.Services.AddHttpClient().AddHttpContextAccessor().AddDistributedMemoryCache();
 builder.Services.AddCustomLocalization();
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApiServices();
 builder.Services.AddModelMapper().AddModelValidator();
 builder.Services.AddLocalization().AddPermissionDefinitions();
 builder.Services.AddAuthorization().AddRemotePermissionChecker().AddCustomAuthorization();
@@ -63,7 +63,7 @@ app.MapControllers();
 
 // Configure extensions request pipeline.
 app.UseCustomLocalization();
-app.UseOpenApi();
+app.UseOpenApiWithUI();
 app.MapGroup("api/Permissions").MapPermissionDefinitions("Permissions");
 app.MapDaprEventBus();
 // End configure extensions request pipeline.
@@ -71,8 +71,3 @@ app.MapDaprEventBus();
 await app.Services.GetRequiredService<MigrationService<ProductServiceDbContext>>().ExecuteAsync();
 
 await app.RunAsync();
-
-/// <summary>
-///  The test project requires a public Program type.
-/// </summary>
-public partial class Program { }

@@ -1,6 +1,6 @@
 {
   "solution": {
-    "path": "HelloShop.sln",
+    "path": "HelloShop.slnx",
     "projects": [
       "src\\HelloShop.ApiService\\HelloShop.ApiService.csproj",
       "src\\HelloShop.AppHost\\HelloShop.AppHost.csproj",

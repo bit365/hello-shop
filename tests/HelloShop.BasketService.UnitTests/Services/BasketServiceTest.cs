@@ -57,7 +57,7 @@ namespace HelloShop.BasketService.UnitTests.Services
 
             var logger = NullLogger<CustomerBasketService>.Instance;
 
-            var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<BasketsMapConfiguration>()));
+            var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<BasketsMapConfiguration>(), new NullLoggerFactory()));
 
             var service = new CustomerBasketService(basketRepositoryMock.Object, logger, mapper, validatorMock.Object);
 
@@ -85,7 +85,7 @@ namespace HelloShop.BasketService.UnitTests.Services
             basketRepositoryMock.Setup(x => x.UpdateBasketAsync(It.IsAny<CustomerBasket>(), It.IsAny<CancellationToken>())).ReturnsAsync((CustomerBasket basket, CancellationToken token) => basket);
 
             var logger = NullLogger<CustomerBasketService>.Instance;
-            var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<BasketsMapConfiguration>()));
+            var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<BasketsMapConfiguration>(), new NullLoggerFactory()));
 
             var validatorMock = new Mock<IValidator<UpdateBasketRequest>>();
             validatorMock.Setup(x => x.ValidateAsync(It.IsAny<UpdateBasketRequest>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ValidationResult());
@@ -119,7 +119,7 @@ namespace HelloShop.BasketService.UnitTests.Services
             // Arrange
             var basketRepositoryMock = new Mock<IBasketRepository>();
             var logger = NullLogger<CustomerBasketService>.Instance;
-            var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<BasketsMapConfiguration>()));
+            var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<BasketsMapConfiguration>(), new NullLoggerFactory()));
 
             var validatorMock = new Mock<IValidator<UpdateBasketRequest>>();
 

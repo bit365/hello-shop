@@ -1,0 +1,31 @@
+<Solution>
+  <Folder Name="/libraries/">
+    <Project Path="libraries/HelloShop.DistributedLock.Dapr/HelloShop.DistributedLock.Dapr.csproj" />
+    <Project Path="libraries/HelloShop.DistributedLock/HelloShop.DistributedLock.csproj" />
+    <Project Path="libraries/HelloShop.EventBus.Abstractions/HelloShop.EventBus.Abstractions.csproj" />
+    <Project Path="libraries/HelloShop.EventBus.Dapr/HelloShop.EventBus.Dapr.csproj" />
+    <Project Path="libraries/HelloShop.EventBus.Logging/HelloShop.EventBus.Logging.csproj" />
+    <Project Path="libraries/HelloShop.EventBus.RabbitMQ/HelloShop.EventBus.RabbitMQ.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/HelloShop.ApiService/HelloShop.ApiService.csproj" />
+    <Project Path="src/HelloShop.AppHost/HelloShop.AppHost.csproj" />
+    <Project Path="src/HelloShop.AppShared/HelloShop.AppShared.csproj" />
+    <Project Path="src/HelloShop.BasketService/HelloShop.BasketService.csproj" />
+    <Project Path="src/HelloShop.HybridApp/HelloShop.HybridApp.csproj">
+      <Deploy Solution="Debug|*" />
+    </Project>
+    <Project Path="src/HelloShop.IdentityService/HelloShop.IdentityService.csproj" />
+    <Project Path="src/HelloShop.OrderingService/HelloShop.OrderingService.csproj" />
+    <Project Path="src/HelloShop.ProductService/HelloShop.ProductService.csproj" />
+    <Project Path="src/HelloShop.ServiceDefaults/HelloShop.ServiceDefaults.csproj" />
+    <Project Path="src/HelloShop.WebApp/HelloShop.WebApp.Client/HelloShop.WebApp.Client.csproj" />
+    <Project Path="src/HelloShop.WebApp/HelloShop.WebApp/HelloShop.WebApp.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/HelloShop.BasketService.UnitTests/HelloShop.BasketService.UnitTests.csproj" />
+    <Project Path="tests/HelloShop.FunctionalTests/HelloShop.FunctionalTests.csproj" />
+    <Project Path="tests/HelloShop.ProductService.FunctionalTests/HelloShop.ProductService.FunctionalTests.csproj" />
+    <Project Path="tests/HelloShop.ProductService.UnitTests/HelloShop.ProductService.UnitTests.csproj" />
+  </Folder>
+</Solution>

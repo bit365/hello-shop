@@ -12,12 +12,12 @@ namespace HelloShop.DistributedLock.Dapr
         {
             expiryInSeconds = expiryInSeconds == default ? 60 : expiryInSeconds;
 
-            // The CallerMemberNameAttribute is used to get the name of the calling method.
             string? lockOwner = new StackTrace().GetFrame(1)?.GetMethod()?.DeclaringType?.Name;
+            lockOwner ??= Guid.NewGuid().ToString();
 
-#pragma warning disable CS0618
+#pragma warning disable DAPR_DISTRIBUTEDLOCK // 类型仅用于评估，在将来的更新中可能会被更改或删除。取消此诊断以继续。
             TryLockResponse response = await daprClient.Lock("lockstore", resourceId, lockOwner, expiryInSeconds, cancellationToken);
-#pragma warning restore CS0618
+#pragma warning restore DAPR_DISTRIBUTEDLOCK // 类型仅用于评估，在将来的更新中可能会被更改或删除。取消此诊断以继续。
 
             return new DaprDistributedLockResult(response);
         }

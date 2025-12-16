@@ -25,26 +25,26 @@ namespace HelloShop.EventBus.RabbitMQ
         private readonly EventBusOptions _eventBusOptions = eventBusOptions.Value;
 
         private IConnection? _rabbitMQConnection;
-        private IModel? _consumerChannel;
+        private IChannel? _consumerChannel;
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            Task.Factory.StartNew(() =>
+            Task.Factory.StartNew(async () =>
             {
                 try
                 {
                     _rabbitMQConnection = serviceProvider.GetRequiredService<IConnection>();
-                    _consumerChannel = _rabbitMQConnection.CreateModel();
-                    _consumerChannel.ExchangeDeclare(exchange: _exchangeName, type: ExchangeType.Direct);
-                    _consumerChannel.QueueDeclare(queue: _queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
+                    _consumerChannel = await _rabbitMQConnection.CreateChannelAsync();
+                    await _consumerChannel.ExchangeDeclareAsync(exchange: _exchangeName, type: ExchangeType.Direct);
+                    await _consumerChannel.QueueDeclareAsync(queue: _queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
                     var consumer = new AsyncEventingBasicConsumer(_consumerChannel);
-                    consumer.Received += OnMessageReceivedAsync;
-                    _consumerChannel.BasicConsume(queue: _queueName, autoAck: false, consumer: consumer);
+                    consumer.ReceivedAsync += OnMessageReceivedAsync;
+                    await _consumerChannel.BasicConsumeAsync(queue: _queueName, autoAck: false, consumer: consumer);
 
                     foreach (var (eventName, _) in _eventBusOptions.EventTypes)
                     {
-                        _consumerChannel.QueueBind(queue: _queueName, exchange: _exchangeName, routingKey: eventName);
+                        await _consumerChannel.QueueBindAsync(queue: _queueName, exchange: _exchangeName, routingKey: eventName);
                     }
                 }
                 catch (Exception ex)
@@ -58,25 +58,36 @@ namespace HelloShop.EventBus.RabbitMQ
 
         public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
-        public void Dispose() => _consumerChannel?.Dispose();
+        public async void Dispose()
+        {
+            if (_consumerChannel is not null)
+            {
+                await _consumerChannel.CloseAsync();
+                await _consumerChannel.DisposeAsync();
+            }
+        }
 
-        public Task PublishAsync(DistributedEvent @event, CancellationToken cancellationToken = default)
+        public async Task PublishAsync(DistributedEvent @event, CancellationToken cancellationToken = default)
         {
             string routingKey = @event.GetType().Name;
 
-            using var channel = _rabbitMQConnection?.CreateModel() ?? throw new InvalidOperationException("RabbitMQ connection is not available.");
+            var channel = _rabbitMQConnection is not null ? await _rabbitMQConnection.CreateChannelAsync(cancellationToken: cancellationToken) : throw new InvalidOperationException("RabbitMQ connection is not available.");
 
-            channel.ExchangeDeclare(exchange: _exchangeName, type: ExchangeType.Direct);
-
-            var body = JsonSerializer.SerializeToUtf8Bytes(@event, @event.GetType(), _eventBusOptions.JsonSerializerOptions);
-
-            return _pipeline.Execute(() =>
+            await using (channel)
             {
-                IBasicProperties properties = channel.CreateBasicProperties();
-                properties.DeliveryMode = 2;
-                channel.BasicPublish(exchange: _exchangeName, routingKey: routingKey, mandatory: true, basicProperties: properties, body: body);
-                return Task.CompletedTask;
-            });
+                await channel.ExchangeDeclareAsync(exchange: _exchangeName, type: ExchangeType.Direct, cancellationToken: cancellationToken);
+
+                var body = JsonSerializer.SerializeToUtf8Bytes(@event, @event.GetType(), _eventBusOptions.JsonSerializerOptions);
+
+                await _pipeline.ExecuteAsync(async (ct) =>
+                {
+                    var properties = new BasicProperties
+                    {
+                        DeliveryMode = DeliveryModes.Persistent
+                    };
+                    await channel.BasicPublishAsync(exchange: _exchangeName, routingKey: routingKey, mandatory: true, basicProperties: properties, body: body, cancellationToken: ct);
+                }, cancellationToken);
+            }
         }
 
         private async Task OnMessageReceivedAsync(object sender, BasicDeliverEventArgs eventArgs)
@@ -101,7 +112,10 @@ namespace HelloShop.EventBus.RabbitMQ
                 }
             }
 
-            _consumerChannel?.BasicAck(eventArgs.DeliveryTag, multiple: false);
+            if (_consumerChannel is not null)
+            {
+                await _consumerChannel.BasicAckAsync(eventArgs.DeliveryTag, multiple: false);
+            }
         }
 
         private static ResiliencePipeline CreateResiliencePipeline(int retryCount)

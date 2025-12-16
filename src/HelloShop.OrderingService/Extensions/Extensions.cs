@@ -70,7 +70,7 @@ namespace HelloShop.OrderingService.Extensions
 
             builder.Services.AddDistributedEventLogs<OrderingServiceDbContext>().AddTransient<IDistributedEventService, DistributedEventService>();
 
-            builder.Services.AddOpenApi();
+            builder.Services.AddOpenApiServices();
 
             builder.Services.AddSingleton(TimeProvider.System);
         }
@@ -78,7 +78,7 @@ namespace HelloShop.OrderingService.Extensions
         public static WebApplication MapApplicationEndpoints(this WebApplication app)
         {
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            app.UseOpenApi();
+            app.UseOpenApiWithUI();
             app.MapDaprEventBus();
 
             return app;

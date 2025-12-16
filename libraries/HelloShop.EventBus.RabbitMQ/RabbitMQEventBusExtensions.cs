@@ -17,7 +17,7 @@ namespace HelloShop.EventBus.RabbitMQ
 
             builder.AddRabbitMQClient(connectionName, configureConnectionFactory: factory =>
             {
-                factory.DispatchConsumersAsync = true;
+                factory.ConsumerDispatchConcurrency = 5;
             });
 
             builder.Services.Configure<EventBusOptions>(builder.Configuration.GetSection(sectionName));

@@ -3,7 +3,7 @@
 }
 
 .swagger-ui .topbar-wrapper a.link::before {
-    content: url('https://cloud.helloworldnet.com/logo-white.svg');
+    content: url('/ServiceDefaults/Resources/OpenApi/logo-white.svg');
     height: 40px;
     width: 40px;
 }

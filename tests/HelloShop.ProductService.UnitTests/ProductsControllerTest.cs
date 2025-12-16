@@ -9,6 +9,7 @@ using HelloShop.ProductService.Infrastructure;
 using HelloShop.ProductService.Models.Products;
 using HelloShop.ProductService.UnitTests.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Time.Testing;
 
 namespace HelloShop.ProductService.UnitTests
@@ -25,7 +26,7 @@ namespace HelloShop.ProductService.UnitTests
 
             await dbContext.SaveChangesAsync();
 
-            IMapper mapper = new MapperConfiguration(configure => configure.CreateMap<Product, ProductDetailsResponse>()).CreateMapper();
+            IMapper mapper = new Mapper(new MapperConfiguration(cfg => cfg.CreateMap<Product, ProductListItem>(), new NullLoggerFactory()));
 
             ProductsController productsController = new(dbContext, mapper);
 
@@ -45,7 +46,7 @@ namespace HelloShop.ProductService.UnitTests
             // Arrange
             await using ProductServiceDbContext dbContext = new FakeDbContextFactory().CreateDbContext();
 
-            IMapper mapper = new MapperConfiguration(configure => configure.AddProfile<ProductsMapConfiguration>()).CreateMapper();
+            IMapper mapper = new MapperConfiguration(configure => configure.AddProfile<ProductsMapConfiguration>(),new NullLoggerFactory()).CreateMapper();
 
             ProductsController productsController = new(dbContext, mapper);
 

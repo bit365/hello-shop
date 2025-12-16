@@ -8,7 +8,10 @@ using HelloShop.BasketService.Services;
 using HelloShop.EventBus.Abstractions;
 using HelloShop.EventBus.Dapr;
 using HelloShop.ServiceDefaults.Extensions;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,7 +36,7 @@ builder.Services.AddSingleton<IBasketRepository, BasketRepository>();
 
 builder.Services.AddGrpc().AddJsonTranscoding();
 builder.Services.AddGrpcSwagger();
-builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddCustomLocalization();
 builder.Services.AddModelMapper().AddModelValidator();
@@ -60,7 +63,15 @@ app.UseAuthentication().UseAuthorization();
 app.MapGrpcService<GreeterService>();
 app.MapGrpcService<CustomerBasketService>();
 app.UseCustomLocalization();
-app.UseOpenApi();
+app.UseSwagger(c =>
+{
+    c.RouteTemplate = "openapi/{documentName}.json";
+});
+app.UseSwaggerUI(c =>
+{
+    c.InjectStylesheet("/ServiceDefaults/Resources/OpenApi/Custom.css");
+    c.SwaggerEndpoint("/openapi/v1.json", "v1");
+});
 app.MapGroup("api/Permissions").MapPermissionDefinitions("Permissions");
 // End configure extensions request pipeline.
 app.Run();
