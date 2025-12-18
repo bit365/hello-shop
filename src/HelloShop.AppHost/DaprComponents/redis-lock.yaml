@@ -10,5 +10,7 @@ spec:
     value: "localhost:6379"
   - name: redisPassword
     value: "guest"
+  - name: enableTLS
+    value: "true"
 auth:
   secretStore: env-secretstore

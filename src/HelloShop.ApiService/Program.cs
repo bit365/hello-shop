@@ -25,6 +25,12 @@ builder.Services.AddReverseProxy()
 
 builder.Services.AddSingleton<IConfiguredServiceEndPointResolver, ConfiguredServiceEndPointResolver>();
 builder.Services.AddSingleton<IReverseProxyConfigProvider, CustomReverseProxyConfigProvider>();
+
+builder.Services.AddHttpClient<OpenApiConfigureOptions>(client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(30);
+});
+
 builder.Services.AddTransient<IConfigureOptions<SwaggerUIOptions>, OpenApiConfigureOptions>();
 builder.Services.AddTransient<IPermissionService, PermissionService>();
 

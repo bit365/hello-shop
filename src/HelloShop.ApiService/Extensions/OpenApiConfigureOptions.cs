@@ -20,9 +20,12 @@ public class OpenApiConfigureOptions(IConfiguredServiceEndPointResolver serviceR
                 UriBuilder uriBuilder = new(endPoint) { Path = "/openapi/v1.json" };
 
                 try
-                {
+                {   
                     HttpRequestMessage request = new(HttpMethod.Get, uriBuilder.Uri) { Version = new Version(2, 0) };
-                    HttpResponseMessage response = httpClient.SendAsync(request).GetAwaiter().GetResult();
+
+                    using CancellationTokenSource cts = new(TimeSpan.FromSeconds(5));
+                    HttpResponseMessage response = httpClient.SendAsync(request, cts.Token).GetAwaiter().GetResult();
+
                     if (response.IsSuccessStatusCode)
                     {
                         urlDescriptors.Add(new UrlDescriptor
@@ -32,18 +35,35 @@ public class OpenApiConfigureOptions(IConfiguredServiceEndPointResolver serviceR
                         });
                         break;
                     }
+                    else
+                    {
+                        if (logger.IsEnabled(LogLevel.Warning))
+                        {
+                            logger.LogWarning("Failed to get swagger endpoint for {ServiceName} at {Endpoint}, Status: {StatusCode}",
+                                serviceEndpoint.ServiceName, uriBuilder.Uri, response.StatusCode);
+                        }
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    if (logger.IsEnabled(LogLevel.Warning))
+                    {
+                        logger.LogWarning("Timeout getting swagger endpoint for {ServiceName} at {Endpoint}",
+                            serviceEndpoint.ServiceName, uriBuilder.Uri);
+                    }
                 }
                 catch (Exception ex)
                 {
-                    if (logger.IsEnabled(LogLevel.Error))
+                    if (logger.IsEnabled(LogLevel.Warning))
                     {
-                        logger.LogError(ex, "Failed to get swagger endpoint for {ServiceName}", serviceEndpoint.ServiceName);
+                        logger.LogWarning(ex, "Failed to get swagger endpoint for {ServiceName} at {Endpoint}",
+                            serviceEndpoint.ServiceName, uriBuilder.Uri);
                     }
                 }
             }
         }
-        options.ConfigObject.Urls = urlDescriptors;
 
+        options.ConfigObject.Urls = urlDescriptors;
         options.SwaggerEndpoint("/openapi/v1.json", "apiservice");
     }
 }

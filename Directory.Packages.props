@@ -4,14 +4,14 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Aspire.Hosting.Maui" Version="13.0.2-preview.1.25603.5" />
-    <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.0.2" />
-    <PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="13.0.2" />
-    <PackageVersion Include="Aspire.Hosting.Redis" Version="13.0.2" />
-    <PackageVersion Include="Aspire.Hosting.Testing" Version="13.0.2" />
-    <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.0.2" />
-    <PackageVersion Include="Aspire.RabbitMQ.Client" Version="13.0.2" />
-    <PackageVersion Include="Aspire.StackExchange.Redis.DistributedCaching" Version="13.0.2" />
+    <PackageVersion Include="Aspire.Hosting.Maui" Version="13.1.0-preview.1.25616.3" />
+    <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.1.0" />
+    <PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="13.1.0" />
+    <PackageVersion Include="Aspire.Hosting.Redis" Version="13.1.0" />
+    <PackageVersion Include="Aspire.Hosting.Testing" Version="13.1.0" />
+    <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.1.0" />
+    <PackageVersion Include="Aspire.RabbitMQ.Client" Version="13.1.0" />
+    <PackageVersion Include="Aspire.StackExchange.Redis.DistributedCaching" Version="13.1.0" />
     <PackageVersion Include="AutoMapper" Version="16.0.0" />
     <PackageVersion Include="Blazored.FluentValidation" Version="2.2.0" />
     <PackageVersion Include="CommunityToolkit.Aspire.Hosting.Dapr" Version="13.0.1-beta.468" />
